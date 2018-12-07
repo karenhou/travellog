@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { registerUser } from "../../actions/authActions";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -55,16 +56,17 @@ const styles = theme => ({
 
 class Register extends Component {
   state = {
-    amount: "",
-    password1: "",
+    name: "",
+    email: "",
+    password: "",
     password2: "",
-    weight: "",
-    weightRange: "",
     showPassword1: false,
-    showPassword2: false
+    showPassword2: false,
+    errors: {}
   };
 
   handleChange = prop => event => {
+    console.log(prop);
     this.setState({ [prop]: event.target.value });
   };
 
@@ -77,7 +79,15 @@ class Register extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log("clicked");
+    console.log(this.state);
+    const newUser = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      password2: this.state.password2
+    };
+
+    this.props.registerUser(newUser, this.props.history);
   };
 
   render() {
@@ -95,8 +105,23 @@ class Register extends Component {
           </Typography>
           <form className={classes.form} onSubmit={this.onSubmit}>
             <FormControl margin="normal" required fullWidth>
+              <InputLabel>Name</InputLabel>
+              <Input
+                onChange={this.handleChange("name")}
+                id="name"
+                name="name"
+                autoFocus
+              />
+            </FormControl>
+            <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
-              <Input id="email" name="email" autoComplete="email" autoFocus />
+              <Input
+                onChange={this.handleChange("email")}
+                id="email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
             </FormControl>
             <FormControl
               fullWidth
@@ -106,8 +131,8 @@ class Register extends Component {
               <Input
                 id="adornment-password"
                 type={this.state.showPassword1 ? "text" : "password"}
-                value={this.state.password1}
-                onChange={this.handleChange("password1")}
+                value={this.state.password}
+                onChange={this.handleChange("password")}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -131,7 +156,7 @@ class Register extends Component {
                 Password again
               </InputLabel>
               <Input
-                id="adornment-password"
+                id="adornment-password2"
                 type={this.state.showPassword2 ? "text" : "password"}
                 value={this.state.password2}
                 onChange={this.handleChange("password2")}
@@ -165,6 +190,7 @@ class Register extends Component {
   }
 }
 Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired
 };
 
@@ -174,5 +200,5 @@ const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { registerUser }
 )(withStyles(styles)(Register));
