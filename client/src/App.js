@@ -5,6 +5,8 @@ import store from "./store";
 import MyNavbar from "./components/layout/MyNavbar";
 import MyFooter from "./components/layout/MyFooter";
 import Landing from "./components/layout/Landing";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
 import "./App.css";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
@@ -32,7 +34,11 @@ class App extends Component {
           <div className="App">
             <MuiThemeProvider theme={theme}>
               <MyNavbar />
-              <Landing />
+              <Route exact path="/" component={Landing} />
+              <div>
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/register" component={Register} />
+              </div>
               <MyFooter />
             </MuiThemeProvider>
           </div>

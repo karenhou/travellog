@@ -24,7 +24,7 @@ const MyFooter = props => {
       <AppBar position="static" color="default">
         <Toolbar className={classes.barHeight}>
           <Typography variant="h6" color="inherit">
-            Photos
+            Footers
           </Typography>
         </Toolbar>
       </AppBar>

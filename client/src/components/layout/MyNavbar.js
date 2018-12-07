@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Link, NavLink } from "react-router-dom";
+
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -19,11 +21,22 @@ const styles = {
   menuButton: {
     marginLeft: -12,
     marginRight: 20
+  },
+  myNavLink: {
+    textDecoration: "none",
+    color: "unset"
   }
 };
 
 class MyNavbar extends Component {
   render() {
+    const MyLink = props => (
+      <NavLink
+        to="/"
+        {...props}
+        style={{ textDecoration: "none", color: "unset" }}
+      />
+    );
     return (
       <AppBar position="static">
         <Toolbar>
@@ -34,17 +47,24 @@ class MyNavbar extends Component {
             <MenuIcon />
           </IconButton>
           <Typography
+            component={MyLink}
             variant="h6"
             color="inherit"
             className={this.props.classes.grow}>
             Travellog
           </Typography>
-          <Button color="inherit">Login</Button>
+
+          <Button color="inherit" component={Link} to="/login">
+            Login
+          </Button>
         </Toolbar>
       </AppBar>
     );
   }
 }
+MyNavbar.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
 const mapStateToProps = state => ({});
 

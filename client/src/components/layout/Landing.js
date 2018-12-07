@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -53,6 +54,8 @@ class Landing extends Component {
             <Grid item xs />
             <Grid item xs={1}>
               <Button
+                component={Link}
+                to="/login"
                 variant="contained"
                 className={this.props.classes.button}
                 color="primary">
@@ -61,6 +64,8 @@ class Landing extends Component {
             </Grid>
             <Grid item xs={1}>
               <Button
+                component={Link}
+                to="/register"
                 variant="contained"
                 className={this.props.classes.button}
                 color="primary">
