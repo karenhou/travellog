@@ -16,6 +16,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import Profile from "./components/profile/Profile";
 import TripForm from "./components/Trips/TripForm";
+import Trips from "./components/Trips/Trips";
 
 import "./App.css";
 
@@ -71,6 +72,7 @@ class App extends Component {
               <div>
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
+                <Route exact path="/trips" component={Trips} />
                 <Route exact path="/profile/:handle" component={Profile} />
                 <Switch>
                   <PrivateRoute exact path="/dashboard" component={Dashboard} />

@@ -12,10 +12,11 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import { fade } from "@material-ui/core/styles/colorManipulator";
 
-const styles = {
+const styles = theme => ({
   root: {
-    flexGrow: 1
+    // flexGrow: 1
   },
   grow: {
     flexGrow: 1
@@ -27,8 +28,13 @@ const styles = {
   myNavLink: {
     textDecoration: "none",
     color: "unset"
+  },
+  search: {
+    position: "",
+    marginLeft: theme.spacing.unit * 2.5,
+    marginRight: theme.spacing.unit * 2.5
   }
-};
+});
 
 class MyNavbar extends Component {
   onLogoutClick = e => {
@@ -45,7 +51,24 @@ class MyNavbar extends Component {
         style={{ textDecoration: "none", color: "unset" }}
       />
     );
+
+    const tripLink = props => (
+      <NavLink
+        to="/trips"
+        {...props}
+        style={{ textDecoration: "none", color: "unset" }}
+      />
+    );
+    const dashoboardLink = props => (
+      <NavLink
+        to="/dashboard"
+        {...props}
+        style={{ textDecoration: "none", color: "unset" }}
+      />
+    );
+
     const { isAuthenticated, user } = this.props.auth;
+    const { classes } = this.props;
     const loggedUser = (
       <Button color="inherit" onClick={this.onLogoutClick}>
         Logout
@@ -57,10 +80,10 @@ class MyNavbar extends Component {
       </Button>
     );
     return (
-      <AppBar position="static">
+      <AppBar position="static" className={classes.root}>
         <Toolbar>
           <IconButton
-            className={this.props.classes.menuButton}
+            className={classes.menuButton}
             color="inherit"
             aria-label="Menu">
             <MenuIcon />
@@ -69,8 +92,22 @@ class MyNavbar extends Component {
             component={MyLink}
             variant="h6"
             color="inherit"
-            className={this.props.classes.grow}>
+            className={classes.grow}>
             Travellog
+          </Typography>
+          <Typography
+            className={classes.search}
+            component={tripLink}
+            variant="h6"
+            color="inherit">
+            Trips
+          </Typography>
+          <Typography
+            className={classes.search}
+            component={dashoboardLink}
+            variant="h6"
+            color="inherit">
+            Dashboard
           </Typography>
           {isAuthenticated ? loggedUser : guestUser}
         </Toolbar>
