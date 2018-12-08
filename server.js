@@ -6,7 +6,7 @@ const path = require("path");
 
 const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
-const logs = require("./routes/api/logs");
+const trips = require("./routes/api/trips");
 
 const app = express();
 
@@ -26,19 +26,16 @@ mongoose
   .then(() => console.log("mongoDB connect"))
   .catch(err => console.log(err));
 
-
 //passport middleware
 app.use(passport.initialize());
 
 //passport config
 require("./config/passport")(passport);
 
-
 // Use Routes
 app.use("/api/users", users);
 app.use("/api/profile", profile);
-app.use("/api/logs", logs);
-
+app.use("/api/trips", trips);
 
 // server static assets if in production
 if (process.env.NODE_ENV === "production") {
@@ -49,7 +46,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
-
 
 const port = process.env.PORT || 5000;
 

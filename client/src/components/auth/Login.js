@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { loginUser } from "../../actions/authActions";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -57,10 +58,8 @@ const styles = theme => ({
 
 class Login extends Component {
   state = {
-    amount: "",
+    email: "",
     password: "",
-    weight: "",
-    weightRange: "",
     showPassword: false
   };
 
@@ -72,9 +71,32 @@ class Login extends Component {
     this.setState(state => ({ showPassword: !state.showPassword }));
   };
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   onSubmit = e => {
     e.preventDefault();
     console.log("clicked");
+
+    const userData = {
+      email: this.state.email,
+      password: this.state.password
+    };
+
+    this.props.loginUser(userData);
   };
   render() {
     const { classes } = this.props;
@@ -91,7 +113,13 @@ class Login extends Component {
           <form className={classes.form} onSubmit={this.onSubmit}>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
-              <Input id="email" name="email" autoComplete="email" autoFocus />
+              <Input
+                id="email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={this.handleChange("email")}
+              />
             </FormControl>
             <FormControl
               fullWidth
@@ -137,14 +165,19 @@ class Login extends Component {
   }
 }
 Login.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
 
 const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { loginUser }
 )(withStyles(styles)(Login));

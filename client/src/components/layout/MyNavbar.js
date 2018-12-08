@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
+import { logoutUser } from "../../actions/authActions";
+import { clearCurrentProfile } from "../../actions/profileActions";
 
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -29,6 +31,12 @@ const styles = {
 };
 
 class MyNavbar extends Component {
+  onLogoutClick = e => {
+    e.preventDefault();
+    this.props.clearCurrentProfile();
+    this.props.logoutUser();
+  };
+
   render() {
     const MyLink = props => (
       <NavLink
@@ -36,6 +44,17 @@ class MyNavbar extends Component {
         {...props}
         style={{ textDecoration: "none", color: "unset" }}
       />
+    );
+    const { isAuthenticated, user } = this.props.auth;
+    const loggedUser = (
+      <Button color="inherit" onClick={this.onLogoutClick}>
+        Logout
+      </Button>
+    );
+    const guestUser = (
+      <Button color="inherit" component={Link} to="/login">
+        Login
+      </Button>
     );
     return (
       <AppBar position="static">
@@ -53,24 +72,25 @@ class MyNavbar extends Component {
             className={this.props.classes.grow}>
             Travellog
           </Typography>
-
-          <Button color="inherit" component={Link} to="/login">
-            Login
-          </Button>
+          {isAuthenticated ? loggedUser : guestUser}
         </Toolbar>
       </AppBar>
     );
   }
 }
 MyNavbar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
 const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { logoutUser, clearCurrentProfile }
 )(withStyles(styles)(MyNavbar));
