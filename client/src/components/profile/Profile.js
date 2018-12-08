@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getProfileByHandle } from "../../actions/profileActions";
+import {
+  getProfileByHandle,
+  deleteAccount
+} from "../../actions/profileActions";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -11,6 +14,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
+import Icon from "@material-ui/core/Icon";
 const styles = theme => ({
   main: {
     width: "auto",
@@ -44,6 +48,10 @@ class Profile extends Component {
       this.props.getProfileByHandle(this.props.match.params.handle);
     }
   }
+  onDeleteClick = e => {
+    this.props.deleteAccount();
+  };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.profile.profile === null && this.props.profile.loading) {
       this.props.history.push("/not-found");
@@ -76,12 +84,22 @@ class Profile extends Component {
               <Grid container spacing={12}>
                 <Grid item xs={2}>
                   <Button
+                    onClick={() => this.onDeleteClick()}
+                    variant="contained"
+                    style={{ backgroundColor: "red" }}
+                    className={classes.button}>
+                    Delete
+                    <Icon>delete</Icon>
+                  </Button>
+                </Grid>
+                <Grid item xs={2}>
+                  <Button
                     component={Link}
                     to="/dashboard"
                     variant="contained"
                     className={classes.button}
-                    color="primary">
-                    Back to dashboard
+                    color="secondary">
+                    Dashboard
                   </Button>
                 </Grid>
               </Grid>
@@ -110,5 +128,5 @@ const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,
-  { getProfileByHandle }
+  { getProfileByHandle, deleteAccount }
 )(withStyles(styles)(Profile));

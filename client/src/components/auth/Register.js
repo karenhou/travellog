@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
+import { Link } from "react-router-dom";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -176,12 +177,22 @@ class Register extends Component {
               />
             </FormControl>
             <Button
-              type="submit"
               fullWidth
+              type="submit"
               variant="contained"
               color="primary"
               className={classes.submit}>
               SignUp
+            </Button>
+            <Button
+              fullWidth
+              component={Link}
+              to="/"
+              type="submit"
+              variant="contained"
+              color="secondary"
+              className={classes.submit}>
+              Cancel
             </Button>
           </form>
         </Paper>

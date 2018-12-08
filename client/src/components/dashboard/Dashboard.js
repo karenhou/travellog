@@ -2,16 +2,16 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getCurrentProfile, deleteAccount } from "../../actions/profileActions";
+import { getCurrentProfile } from "../../actions/profileActions";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
+import TripTable from "./TripTable";
 
 const styles = theme => ({
   main: {
@@ -25,7 +25,6 @@ const styles = theme => ({
     }
   },
   paper: {
-    height: "68vh",
     marginTop: theme.spacing.unit * 2.5,
     marginBottom: theme.spacing.unit * 2.5,
     display: "flex",
@@ -34,7 +33,8 @@ const styles = theme => ({
       .spacing.unit * 3}px`
   },
   button: {
-    margin: theme.spacing.unit
+    marginTop: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2
   }
 });
 
@@ -42,9 +42,6 @@ class Dashboard extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
   }
-  onDeleteClick = e => {
-    this.props.deleteAccount();
-  };
 
   render() {
     const { user } = this.props.auth;
@@ -67,15 +64,7 @@ class Dashboard extends Component {
             <p className="lead text-muted">
               Welcome <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
             </p>
-            <div style={{ marginBottom: "60px" }} />
-            <Button
-              onClick={() => this.onDeleteClick()}
-              variant="contained"
-              color="secondary"
-              className={classes.button}>
-              Delete
-              <DeleteIcon />
-            </Button>
+
             <Button
               component={Link}
               to="/add-trip"
@@ -85,6 +74,7 @@ class Dashboard extends Component {
               Add Trip
               <Icon>add_box</Icon>
             </Button>
+            <TripTable />
           </div>
         );
       } else {
@@ -130,5 +120,5 @@ const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile, deleteAccount }
+  { getCurrentProfile }
 )(withStyles(styles)(Dashboard));

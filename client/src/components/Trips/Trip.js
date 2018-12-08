@@ -7,6 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
   root: {
@@ -50,16 +51,18 @@ export class Trip extends Component {
             <Grid item xs={12} sm container>
               <Grid item xs container direction="column" spacing={16}>
                 <Grid item xs>
-                  <Typography gutterBottom variant="subtitle1">
+                  <Typography gutterBottom variant="h5">
                     {trip.country}
                   </Typography>
-                  <Typography gutterBottom>
+                  <Typography gutterBottom variant="subtitle1">
                     {trip.from} - {trip.to}
                   </Typography>
                   <Typography gutterBottom>{trip.description}</Typography>
                 </Grid>
                 <Grid item>
-                  <Typography style={{ cursor: "pointer" }}>Remove</Typography>
+                  <Button type="submit" variant="contained" color="primary">
+                    Details
+                  </Button>
                 </Grid>
               </Grid>
             </Grid>
