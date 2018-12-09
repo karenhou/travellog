@@ -70,6 +70,14 @@ class TripForm extends Component {
     description: ""
   };
 
+  calDateDiff = (d1, d2) => {
+    var date1 = new Date(d1);
+    var date2 = new Date(d2);
+    var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    return diffDays;
+  };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
@@ -83,8 +91,10 @@ class TripForm extends Component {
       country: this.state.country,
       from: moment(this.state.from).format("YYYY-MM-DD"),
       to: moment(this.state.to).format("YYYY-MM-DD"),
+      length: this.calDateDiff(this.state.from, this.state.to),
       budget: this.state.budget,
-      description: this.state.description
+      description: this.state.description,
+      days: new Array(this.calDateDiff(this.state.from, this.state.to))
     };
 
     this.props.addTrip(tripData, this.props.history);

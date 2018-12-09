@@ -7,6 +7,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Button from "@material-ui/core/Button";
+import Moment from "react-moment";
 
 const styles = theme => ({
   root: {
@@ -54,7 +55,10 @@ export class Trip extends Component {
                     {trip.country}
                   </Typography>
                   <Typography gutterBottom variant="subtitle1">
-                    {trip.from} - {trip.to}
+                    <Moment format="YYYY/MM/DD">{trip.from}</Moment> -
+                    <Moment format="YYYY/MM/DD">{trip.to}</Moment>
+                    <br />
+                    {trip.length} days
                   </Typography>
                   <Typography gutterBottom>{trip.description}</Typography>
                 </Grid>

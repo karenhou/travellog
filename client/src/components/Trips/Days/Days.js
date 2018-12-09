@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { getTrips, getTripById } from "../../../actions/tripActions";
 
 import Trip from "../Trip";
+import Day from "./Day";
 
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -18,6 +19,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
+
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const styles = theme => ({
   main: {
@@ -49,20 +52,18 @@ const styles = theme => ({
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
       .spacing.unit * 3}px`
   },
-  avatar: {
-    margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
-  },
   submit: {
     marginTop: theme.spacing.unit * 3
+  },
+  btn: {
+    marginRight: theme.spacing.unit * 2
   }
 });
 
 class Days extends Component {
+  state = {
+    diff: 0
+  };
   componentDidMount() {
     this.props.getTrips();
     console.log(this.props);
@@ -72,53 +73,40 @@ class Days extends Component {
   }
   render() {
     const { classes } = this.props;
-    const { trip } = this.props.trip;
+    const { trip, loading, days } = this.props.trip;
+    let daysDetailContent = [];
+    console.log(this.props);
+    if (trip === null || loading) {
+      daysDetailContent = <CircularProgress />;
+    } else {
+      if (trip.length > 0) {
+        for (let i = 0; i < trip.length; i++) {
+          daysDetailContent.push(
+            <Button
+              component={Link}
+              to={`/add-day/${this.props.match.params.trip_id}/${i + 1}`}
+              className={classes.btn}
+              type="submit"
+              variant="contained"
+              color="primary">
+              Day {i + 1}
+            </Button>
+          );
+        }
+      } else {
+        daysDetailContent = <h4>No day found...</h4>;
+      }
+    }
     return (
       <main className={classes.main}>
         {/* <Trip trip={trip} /> */}
         <CssBaseline />
         <Paper className={classes.paper}>
-          <Typography variant="h3">{trip.country} Trip Created...</Typography>
+          <Typography variant="h3">{trip.country} trip Created...</Typography>
           <p className="lead text-center">
             Let's add details to each day of your journey
           </p>
-          <form className={classes.form} onSubmit={this.onSubmit}>
-            <FormControl margin="normal" required>
-              <InputLabel htmlFor="country">country</InputLabel>
-              <Input
-                className={classes.textField}
-                id="country"
-                name="country"
-                autoFocus
-                //onChange={this.handleChange("country")}
-                required
-              />
-            </FormControl>
-
-            <Grid justify="flex-end" container space={24}>
-              <Grid item />
-              <Grid item />
-              <Grid item xs={2}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}>
-                  ok
-                </Button>
-              </Grid>
-              <Grid item xs={2}>
-                <Button
-                  component={Link}
-                  to="/dashboard"
-                  type="submit"
-                  variant="contained"
-                  className={classes.submit}>
-                  Cancel
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
+          <p>{daysDetailContent}</p>
         </Paper>
       </main>
     );

@@ -9,5 +9,6 @@ export const CLEAR_CURRENT_PROFILE = "CLEAR_CURRENT_PROFILE";
 
 export const GET_TRIPS = "GET_TRIPS";
 export const GET_TRIP = "GET_TRIP";
+export const SET_CURRENT_TRIP = "SET_CURRENT_TRIP";
 export const TRIP_LOADING = "TRIP_LOADING";
 export const ADD_TRIP = "ADD_TRIP";

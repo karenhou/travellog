@@ -18,6 +18,7 @@ import Profile from "./components/profile/Profile";
 import TripForm from "./components/Trips/TripForm";
 import Trips from "./components/Trips/Trips";
 import Days from "./components/Trips/Days/Days";
+import Day from "./components/Trips/Days/Day";
 
 import "./App.css";
 
@@ -86,6 +87,13 @@ class App extends Component {
                     exact
                     path="/add-days/:trip_id"
                     component={Days}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/add-day/:trip_id/:id"
+                    component={Day}
                   />
                 </Switch>
                 <Switch>

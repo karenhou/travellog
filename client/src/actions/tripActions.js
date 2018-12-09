@@ -6,13 +6,21 @@ import {
   GET_TRIPS,
   GET_TRIP,
   TRIP_LOADING,
-  ADD_TRIP
+  ADD_TRIP,
+  SET_CURRENT_TRIP
 } from "./types";
 
 //set loading state
 export const setTripLoading = () => {
   return {
     type: TRIP_LOADING
+  };
+};
+
+//set loading state
+export const setCurrentTrip = () => {
+  return {
+    type: SET_CURRENT_TRIP
   };
 };
 

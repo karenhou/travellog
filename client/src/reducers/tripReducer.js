@@ -1,10 +1,4 @@
-import {
-  ADD_TRIP,
-  GET_TRIPS,
-  GET_TRIP,
-  TRIP_LOADING,
-  SET_CURRENT_TRIP
-} from "../actions/types";
+import { ADD_TRIP, GET_TRIPS, GET_TRIP, TRIP_LOADING } from "../actions/types";
 
 const initialState = {
   trips: [],
@@ -18,7 +12,8 @@ export default (state = initialState, action) => {
     case ADD_TRIP:
       return {
         ...state,
-        trips: [action.payload, ...state.trips]
+        trips: [action.payload, ...state.trips],
+        currentTrip: action.payload
       };
     case TRIP_LOADING:
       return {
