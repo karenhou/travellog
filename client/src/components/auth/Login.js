@@ -186,8 +186,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-const mapDispatchToProps = {};
-
 export default connect(
   mapStateToProps,
   { loginUser }

@@ -81,7 +81,7 @@ class Profile extends Component {
           <Grid item xs />
           <Grid item xs={10}>
             <Paper className={classes.paper}>
-              <Grid container spacing={12}>
+              <Grid container spacing={16}>
                 <Grid item xs={2}>
                   <Button
                     onClick={() => this.onDeleteClick()}
@@ -123,8 +123,6 @@ Profile.propTypes = {
 const mapStateToProps = state => ({
   profile: state.profile
 });
-
-const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

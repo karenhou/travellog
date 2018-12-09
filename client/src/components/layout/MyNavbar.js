@@ -12,7 +12,6 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { fade } from "@material-ui/core/styles/colorManipulator";
 
 const styles = theme => ({
   root: {
@@ -67,7 +66,7 @@ class MyNavbar extends Component {
       />
     );
 
-    const { isAuthenticated, user } = this.props.auth;
+    const { isAuthenticated } = this.props.auth;
     const { classes } = this.props;
     const loggedUser = (
       <Button color="inherit" onClick={this.onLogoutClick}>
@@ -124,8 +123,6 @@ MyNavbar.propTypes = {
 const mapStateToProps = state => ({
   auth: state.auth
 });
-
-const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

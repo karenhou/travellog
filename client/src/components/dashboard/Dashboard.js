@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCurrentProfile } from "../../actions/profileActions";
+import { getTripsByUserId } from "../../actions/tripActions";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -41,14 +42,21 @@ const styles = theme => ({
 class Dashboard extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
+    if (this.props.auth.user.id) {
+      this.props.getTripsByUserId(this.props.auth.user.id);
+    }
   }
 
   render() {
     const { user } = this.props.auth;
     const { profile, loading } = this.props.profile;
+    const { trip } = this.props.trip;
     const { classes } = this.props;
+    console.log("in dahs trip ", trip);
     let dashboardContent;
+    let tableContent;
 
+    console.log("user info ", user);
     if (profile === null || loading) {
       dashboardContent = (
         <div>
@@ -64,7 +72,6 @@ class Dashboard extends Component {
             <p className="lead text-muted">
               Welcome <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
             </p>
-
             <Button
               component={Link}
               to="/add-trip"
@@ -74,7 +81,8 @@ class Dashboard extends Component {
               Add Trip
               <Icon>add_box</Icon>
             </Button>
-            <TripTable />
+            {trip.length > 0 ? <TripTable trip={trip} id={user.id} /> : null}
+            {/* <TripTable trip={trip} id={user.id} /> */}
           </div>
         );
       } else {
@@ -113,12 +121,11 @@ Dashboard.propTypes = {
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  auth: state.auth
+  auth: state.auth,
+  trip: state.trip
 });
-
-const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, getTripsByUserId }
 )(withStyles(styles)(Dashboard));

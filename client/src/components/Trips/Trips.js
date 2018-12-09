@@ -3,17 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getTrips } from "../../actions/tripActions";
 import Trip from "./Trip";
-import { Link } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import Icon from "@material-ui/core/Icon";
 
 const styles = theme => ({
   main: {
@@ -76,12 +72,13 @@ class Trips extends Component {
     );
   }
 }
+Trips.propType = {
+  classes: PropTypes.object.isRequired
+};
 
 const mapStateToProps = state => ({
   trip: state.trip
 });
-
-const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

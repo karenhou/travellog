@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -72,11 +71,8 @@ export class Trip extends Component {
     );
   }
 }
-const mapStateToProps = state => ({});
+Trip.propType = {
+  classes: PropTypes.object.isRequired
+};
 
-const mapDispatchToProps = {};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(Trip));
+export default withStyles(styles)(Trip);

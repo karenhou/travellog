@@ -17,6 +17,7 @@ import CreateProfile from "./components/create-profile/CreateProfile";
 import Profile from "./components/profile/Profile";
 import TripForm from "./components/Trips/TripForm";
 import Trips from "./components/Trips/Trips";
+import Days from "./components/Trips/Days/Days";
 
 import "./App.css";
 
@@ -79,6 +80,13 @@ class App extends Component {
                 </Switch>
                 <Switch>
                   <PrivateRoute exact path="/add-trip" component={TripForm} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/add-days/:trip_id"
+                    component={Days}
+                  />
                 </Switch>
                 <Switch>
                   <PrivateRoute

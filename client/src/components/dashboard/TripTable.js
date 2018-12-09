@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import classNames from "classnames";
 import PropTypes from "prop-types";
+import Moment from "react-moment";
+
+import { connect } from "react-redux";
+
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -8,18 +11,12 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 
 const CustomTableCell = withStyles(theme => ({
   head: {
-    // backgroundColor: theme.palette.common.black,
-    // backgroundColor: theme.palette.common.black,
-    // color: theme.palette.common.white
     backgroundColor: "#80cbc4",
     color: theme.palette.common.black
   },
@@ -79,23 +76,6 @@ class TripTable extends Component {
   state = {
     order: "asc",
     orderBy: "From",
-    data: [
-      createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-      createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-      createData("Eclair", 262, 16.0, 24, 6.0),
-      createData("Cupcake", 305, 3.7, 67, 4.3),
-      createData("Gingerbread", 356, 16.0, 49, 3.9),
-      createData("Frozen yoghurt1", 159, 6.0, 24, 4.0),
-      createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-      createData("Eclair", 262, 16.0, 24, 6.0),
-      createData("Cupcake", 305, 3.7, 67, 4.3),
-      createData("Gingerbread", 356, 16.0, 49, 3.9),
-      createData("Frozen yoghurt2", 159, 6.0, 24, 4.0),
-      createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-      createData("Eclair", 262, 16.0, 24, 6.0),
-      createData("Cupcake", 305, 3.7, 67, 4.3),
-      createData("Gingerbread", 356, 16.0, 49, 3.9)
-    ],
     page: 0,
     rowsPerPage: 5
   };
@@ -120,10 +100,12 @@ class TripTable extends Component {
   };
 
   render() {
+    const trip = this.props.trip;
     const { classes } = this.props;
-    const { data, rowsPerPage, page, order, orderBy } = this.state;
+    const { rowsPerPage, page, order, orderBy } = this.state;
+
     const emptyRows =
-      rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+      rowsPerPage - Math.min(rowsPerPage, trip.length - page * rowsPerPage);
 
     return (
       <Paper className={classes.root}>
@@ -138,17 +120,21 @@ class TripTable extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {stableSort(data, getSorting(order, orderBy))
+              {stableSort(trip, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(row => {
                   return (
-                    <TableRow className={classes.row} key={row.id}>
+                    <TableRow className={classes.row} key={row._id}>
                       <CustomTableCell component="th" scope="row">
-                        {row.name}
+                        {row.country}
                       </CustomTableCell>
-                      <CustomTableCell>{row.fat}</CustomTableCell>
+                      <CustomTableCell>
+                        <Moment format="YYYY/MM/DD">{row.from}</Moment>
+                      </CustomTableCell>
 
-                      <CustomTableCell>{row.fat}</CustomTableCell>
+                      <CustomTableCell>
+                        <Moment format="YYYY/MM/DD">{row.to}</Moment>
+                      </CustomTableCell>
                       <CustomTableCell>
                         <Button
                           size="small"
@@ -179,7 +165,7 @@ class TripTable extends Component {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={data.length}
+          count={trip.length}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
@@ -200,4 +186,11 @@ TripTable.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(TripTable);
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = {};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(TripTable));

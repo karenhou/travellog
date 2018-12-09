@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { addTrip } from "../../actions/tripActions";
 import moment from "moment";
-
 import { Link } from "react-router-dom";
+import { getTrips, getTripById } from "../../../actions/tripActions";
+
+import Trip from "../Trip";
 
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -61,51 +62,25 @@ const styles = theme => ({
   }
 });
 
-class TripForm extends Component {
-  state = {
-    country: "",
-    from: "2017-05-24",
-    to: "2017-05-25",
-    budget: 0,
-    description: ""
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+class Days extends Component {
+  componentDidMount() {
+    this.props.getTrips();
+    console.log(this.props);
+    if (this.props.auth.user.id) {
+      this.props.getTripById(this.props.match.params.trip_id);
     }
   }
-
-  onSubmit = e => {
-    e.preventDefault();
-
-    const tripData = {
-      country: this.state.country,
-      from: moment(this.state.from).format("YYYY-MM-DD"),
-      to: moment(this.state.to).format("YYYY-MM-DD"),
-      budget: this.state.budget,
-      description: this.state.description
-    };
-
-    this.props.addTrip(tripData, this.props.history);
-    // this.props.history.push(`/add-days/${}`)
-    this.setState({ description: "" });
-  };
-
-  handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value });
-  };
-
   render() {
-    const { errors } = this.state;
     const { classes } = this.props;
+    const { trip } = this.props.trip;
     return (
       <main className={classes.main}>
+        {/* <Trip trip={trip} /> */}
         <CssBaseline />
         <Paper className={classes.paper}>
-          <Typography variant="h3">Create Your trip</Typography>
+          <Typography variant="h3">{trip.country} Trip Created...</Typography>
           <p className="lead text-center">
-            Let's add your journey to share your experience with the world
+            Let's add details to each day of your journey
           </p>
           <form className={classes.form} onSubmit={this.onSubmit}>
             <FormControl margin="normal" required>
@@ -115,58 +90,8 @@ class TripForm extends Component {
                 id="country"
                 name="country"
                 autoFocus
-                onChange={this.handleChange("country")}
+                //onChange={this.handleChange("country")}
                 required
-              />
-            </FormControl>
-            <FormControl margin="normal" required>
-              <TextField
-                name="from"
-                id="from"
-                label="From"
-                type="date"
-                defaultValue="2017-05-24"
-                className={classes.textField}
-                onChange={this.handleChange("from")}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-            </FormControl>
-            <FormControl margin="normal" required>
-              <TextField
-                name="to"
-                id="to"
-                label="To"
-                type="date"
-                defaultValue="2017-05-25"
-                className={classes.textField}
-                onChange={this.handleChange("to")}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-            </FormControl>
-            <FormControl fullWidth className={classes.margin}>
-              <InputLabel htmlFor="adornment-amount">Budget</InputLabel>
-              <Input
-                id="adornment-amount"
-                value={this.state.budget}
-                onChange={this.handleChange("budget")}
-                startAdornment={
-                  <InputAdornment position="start">$</InputAdornment>
-                }
-              />
-            </FormControl>
-            <FormControl fullWidth>
-              <TextField
-                fullWidth
-                label="Description"
-                multiline
-                rowsMax="4"
-                value={this.state.description}
-                onChange={this.handleChange("description")}
-                margin="normal"
               />
             </FormControl>
 
@@ -199,18 +124,15 @@ class TripForm extends Component {
     );
   }
 }
-TripForm.propType = {
-  addTrip: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
-};
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
+  trip: state.trip,
+  auth: state.auth
 });
+
+const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,
-  { addTrip }
-)(withStyles(styles)(TripForm));
+  { getTrips, getTripById }
+)(withStyles(styles)(Days));
