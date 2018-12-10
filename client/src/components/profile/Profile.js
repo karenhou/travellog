@@ -61,7 +61,6 @@ class Profile extends Component {
     const { profile, loading } = this.props.profile;
     const { classes } = this.props;
     let profileContent;
-    console.log(profile);
 
     if (profile === null || loading) {
       profileContent = <CircularProgress />;

@@ -90,7 +90,6 @@ class Login extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log("clicked");
 
     const userData = {
       email: this.state.email,

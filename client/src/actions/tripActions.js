@@ -55,7 +55,6 @@ export const addTrip = (tripData, history) => dispatch => {
     .post("/api/trips", tripData)
     .then(res => {
       dispatch({ type: ADD_TRIP, payload: res.data });
-      console.log("id =", res.data);
       history.push(`/add-days/${res.data._id}`);
     })
     .catch(err =>

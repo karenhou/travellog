@@ -67,7 +67,6 @@ class Register extends Component {
   };
 
   handleChange = prop => event => {
-    console.log(prop);
     this.setState({ [prop]: event.target.value });
   };
 
@@ -80,7 +79,6 @@ class Register extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
     const newUser = {
       name: this.state.name,
       email: this.state.email,

@@ -52,11 +52,9 @@ class Dashboard extends Component {
     const { profile, loading } = this.props.profile;
     const { trip } = this.props.trip;
     const { classes } = this.props;
-    console.log("in dahs trip ", trip);
-    let dashboardContent;
-    let tableContent;
 
-    console.log("user info ", user);
+    let dashboardContent;
+
     if (profile === null || loading) {
       dashboardContent = (
         <div>
@@ -82,7 +80,6 @@ class Dashboard extends Component {
               <Icon>add_box</Icon>
             </Button>
             {trip.length > 0 ? <TripTable trip={trip} id={user.id} /> : null}
-            {/* <TripTable trip={trip} id={user.id} /> */}
           </div>
         );
       } else {
