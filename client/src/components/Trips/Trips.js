@@ -43,7 +43,7 @@ class Trips extends Component {
   render() {
     const { trips, loading } = this.props.trip;
     const { classes } = this.props;
-    console.log(trips);
+
     let tripItems;
 
     if (trips === null || loading) {

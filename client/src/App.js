@@ -19,6 +19,7 @@ import TripForm from "./components/Trips/TripForm";
 import Trips from "./components/Trips/Trips";
 import Days from "./components/Trips/Days/Days";
 import Day from "./components/Trips/Days/Day";
+import NotFound from "./components/not-found/NotFound";
 
 import "./App.css";
 
@@ -103,6 +104,7 @@ class App extends Component {
                     component={CreateProfile}
                   />
                 </Switch>
+                <Route exact path="/not-found" component={NotFound} />
               </div>
               <MyFooter />
             </MuiThemeProvider>

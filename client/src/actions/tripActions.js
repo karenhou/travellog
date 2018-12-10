@@ -84,3 +84,16 @@ export const getTripsByUserId = user_id => dispatch => {
       })
     );
 };
+
+// Add day
+export const addDay = (expData, history) => dispatch => {
+  axios
+    .post("/api/trips/day/", expData)
+    .then(res => history.goBack())
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};

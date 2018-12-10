@@ -66,7 +66,7 @@ class Days extends Component {
   };
   componentDidMount() {
     this.props.getTrips();
-    console.log(this.props);
+
     if (this.props.auth.user.id) {
       this.props.getTripById(this.props.match.params.trip_id);
     }
