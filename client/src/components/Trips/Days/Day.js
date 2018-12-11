@@ -5,8 +5,9 @@ import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 
 import { Link } from "react-router-dom";
-import { addDay } from "../../../actions/tripActions";
+import { addDay, getTripById } from "../../../actions/tripActions";
 
+import isEmpty from "../../../validation/is-empty";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -64,11 +65,41 @@ class Day extends Component {
   state = {
     cities: "",
     hotel: "",
-    photoLinks: ""
+    photoLinks: "",
+    edit: false,
+    id: ""
   };
+  componentDidMount() {
+    this.props.getTripById(this.props.match.params.trip_id);
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
+    }
+    let idx = this.props.match.params.id - 1;
+    console.log("rec oprp ", nextProps.trip.trip);
+    if (!isEmpty(nextProps.trip.trip)) {
+      const days = nextProps.trip.trip.days;
+      console.log("bf ", days);
+      if (days[idx] !== null) {
+        console.log("im days ", days[idx]);
+        const cities = !isEmpty(days[idx].cities)
+          ? days[idx].cities.join(",")
+          : "";
+        const links = !isEmpty(days[idx].photoLinks)
+          ? days[idx].photoLinks.join(",")
+          : "";
+        days[idx].hotel = !isEmpty(days[idx].hotel) ? days[idx].hotel : "";
+        const id = !isEmpty(days[idx]._id) ? days[idx]._id : "";
+        console.log("before ste ", cities, links, days[idx].hotel);
+        this.setState({
+          cities: cities,
+          hotel: days[idx].hotel,
+          photoLinks: links,
+          edit: true,
+          id: id
+        });
+      }
     }
   }
 
@@ -78,13 +109,19 @@ class Day extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    console.log(this.props);
+
     const dayData = {
       cities: this.state.cities,
       hotel: this.state.hotel,
       photoLinks: this.state.photoLinks
     };
-
-    this.props.addDay(dayData, this.props.history);
+    this.props.addDay(
+      dayData,
+      this.props.match.params.trip_id,
+      this.props.match.params.id - 1,
+      this.props.history
+    );
   };
 
   render() {
@@ -94,10 +131,11 @@ class Day extends Component {
       <main className={classes.main}>
         <CssBaseline />
         <Paper className={classes.paper}>
-          <Typography variant="h3">Add content to your day</Typography>
+          <Typography variant="h3">Content to your day</Typography>
           <form className={classes.form} onSubmit={this.onSubmit}>
             <FormControl margin="normal" required fullWidth>
               <TextField
+                value={this.state.cities}
                 required
                 name="cities"
                 id="cities"
@@ -112,7 +150,7 @@ class Day extends Component {
             </FormControl>
             <FormControl margin="normal" fullWidth>
               <TextField
-                required
+                value={this.state.hotel}
                 name="hotel"
                 id="hotel"
                 label="hotel"
@@ -125,9 +163,9 @@ class Day extends Component {
               />
             </FormControl>
 
-            <FormControl margin="normal" required fullWidth>
+            <FormControl margin="normal" fullWidth>
               <TextField
-                required
+                value={this.state.photoLinks}
                 name="photoLinks"
                 id="photoLinks"
                 label="photoLinks"
@@ -178,5 +216,5 @@ const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,
-  { addDay }
+  { getTripById, addDay }
 )(withStyles(styles)(Day));

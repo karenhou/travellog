@@ -1,24 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import moment from "moment";
 import { Link } from "react-router-dom";
 import { getTrips, getTripById } from "../../../actions/tripActions";
-
-import Trip from "../Trip";
-import Day from "./Day";
 
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -57,12 +48,18 @@ const styles = theme => ({
   },
   btn: {
     marginRight: theme.spacing.unit * 2
+  },
+  funcBtn: {
+    marginTop: theme.spacing.unit * 3
   }
 });
 
-class Days extends Component {
+class TripSummary extends Component {
   state = {
     diff: 0
+  };
+  onBack = () => {
+    this.props.history.goBack();
   };
   componentDidMount() {
     this.props.getTrips();
@@ -83,6 +80,7 @@ class Days extends Component {
         for (let i = 0; i < trip.length; i++) {
           daysDetailContent.push(
             <Button
+              id={i + 1}
               component={Link}
               to={`/add-day/${this.props.match.params.trip_id}/${i + 1}`}
               className={classes.btn}
@@ -99,15 +97,41 @@ class Days extends Component {
     }
     return (
       <main className={classes.main}>
-        {/* <Trip trip={trip} /> */}
         <CssBaseline />
-        <Paper className={classes.paper}>
-          <Typography variant="h3">{trip.country} trip Created...</Typography>
-          <p className="lead text-center">
-            Let's add details to each day of your journey
-          </p>
-          <p>{daysDetailContent}</p>
-        </Paper>
+        {trip === null ? (
+          <CircularProgress />
+        ) : (
+          <Paper className={classes.paper}>
+            <Typography variant="h3">{trip.country} trip Created...</Typography>
+            <p className="lead text-center">
+              Let's add details to each day of your journey
+            </p>
+            <p>{daysDetailContent}</p>
+            <Grid justify="flex-end" container space={16}>
+              <Grid item />
+              <Grid item />
+              <Grid item xs={2}>
+                <Button
+                  onClick={this.onBack}
+                  className={classes.funcBtn}
+                  variant="outlined"
+                  color="secondary">
+                  Back
+                </Button>
+              </Grid>
+              <Grid item xs={2}>
+                <Button
+                  component={Link}
+                  to="/dashboard"
+                  className={classes.funcBtn}
+                  variant="outlined"
+                  color="secondary">
+                  Ok
+                </Button>
+              </Grid>
+            </Grid>
+          </Paper>
+        )}
       </main>
     );
   }
@@ -123,4 +147,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   { getTrips, getTripById }
-)(withStyles(styles)(Days));
+)(withStyles(styles)(TripSummary));

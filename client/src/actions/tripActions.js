@@ -65,17 +65,35 @@ export const addTrip = (tripData, history) => dispatch => {
     );
 };
 
+//delete trip
+export const deleteTrip = (trip_id, user_id) => dispatch => {
+  axios
+    .delete(`/api/trips/${trip_id}`)
+    .then(res => {
+      console.log("in deletetrip", res);
+      dispatch(getTripsByUserId(user_id));
+      // dispatch({ type: GET_TRIP, payload: res.data });
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response
+      });
+    });
+};
+
 // Get profile by handle
 export const getTripsByUserId = user_id => dispatch => {
   dispatch(setTripLoading());
   axios
     .get(`/api/trips/user/${user_id}`)
-    .then(res =>
+    .then(res => {
       dispatch({
         type: GET_TRIP,
         payload: res.data
-      })
-    )
+      });
+    })
     .catch(err =>
       dispatch({
         type: GET_TRIP,
@@ -85,9 +103,9 @@ export const getTripsByUserId = user_id => dispatch => {
 };
 
 // Add day
-export const addDay = (expData, history) => dispatch => {
+export const addDay = (dayData, trip_id, day_idx, history) => dispatch => {
   axios
-    .post("/api/trips/day/", expData)
+    .post(`/api/trips/${trip_id}/${day_idx}`, dayData)
     .then(res => history.goBack())
     .catch(err =>
       dispatch({

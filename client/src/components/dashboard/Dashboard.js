@@ -41,18 +41,18 @@ const styles = theme => ({
 
 class Dashboard extends Component {
   componentDidMount() {
+    console.log("did mount dash");
     this.props.getCurrentProfile();
     if (this.props.auth.user.id) {
       this.props.getTripsByUserId(this.props.auth.user.id);
     }
   }
-
   render() {
     const { user } = this.props.auth;
     const { profile, loading } = this.props.profile;
     const { trip } = this.props.trip;
     const { classes } = this.props;
-
+    console.log("dash ", trip);
     let dashboardContent;
 
     if (profile === null || loading) {
@@ -62,7 +62,6 @@ class Dashboard extends Component {
         </div>
       );
     } else {
-      console.log([profile]);
       // Check if logged in user has profile data
       if (Object.keys(profile).length > 0) {
         dashboardContent = (
@@ -79,7 +78,7 @@ class Dashboard extends Component {
               Add Trip
               <Icon>add_box</Icon>
             </Button>
-            {trip.length > 0 ? <TripTable trip={trip} id={user.id} /> : null}
+            {trip.length > 0 ? <TripTable /> : null}
           </div>
         );
       } else {

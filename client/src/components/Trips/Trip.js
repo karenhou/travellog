@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
+import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -34,7 +35,7 @@ const styles = theme => ({
 export class Trip extends Component {
   render() {
     const { trip, classes } = this.props;
-
+    console.log("list ", trip);
     return (
       <div className={classes.root}>
         <Paper className={classes.paper}>
@@ -63,7 +64,12 @@ export class Trip extends Component {
                   <Typography gutterBottom>{trip.description}</Typography>
                 </Grid>
                 <Grid item>
-                  <Button type="submit" variant="contained" color="primary">
+                  <Button
+                    component={Link}
+                    to={`/trips/${trip._id}`}
+                    type="submit"
+                    variant="contained"
+                    color="primary">
                     Details
                   </Button>
                 </Grid>

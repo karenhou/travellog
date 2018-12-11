@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import Moment from "react-moment";
 
 import { connect } from "react-redux";
-
+import { Link } from "react-router-dom";
+import { getCurrentProfile } from "../../actions/profileActions";
+import { deleteTrip, getTripsByUserId } from "../../actions/tripActions";
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -26,10 +28,6 @@ const CustomTableCell = withStyles(theme => ({
 }))(TableCell);
 
 let counter = 0;
-function createData(name, calories, fat, carbs, protein) {
-  counter += 1;
-  return { id: counter, name, calories, fat, carbs, protein };
-}
 
 function stableSort(array, cmp) {
   const stabilizedThis = array.map((el, index) => [el, index]);
@@ -99,13 +97,55 @@ class TripTable extends Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
+  onDeleteClick = id => {
+    this.props.deleteTrip(id, this.props.auth.user.id);
+  };
+
   render() {
-    const trip = this.props.trip;
+    const { trip } = this.props.trip;
     const { classes } = this.props;
     const { rowsPerPage, page, order, orderBy } = this.state;
 
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, trip.length - page * rowsPerPage);
+
+    const tableContent = trip
+      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      .map(row => {
+        return (
+          <TableRow className={classes.row} key={row._id}>
+            <CustomTableCell component="th" scope="row">
+              {row.country}
+            </CustomTableCell>
+            <CustomTableCell>
+              <Moment format="YYYY/MM/DD">{row.from}</Moment>
+            </CustomTableCell>
+
+            <CustomTableCell>
+              <Moment format="YYYY/MM/DD">{row.to}</Moment>
+            </CustomTableCell>
+            <CustomTableCell>
+              <Button
+                component={Link}
+                to={`/edit-trip/${row._id}`}
+                size="small"
+                variant="contained"
+                color="secondary"
+                className={classes.button}>
+                <Icon>edit</Icon>
+              </Button>
+              <Button
+                onClick={() => this.onDeleteClick(row._id)}
+                size="small"
+                variant="contained"
+                color="secondary"
+                className={classes.button}>
+                <Icon>delete</Icon>
+              </Button>
+            </CustomTableCell>
+          </TableRow>
+        );
+      });
 
     return (
       <Paper className={classes.root}>
@@ -120,40 +160,7 @@ class TripTable extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {stableSort(trip, getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(row => {
-                  return (
-                    <TableRow className={classes.row} key={row._id}>
-                      <CustomTableCell component="th" scope="row">
-                        {row.country}
-                      </CustomTableCell>
-                      <CustomTableCell>
-                        <Moment format="YYYY/MM/DD">{row.from}</Moment>
-                      </CustomTableCell>
-
-                      <CustomTableCell>
-                        <Moment format="YYYY/MM/DD">{row.to}</Moment>
-                      </CustomTableCell>
-                      <CustomTableCell>
-                        <Button
-                          size="small"
-                          variant="contained"
-                          color="secondary"
-                          className={classes.button}>
-                          <Icon>edit</Icon>
-                        </Button>
-                        <Button
-                          size="small"
-                          variant="contained"
-                          color="secondary"
-                          className={classes.button}>
-                          <Icon>delete</Icon>
-                        </Button>
-                      </CustomTableCell>
-                    </TableRow>
-                  );
-                })}
+              {tableContent}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 49 * emptyRows }}>
                   <TableCell colSpan={6} />
@@ -186,11 +193,15 @@ TripTable.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  profile: state.profile,
+  auth: state.auth,
+  trip: state.trip
+});
 
 const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { getCurrentProfile, deleteTrip, getTripsByUserId }
 )(withStyles(styles)(TripTable));

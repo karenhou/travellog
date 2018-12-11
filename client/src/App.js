@@ -17,9 +17,11 @@ import CreateProfile from "./components/create-profile/CreateProfile";
 import Profile from "./components/profile/Profile";
 import TripForm from "./components/Trips/TripForm";
 import Trips from "./components/Trips/Trips";
-import Days from "./components/Trips/Days/Days";
+import TripSummary from "./components/Trips/Days/TripSummary";
 import Day from "./components/Trips/Days/Day";
 import NotFound from "./components/not-found/NotFound";
+import EditTrip from "./components/Trips/EditTrip";
+import TripDetail from "./components/Trips/TripDetail";
 
 import "./App.css";
 
@@ -77,6 +79,7 @@ class App extends Component {
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/trips" component={Trips} />
                 <Route exact path="/profile/:handle" component={Profile} />
+                <Route exact path="/trips/:trip_id" component={TripDetail} />
                 <Switch>
                   <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 </Switch>
@@ -87,7 +90,7 @@ class App extends Component {
                   <PrivateRoute
                     exact
                     path="/add-days/:trip_id"
-                    component={Days}
+                    component={TripSummary}
                   />
                 </Switch>
                 <Switch>
@@ -95,6 +98,13 @@ class App extends Component {
                     exact
                     path="/add-day/:trip_id/:id"
                     component={Day}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/edit-trip/:trip_id"
+                    component={EditTrip}
                   />
                 </Switch>
                 <Switch>

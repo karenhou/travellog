@@ -75,7 +75,7 @@ class TripForm extends Component {
     var date2 = new Date(d2);
     var timeDiff = Math.abs(date2.getTime() - date1.getTime());
     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    return diffDays;
+    return diffDays + 1;
   };
 
   componentWillReceiveProps(nextProps) {
