@@ -41,7 +41,6 @@ const styles = theme => ({
 
 class Dashboard extends Component {
   componentDidMount() {
-    console.log("did mount dash");
     this.props.getCurrentProfile();
     if (this.props.auth.user.id) {
       this.props.getTripsByUserId(this.props.auth.user.id);
@@ -50,9 +49,9 @@ class Dashboard extends Component {
   render() {
     const { user } = this.props.auth;
     const { profile, loading } = this.props.profile;
-    const { trip } = this.props.trip;
+    const { trips } = this.props.trip;
     const { classes } = this.props;
-    console.log("dash ", trip);
+    console.log("dash ", trips, typeof trips);
     let dashboardContent;
 
     if (profile === null || loading) {
@@ -78,7 +77,7 @@ class Dashboard extends Component {
               Add Trip
               <Icon>add_box</Icon>
             </Button>
-            {trip.length > 0 ? <TripTable /> : null}
+            {trips.length > 0 ? <TripTable /> : null}
           </div>
         );
       } else {

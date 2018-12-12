@@ -62,8 +62,6 @@ class TripSummary extends Component {
     this.props.history.goBack();
   };
   componentDidMount() {
-    this.props.getTrips();
-
     if (this.props.auth.user.id) {
       this.props.getTripById(this.props.match.params.trip_id);
     }
@@ -72,7 +70,7 @@ class TripSummary extends Component {
     const { classes } = this.props;
     const { trip, loading, days } = this.props.trip;
     let daysDetailContent = [];
-    console.log(this.props);
+
     if (trip === null || loading) {
       daysDetailContent = <CircularProgress />;
     } else {
@@ -80,6 +78,7 @@ class TripSummary extends Component {
         for (let i = 0; i < trip.length; i++) {
           daysDetailContent.push(
             <Button
+              key={i + 1}
               id={i + 1}
               component={Link}
               to={`/add-day/${this.props.match.params.trip_id}/${i + 1}`}
@@ -106,7 +105,8 @@ class TripSummary extends Component {
             <p className="lead text-center">
               Let's add details to each day of your journey
             </p>
-            <p>{daysDetailContent}</p>
+            <div>{daysDetailContent}</div>
+
             <Grid justify="flex-end" container space={16}>
               <Grid item />
               <Grid item />

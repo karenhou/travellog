@@ -1,5 +1,8 @@
 import axios from "axios";
 
+import setAuthToken from "../utils/setAuthToken";
+import jwt_decode from "jwt-decode";
+
 import {
   GET_PROFILE,
   PROFILE_LOADING,
@@ -124,6 +127,10 @@ export const deleteEducation = id => dispatch => {
 // Delete account & profile
 export const deleteAccount = () => dispatch => {
   if (window.confirm("Are you sure? This can NOT be undone!")) {
+    localStorage.removeItem("jwtToken");
+    // Remove auth header for future requests
+    setAuthToken(false);
+
     axios
       .delete("/api/profile")
       .then(res =>

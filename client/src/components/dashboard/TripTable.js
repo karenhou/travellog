@@ -17,6 +17,8 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: "#80cbc4",
@@ -101,51 +103,63 @@ class TripTable extends Component {
     this.props.deleteTrip(id, this.props.auth.user.id);
   };
 
+  componentDidMount() {
+    if (this.props.auth.user.id) {
+      this.props.getTripsByUserId(this.props.auth.user.id);
+    }
+  }
+
   render() {
-    const { trip } = this.props.trip;
+    const { trips, loading } = this.props.trip;
     const { classes } = this.props;
     const { rowsPerPage, page, order, orderBy } = this.state;
-
+    console.log("trip ", this.props.trip);
     const emptyRows =
-      rowsPerPage - Math.min(rowsPerPage, trip.length - page * rowsPerPage);
+      rowsPerPage - Math.min(rowsPerPage, trips.length - page * rowsPerPage);
 
-    const tableContent = trip
-      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-      .map(row => {
-        return (
-          <TableRow className={classes.row} key={row._id}>
-            <CustomTableCell component="th" scope="row">
-              {row.country}
-            </CustomTableCell>
-            <CustomTableCell>
-              <Moment format="YYYY/MM/DD">{row.from}</Moment>
-            </CustomTableCell>
+    console.log("len ", trips.length);
+    let tableContent;
+    if (trips === null || loading) {
+      tableContent = null;
+    } else {
+      tableContent = trips
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .map(row => {
+          return (
+            <TableRow className={classes.row} key={row._id}>
+              <CustomTableCell component="th" scope="row">
+                {row.country}
+              </CustomTableCell>
+              <CustomTableCell>
+                <Moment format="YYYY/MM/DD">{row.from}</Moment>
+              </CustomTableCell>
 
-            <CustomTableCell>
-              <Moment format="YYYY/MM/DD">{row.to}</Moment>
-            </CustomTableCell>
-            <CustomTableCell>
-              <Button
-                component={Link}
-                to={`/edit-trip/${row._id}`}
-                size="small"
-                variant="contained"
-                color="secondary"
-                className={classes.button}>
-                <Icon>edit</Icon>
-              </Button>
-              <Button
-                onClick={() => this.onDeleteClick(row._id)}
-                size="small"
-                variant="contained"
-                color="secondary"
-                className={classes.button}>
-                <Icon>delete</Icon>
-              </Button>
-            </CustomTableCell>
-          </TableRow>
-        );
-      });
+              <CustomTableCell>
+                <Moment format="YYYY/MM/DD">{row.to}</Moment>
+              </CustomTableCell>
+              <CustomTableCell>
+                <Button
+                  component={Link}
+                  to={`/edit-trip/${row._id}`}
+                  size="small"
+                  variant="contained"
+                  color="secondary"
+                  className={classes.button}>
+                  <Icon>edit</Icon>
+                </Button>
+                <Button
+                  onClick={() => this.onDeleteClick(row._id)}
+                  size="small"
+                  variant="contained"
+                  color="secondary"
+                  className={classes.button}>
+                  <Icon>delete</Icon>
+                </Button>
+              </CustomTableCell>
+            </TableRow>
+          );
+        });
+    }
 
     return (
       <Paper className={classes.root}>
@@ -172,7 +186,7 @@ class TripTable extends Component {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={trip.length}
+          count={trips.length}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{

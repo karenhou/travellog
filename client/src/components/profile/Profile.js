@@ -15,6 +15,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
 import Icon from "@material-ui/core/Icon";
+
 const styles = theme => ({
   main: {
     width: "auto",
@@ -27,18 +28,18 @@ const styles = theme => ({
     }
   },
   paper: {
-    height: "68vh",
     marginTop: theme.spacing.unit * 2.5,
     marginBottom: theme.spacing.unit * 2.5,
     display: "flex",
     flexDirection: "column",
-    alignItems: "left",
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
       .spacing.unit * 3}px`
   },
   button: {
-    marginBottom: "20px",
-    margin: theme.spacing.unit
+    width: "100px",
+    marginTop: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 2
   }
 });
 
@@ -75,33 +76,29 @@ class Profile extends Component {
     }
 
     return (
-      <div className={classes.main}>
+      <div className={classes.root}>
         <Grid container spacing={24}>
           <Grid item xs />
           <Grid item xs={10}>
             <Paper className={classes.paper}>
-              <Grid container spacing={16}>
-                <Grid item xs={2}>
-                  <Button
-                    onClick={() => this.onDeleteClick()}
-                    variant="contained"
-                    style={{ backgroundColor: "red" }}
-                    className={classes.button}>
-                    Delete
-                    <Icon>delete</Icon>
-                  </Button>
-                </Grid>
-                <Grid item xs={2}>
-                  <Button
-                    component={Link}
-                    to="/dashboard"
-                    variant="contained"
-                    className={classes.button}
-                    color="secondary">
-                    Dashboard
-                  </Button>
-                </Grid>
-              </Grid>
+              <div>
+                <Button
+                  onClick={() => this.onDeleteClick()}
+                  variant="contained"
+                  style={{ backgroundColor: "red" }}
+                  className={classes.button}>
+                  Delete
+                  <Icon>delete</Icon>
+                </Button>
+                <Button
+                  component={Link}
+                  to="/dashboard"
+                  variant="contained"
+                  className={classes.button}
+                  color="secondary">
+                  Dashboard
+                </Button>
+              </div>
 
               <Typography variant="h2">Profile</Typography>
               {profileContent}

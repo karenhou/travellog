@@ -90,19 +90,19 @@ export const getTripsByUserId = user_id => dispatch => {
     .get(`/api/trips/user/${user_id}`)
     .then(res => {
       dispatch({
-        type: GET_TRIP,
+        type: GET_TRIPS,
         payload: res.data
       });
     })
     .catch(err =>
       dispatch({
-        type: GET_TRIP,
+        type: GET_TRIPS,
         payload: null
       })
     );
 };
 
-// Add day
+// Add/edit day
 export const addDay = (dayData, trip_id, day_idx, history) => dispatch => {
   axios
     .post(`/api/trips/${trip_id}/${day_idx}`, dayData)

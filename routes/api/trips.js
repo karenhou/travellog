@@ -61,7 +61,10 @@ router.post(
 // @access  Public
 router.get("/:trip_id", (req, res) => {
   Trip.findById(req.params.trip_id)
-    .then(trip => res.json(trip))
+    .then(trip => {
+      // console.log(trip);
+      res.json(trip);
+    })
     .catch(err =>
       res.status(404).json({ notripfound: "No trip found with that id" })
     );
@@ -75,10 +78,6 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Profile.find({ user: req.user.id }).then(user => {
-      // console.log(user, req.params.trip_id);
-      // Trip.findOneAndDelete({ _id: req.params.trip_id }).then(() =>
-      //   res.json({ success: true })
-      // );
       Trip.findById(req.params.trip_id)
         .then(trip => {
           //check trip owner
@@ -107,6 +106,7 @@ router.get("/user/:user_id", (req, res) => {
   Trip.find({ user: req.params.user_id })
     // .populate("user", ["country", "avatar"])
     .then(trip => {
+      console.log(trip);
       if (!trip) {
         errors.notrip = "There is no trip for this user";
         res.status(404).json(errors);

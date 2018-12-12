@@ -24,6 +24,10 @@ const styles = theme => ({
   },
   title: {
     color: "white"
+  },
+  button: {
+    marginTop: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2
   }
 });
 
@@ -35,49 +39,42 @@ class Landing extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
-        <Paper className={this.props.classes.root} elevation={1}>
-          <Grid className={this.props.classes.cont} container spacing={24}>
+        <Paper className={classes.root} elevation={1}>
+          <Grid className={classes.cont} container spacing={24}>
             <Grid item xs />
             <Grid item xs={6}>
-              <Typography
-                className={this.props.classes.title}
-                variant="h1"
-                component="h3">
+              <Typography className={classes.title} variant="h1" component="h2">
                 Travellog
               </Typography>
-              <Typography
-                className={this.props.classes.title}
-                variant="h6"
-                component="h3">
+              <Typography className={classes.title} variant="h6" component="h3">
                 Create an account or login to share your journey with others
               </Typography>
+              <Button
+                component={Link}
+                to="/login"
+                variant="contained"
+                className={classes.button}
+                color="primary">
+                Login
+              </Button>
+              <Button
+                component={Link}
+                to="/register"
+                variant="contained"
+                className={classes.button}
+                color="primary">
+                SignUp
+              </Button>
             </Grid>
             <Grid item xs />
           </Grid>
           <Grid container spacing={24}>
             <Grid item xs />
-            <Grid item xs={1}>
-              <Button
-                component={Link}
-                to="/login"
-                variant="contained"
-                className={this.props.classes.button}
-                color="primary">
-                Login
-              </Button>
-            </Grid>
-            <Grid item xs={1}>
-              <Button
-                component={Link}
-                to="/register"
-                variant="contained"
-                className={this.props.classes.button}
-                color="primary">
-                SignUp
-              </Button>
-            </Grid>
+            <Grid item xs={1} />
+            <Grid item xs={1} />
             <Grid item xs />
           </Grid>
         </Paper>
