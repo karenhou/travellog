@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   main: {
+    flexGrow: 1,
     width: "auto",
     display: "block", // Fix IE 11 issue.
     marginLeft: theme.spacing.unit * 2,

@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -114,8 +119,9 @@ class App extends Component {
                     component={CreateProfile}
                   />
                 </Switch>
-                <Route exact path="/not-found" component={NotFound} />
+                <Route path="/not-found" component={NotFound} />
               </div>
+              <Redirect to="/" />
               <MyFooter />
             </MuiThemeProvider>
           </div>

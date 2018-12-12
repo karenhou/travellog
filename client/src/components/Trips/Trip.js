@@ -20,10 +20,6 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2.5,
     marginBottom: theme.spacing.unit * 2.5
   },
-  image: {
-    width: 400,
-    height: 200
-  },
   img: {
     margin: "auto",
     display: "block",
@@ -44,7 +40,7 @@ export class Trip extends Component {
               <ButtonBase className={classes.image}>
                 <img
                   className={classes.img}
-                  alt="complex"
+                  alt="loading"
                   src="https://via.placeholder.com/350x200"
                 />
               </ButtonBase>
