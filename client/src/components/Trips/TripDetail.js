@@ -53,6 +53,9 @@ export class TripDetail extends Component {
     );
   }
 }
+TripDetail.propType = {
+  classes: PropTypes.object.isRequired
+};
 
 const mapStateToProps = state => ({});
 

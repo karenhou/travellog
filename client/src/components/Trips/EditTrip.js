@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
-import { getTripById } from "../../actions/tripActions";
+import { getTripById, editTrip } from "../../actions/tripActions";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -54,7 +54,8 @@ const styles = theme => ({
     marginTop: theme.spacing.unit
   },
   submit: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3
   },
   days: {
     marginTop: theme.spacing.unit * 3
@@ -75,10 +76,8 @@ class EditTrip extends Component {
       this.setState({ errors: nextProps.errors });
     }
 
-    console.log("edit oprp ", nextProps.trip.trip);
     if (!isEmpty(nextProps.trip.trip)) {
       const trip = nextProps.trip.trip;
-      console.log("bf ", trip);
 
       trip.country = !isEmpty(trip.country) ? trip.country : "";
       trip.from = !isEmpty(trip.from) ? trip.from : "";
@@ -88,8 +87,8 @@ class EditTrip extends Component {
 
       this.setState({
         country: trip.country,
-        from: moment(trip.from).format("YYYY-MM-DD"),
-        to: moment(trip.to).format("YYYY-MM-DD"),
+        from: trip.from,
+        to: trip.to,
         budget: trip.budget,
         description: trip.description
       });
@@ -99,18 +98,93 @@ class EditTrip extends Component {
   componentDidMount() {
     if (this.props.auth.user.id) {
       this.props.getTripById(this.props.match.params.trip_id);
-      console.log("getTripById");
     }
   }
-  onSubmit = () => {
-    console.log("submited edit trip");
+
+  calDateDiff = (d1, d2) => {
+    var date1 = new Date(d1);
+    var date2 = new Date(d2);
+    var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    return diffDays;
+  };
+
+  compareFromTo = (from, to) => {
+    var date1 = new Date(from);
+    var date2 = new Date(to);
+    return date2.getTime() < date1.getTime() ? true : false;
+  };
+
+  onSubmit = e => {
+    e.preventDefault();
+    let tempTripFrom = this.props.trip.trip.from;
+    let tempTripTo = this.props.trip.trip.to;
+    let newDayArray = [...this.props.trip.trip.days];
+    let count = this.calDateDiff(this.state.from, tempTripFrom);
+
+    if (this.compareFromTo(this.state.from, this.state.to)) {
+      console.log("To cannot be smaller than From");
+      return;
+    }
+    if (this.state.from < tempTripFrom) {
+      //add one day
+      for (let i = 0; i < count; i++) {
+        newDayArray.unshift({
+          date: moment
+            .utc(tempTripFrom)
+            .subtract(i + 1, "days")
+            .format()
+        });
+      }
+    } else if (this.state.from > tempTripFrom) {
+      for (let i = 0; i < count; i++) {
+        //minus one day
+        newDayArray.shift();
+      }
+    }
+
+    count = this.calDateDiff(this.state.to, tempTripTo);
+    if (this.state.to < tempTripTo) {
+      //add one day
+      for (let i = 0; i < count; i++) {
+        newDayArray.pop();
+      }
+    } else if (this.state.to > tempTripTo) {
+      for (let i = 0; i < count; i++) {
+        newDayArray.push({
+          date: moment
+            .utc(tempTripTo)
+            .add(i + 1, "days")
+            .format()
+        });
+      }
+    }
+
+    const tripData = {
+      country: this.state.country,
+      from: this.state.from,
+      to: this.state.to,
+      budget: this.state.budget,
+      description: this.state.description,
+      days: [...newDayArray]
+    };
+    this.props.editTrip(
+      tripData,
+      this.props.match.params.trip_id,
+      this.props.history
+    );
+  };
+
+  handleChange = prop => event => {
+    this.setState({ [prop]: event.target.value });
   };
 
   render() {
     const { classes } = this.props;
     const { trip, loading } = this.props.trip;
-    console.log("edittrip ", this.props, typeof trip);
+
     let tripContent;
+    let daysDetailContent = [];
 
     if (trip === null || loading) {
       tripContent = (
@@ -118,7 +192,29 @@ class EditTrip extends Component {
           <CircularProgress />
         </div>
       );
+      daysDetailContent = (
+        <div>
+          <CircularProgress />
+        </div>
+      );
     } else {
+      if (trip.days) {
+        daysDetailContent = trip.days.map((day, index) => (
+          <Button
+            key={index}
+            component={Link}
+            to={`/edit-day/${this.props.match.params.trip_id}/${day._id}`}
+            className={classes.submit}
+            type="submit"
+            variant="contained"
+            color="primary">
+            {moment.utc(day.date).format("YYYY-MM-DD")}
+          </Button>
+        ));
+      } else {
+        daysDetailContent = <h4>No day found...</h4>;
+      }
+
       tripContent = (
         <form className={classes.form} onSubmit={this.onSubmit}>
           <FormControl margin="normal" required>
@@ -129,7 +225,7 @@ class EditTrip extends Component {
               name="country"
               autoFocus
               value={this.state.country}
-              //onChange={this.handleChange("country")}
+              onChange={this.handleChange("country")}
               required
             />
           </FormControl>
@@ -139,9 +235,9 @@ class EditTrip extends Component {
               id="from"
               label="From"
               type="date"
-              defaultValue={this.state.from}
+              defaultValue={moment.utc(trip.from).format("YYYY-MM-DD")}
               className={classes.textField}
-              //onChange={this.handleChange("from")}
+              onChange={this.handleChange("from")}
               InputLabelProps={{
                 shrink: true
               }}
@@ -153,9 +249,9 @@ class EditTrip extends Component {
               id="to"
               label="To"
               type="date"
-              defaultValue={this.state.to}
+              defaultValue={moment.utc(trip.to).format("YYYY-MM-DD")}
               className={classes.textField}
-              //onChange={this.handleChange("to")}
+              onChange={this.handleChange("to")}
               InputLabelProps={{
                 shrink: true
               }}
@@ -166,7 +262,7 @@ class EditTrip extends Component {
             <Input
               id="adornment-amount"
               value={this.state.budget}
-              //onChange={this.handleChange("budget")}
+              onChange={this.handleChange("budget")}
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
@@ -180,55 +276,12 @@ class EditTrip extends Component {
               multiline
               rowsMax="4"
               value={this.state.description}
-              //onChange={this.handleChange("description")}
+              onChange={this.handleChange("description")}
               margin="normal"
             />
           </FormControl>
-
-          <Typography className={classes.days} variant="h6">
-            Days
-          </Typography>
-
-          <FormControl fullWidth>
-            <TextField
-              required
-              id="outlined-full-width"
-              label="Cities"
-              placeholder="Placeholder"
-              helperText="please separate each entry with a comma"
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-          </FormControl>
-          <FormControl>
-            <TextField
-              id="outlined-full-width"
-              label="hotel"
-              placeholder="Placeholder"
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-          </FormControl>
-          <FormControl fullWidth>
-            <TextField
-              id="outlined-full-width"
-              label="photoLinks"
-              placeholder="Placeholder"
-              helperText="please separate each entry with a comma"
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-          </FormControl>
-
+          <Typography variant="h4">Days</Typography>
+          {daysDetailContent}
           <Grid justify="flex-end" container space={24}>
             <Grid item />
             <Grid item />
@@ -265,7 +318,6 @@ class EditTrip extends Component {
             <Paper className={classes.paper}>
               <Typography variant="h3">Edit Trip</Typography>
               {tripContent}
-              {/*  */}
             </Paper>
           </Grid>
           <Grid item xs />
@@ -284,9 +336,7 @@ const mapStateToProps = state => ({
   trip: state.trip
 });
 
-const mapDispatchToProps = {};
-
 export default connect(
   mapStateToProps,
-  { getTripById }
+  { getTripById, editTrip }
 )(withStyles(styles)(EditTrip));

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getTrips, getTripById } from "../../../actions/tripActions";
+import moment from "moment";
 
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -68,28 +69,25 @@ class TripSummary extends Component {
   }
   render() {
     const { classes } = this.props;
-    const { trip, loading, days } = this.props.trip;
+    const { trip, loading } = this.props.trip;
     let daysDetailContent = [];
 
     if (trip === null || loading) {
       daysDetailContent = <CircularProgress />;
     } else {
       if (trip.length > 0) {
-        for (let i = 0; i < trip.length; i++) {
-          daysDetailContent.push(
-            <Button
-              key={i + 1}
-              id={i + 1}
-              component={Link}
-              to={`/add-day/${this.props.match.params.trip_id}/${i + 1}`}
-              className={classes.btn}
-              type="submit"
-              variant="contained"
-              color="primary">
-              Day {i + 1}
-            </Button>
-          );
-        }
+        daysDetailContent = trip.days.map((day, index) => (
+          <Button
+            key={index}
+            component={Link}
+            to={`/add-day/${this.props.match.params.trip_id}/${day._id}`}
+            className={classes.btn}
+            type="submit"
+            variant="contained"
+            color="primary">
+            {moment.utc(day.date).format("YYYY-MM-DD")}
+          </Button>
+        ));
       } else {
         daysDetailContent = <h4>No day found...</h4>;
       }
@@ -136,6 +134,9 @@ class TripSummary extends Component {
     );
   }
 }
+TripSummary.propType = {
+  classes: PropTypes.object.isRequired
+};
 
 const mapStateToProps = state => ({
   trip: state.trip,

@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 
 import { Link } from "react-router-dom";
-import { addDay, getTripById } from "../../../actions/tripActions";
-import isEmpty from "../../../validation/is-empty";
+import { editDay, getTripById } from "../../actions/tripActions";
+import isEmpty from "../../validation/is-empty";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -57,7 +57,7 @@ const styles = theme => ({
   }
 });
 
-class Day extends Component {
+class EditDay extends Component {
   state = {
     cities: "",
     hotel: "",
@@ -107,7 +107,7 @@ class Day extends Component {
       hotel: this.state.hotel,
       photoLinks: this.state.photoLinks
     };
-    this.props.addDay(
+    this.props.editDay(
       dayData,
       this.props.match.params.trip_id,
       this.props.match.params.day_id,
@@ -184,7 +184,7 @@ class Day extends Component {
               <Grid item xs={2}>
                 <Button
                   component={Link}
-                  to={`/add-days/${this.props.match.params.trip_id}`}
+                  to={`/edit-trip/${this.props.match.params.trip_id}`}
                   type="submit"
                   variant="contained"
                   className={classes.submit}>
@@ -198,7 +198,7 @@ class Day extends Component {
     );
   }
 }
-Day.propType = {
+EditDay.propType = {
   classes: PropTypes.object.isRequired
 };
 
@@ -206,9 +206,7 @@ const mapStateToProps = state => ({
   trip: state.trip,
   auth: state.auth
 });
-const mapDispatchToProps = {};
-
 export default connect(
   mapStateToProps,
-  { getTripById, addDay }
-)(withStyles(styles)(Day));
+  { getTripById, editDay }
+)(withStyles(styles)(EditDay));

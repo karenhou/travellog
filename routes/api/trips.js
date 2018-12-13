@@ -40,7 +40,7 @@ router.post(
       //if any errors, send 400 with errors object
       return res.status(400).json(errors);
     }
-
+    console.log(req.body.from, req.body.to);
     const newTrip = new Trip({
       country: req.body.country,
       from: req.body.from,
@@ -49,7 +49,7 @@ router.post(
       user: req.user.id,
       budget: req.body.budget,
       description: req.body.description,
-      days: req.body.days
+      days: [...req.body.days]
     });
 
     newTrip.save().then(trip => res.json(trip));
@@ -57,18 +57,42 @@ router.post(
 );
 
 // @route   GET api/trips/:trip_id
-// @desc    Get post by id
+// @desc    Get trip by id
 // @access  Public
 router.get("/:trip_id", (req, res) => {
   Trip.findById(req.params.trip_id)
     .then(trip => {
-      // console.log(trip);
       res.json(trip);
     })
     .catch(err =>
       res.status(404).json({ notripfound: "No trip found with that id" })
     );
 });
+
+// @route   EDIT api/trips/:trip_id
+// @desc    edit trip by id
+// @access  private
+router.post(
+  "/:trip_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Trip.findById(req.params.trip_id)
+      .then(trip => {
+        // res.json(trip);
+        trip.country = req.body.country;
+        trip.from = req.body.from;
+        trip.to = req.body.to;
+        trip.length = req.body.length;
+        trip.budget = req.body.budget;
+        trip.description = req.body.description;
+        trip.days = [...req.body.days];
+        trip.save().then(trip => res.json(trip));
+      })
+      .catch(err =>
+        res.status(404).json({ notripfound: "No trip found with that id" })
+      );
+  }
+);
 
 // @route   DELETE api/trips/:trip_id
 // @desc    delete post by id
@@ -104,9 +128,7 @@ router.get("/user/:user_id", (req, res) => {
   const errors = {};
 
   Trip.find({ user: req.params.user_id })
-    // .populate("user", ["country", "avatar"])
     .then(trip => {
-      console.log(trip);
       if (!trip) {
         errors.notrip = "There is no trip for this user";
         res.status(404).json(errors);
@@ -119,11 +141,11 @@ router.get("/user/:user_id", (req, res) => {
     );
 });
 
-// @route   POST api/trips/:trip_id/:day_idx
+// @route   POST api/trips/:trip_id/:day_date
 // @desc    Add/edit day to trips
 // @access  Private
 router.post(
-  "/:trip_id/:day_idx",
+  "/:trip_id/:day_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const { errors, isValid } = validateDaysInput(req.body);
@@ -131,18 +153,21 @@ router.post(
     if (!isValid) {
       return res.status(400).json(errors);
     }
-    console.log("in add day ", req.body);
 
     Trip.findById(req.params.trip_id).then(trip => {
       const newDay = {
-        cities: req.body.cities,
+        cities: req.body.cities.split(","),
         hotel: req.body.hotel,
-        photoLinks: req.body.photoLinks
+        photoLinks: req.body.photoLinks.split(","),
+        date: req.body.date,
+        _id: req.params.day_id
       };
 
-      //add to exp arrau
-      // trip.days.unshift(newDay);
-      trip.days.splice(req.params.day_idx, 1, newDay);
+      trip.days.map((d, i) => {
+        if (d._id == req.params.day_id) {
+          trip.days[i] = newDay;
+        }
+      });
 
       trip.save().then(trip => {
         res.json(trip);

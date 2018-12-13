@@ -31,7 +31,7 @@ const styles = theme => ({
 export class Trip extends Component {
   render() {
     const { trip, classes } = this.props;
-    console.log("list ", trip);
+
     return (
       <div className={classes.root}>
         <Paper className={classes.paper}>
@@ -54,8 +54,6 @@ export class Trip extends Component {
                   <Typography gutterBottom variant="subtitle1">
                     <Moment format="YYYY/MM/DD">{trip.from}</Moment> -
                     <Moment format="YYYY/MM/DD">{trip.to}</Moment>
-                    <br />
-                    {trip.length} days
                   </Typography>
                   <Typography gutterBottom>{trip.description}</Typography>
                 </Grid>

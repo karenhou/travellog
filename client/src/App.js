@@ -24,6 +24,7 @@ import TripForm from "./components/Trips/TripForm";
 import Trips from "./components/Trips/Trips";
 import TripSummary from "./components/Trips/Days/TripSummary";
 import Day from "./components/Trips/Days/Day";
+import EditDay from "./components/Trips/EditDay";
 import NotFound from "./components/not-found/NotFound";
 import EditTrip from "./components/Trips/EditTrip";
 import TripDetail from "./components/Trips/TripDetail";
@@ -101,8 +102,15 @@ class App extends Component {
                 <Switch>
                   <PrivateRoute
                     exact
-                    path="/add-day/:trip_id/:id"
+                    path="/add-day/:trip_id/:day_id"
                     component={Day}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/edit-day/:trip_id/:day_id"
+                    component={EditDay}
                   />
                 </Switch>
                 <Switch>
@@ -121,7 +129,6 @@ class App extends Component {
                 </Switch>
                 <Route path="/not-found" component={NotFound} />
               </div>
-              <Redirect to="/" />
               <MyFooter />
             </MuiThemeProvider>
           </div>

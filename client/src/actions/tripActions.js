@@ -65,17 +65,30 @@ export const addTrip = (tripData, history) => dispatch => {
     );
 };
 
+// edit trip
+export const editTrip = (tripData, trip_id, history) => dispatch => {
+  axios
+    .post(`/api/trips/${trip_id}`, tripData)
+    .then(res => {
+      dispatch({ type: ADD_TRIP, payload: res.data });
+      dispatch(getTripById(trip_id));
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response
+      })
+    );
+};
+
 //delete trip
 export const deleteTrip = (trip_id, user_id) => dispatch => {
   axios
     .delete(`/api/trips/${trip_id}`)
     .then(res => {
-      console.log("in deletetrip", res);
       dispatch(getTripsByUserId(user_id));
-      // dispatch({ type: GET_TRIP, payload: res.data });
     })
     .catch(err => {
-      console.log(err);
       dispatch({
         type: GET_ERRORS,
         payload: err.response
@@ -103,9 +116,22 @@ export const getTripsByUserId = user_id => dispatch => {
 };
 
 // Add/edit day
-export const addDay = (dayData, trip_id, day_idx, history) => dispatch => {
+export const addDay = (dayData, trip_id, day_id, history) => dispatch => {
   axios
-    .post(`/api/trips/${trip_id}/${day_idx}`, dayData)
+    .post(`/api/trips/${trip_id}/${day_id}`, dayData)
+    .then(res => history.goBack())
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// Add/edit day
+export const editDay = (dayData, trip_id, day_id, history) => dispatch => {
+  axios
+    .post(`/api/trips/${trip_id}/${day_id}`, dayData)
     .then(res => history.goBack())
     .catch(err =>
       dispatch({

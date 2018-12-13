@@ -43,6 +43,9 @@ const TripSchema = new Schema({
       },
       photoLinks: {
         type: [String]
+      },
+      date: {
+        type: Date
       }
     }
   ]

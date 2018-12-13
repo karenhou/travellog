@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Moment from "react-moment";
+
+import moment from "moment";
 
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -110,11 +111,10 @@ class TripTable extends Component {
     const { trips, loading } = this.props.trip;
     const { classes } = this.props;
     const { rowsPerPage, page, order, orderBy } = this.state;
-    console.log("trip ", this.props.trip);
+
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, trips.length - page * rowsPerPage);
 
-    console.log("len ", trips.length);
     let tableContent;
     if (trips === null || loading) {
       tableContent = null;
@@ -128,11 +128,11 @@ class TripTable extends Component {
                 {row.country}
               </CustomTableCell>
               <CustomTableCell>
-                <Moment format="YYYY/MM/DD">{row.from}</Moment>
+                {moment.utc(row.from).format("YYYY-MM-DD")}
               </CustomTableCell>
 
               <CustomTableCell>
-                <Moment format="YYYY/MM/DD">{row.to}</Moment>
+                {moment.utc(row.to).format("YYYY-MM-DD")}
               </CustomTableCell>
               <CustomTableCell>
                 <Button
@@ -209,8 +209,6 @@ const mapStateToProps = state => ({
   auth: state.auth,
   trip: state.trip
 });
-
-const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

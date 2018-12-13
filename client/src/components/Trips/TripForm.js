@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addTrip } from "../../actions/tripActions";
 import moment from "moment";
+import "moment-timezone";
 
 import { Link } from "react-router-dom";
 
@@ -86,19 +87,29 @@ class TripForm extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    let len = this.calDateDiff(this.state.from, this.state.to);
+    let daysArray = [];
+    for (let i = 0; i < len; i++) {
+      daysArray.push({
+        date: moment
+          .utc(this.state.from)
+          .add(i, "days")
+          .format("YYYY-MM-DD")
+      });
+    }
 
     const tripData = {
       country: this.state.country,
-      from: moment(this.state.from).format("YYYY-MM-DD"),
-      to: moment(this.state.to).format("YYYY-MM-DD"),
+      from: moment.utc(this.state.from).format("YYYY-MM-DD"),
+      to: moment.utc(this.state.to).format("YYYY-MM-DD"),
       length: this.calDateDiff(this.state.from, this.state.to),
       budget: this.state.budget,
       description: this.state.description,
-      days: new Array(this.calDateDiff(this.state.from, this.state.to))
+      days: [...daysArray]
     };
 
     this.props.addTrip(tripData, this.props.history);
-    // this.props.history.push(`/add-days/${}`)
+
     this.setState({ description: "" });
   };
 
