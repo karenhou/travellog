@@ -57,7 +57,7 @@ const styles = theme => ({
   }
 });
 
-class Day extends Component {
+class AddDay extends Component {
   state = {
     cities: "",
     hotel: "",
@@ -198,7 +198,7 @@ class Day extends Component {
     );
   }
 }
-Day.propType = {
+AddDay.propType = {
   classes: PropTypes.object.isRequired
 };
 
@@ -211,4 +211,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   { getTripById, addDay }
-)(withStyles(styles)(Day));
+)(withStyles(styles)(AddDay));

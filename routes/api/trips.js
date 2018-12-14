@@ -42,6 +42,7 @@ router.post(
     }
     console.log(req.body.from, req.body.to);
     const newTrip = new Trip({
+      author: req.body.author,
       country: req.body.country,
       from: req.body.from,
       to: req.body.to,
@@ -49,6 +50,7 @@ router.post(
       user: req.user.id,
       budget: req.body.budget,
       description: req.body.description,
+      coverPhoto: req.body.coverPhoto,
       days: [...req.body.days]
     });
 
@@ -85,6 +87,7 @@ router.post(
         trip.length = req.body.length;
         trip.budget = req.body.budget;
         trip.description = req.body.description;
+        trip.coverPhoto = req.body.coverPhoto;
         trip.days = [...req.body.days];
         trip.save().then(trip => res.json(trip));
       })

@@ -1,0 +1,13 @@
+.vertical-timeline::before {
+  background: #00796b;
+}
+
+.vertical-timeline-element-content::before {
+  border: solid 1px #ddd;
+}
+.vertical-timeline-element-content {
+  border: solid 1px #ddd;
+}
+.vertical-timeline.vertical-timeline--two-columns {
+  margin-top: 2em;
+}

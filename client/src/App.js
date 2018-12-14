@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -23,12 +18,12 @@ import Profile from "./components/profile/Profile";
 import TripForm from "./components/Trips/TripForm";
 import Trips from "./components/Trips/Trips";
 import TripSummary from "./components/Trips/Days/TripSummary";
-import Day from "./components/Trips/Days/Day";
+import AddDay from "./components/Trips/Days/AddDay";
 import EditDay from "./components/Trips/EditDay";
 import NotFound from "./components/not-found/NotFound";
 import EditTrip from "./components/Trips/EditTrip";
-import TripDetail from "./components/Trips/TripDetail";
-
+import TripTimeline from "./components/Trips/TripTimeline";
+import DetailDay from "./components/Trips/Days/DetailDay";
 import "./App.css";
 
 import PrivateRoute from "./components/common/PrivateRoute";
@@ -85,7 +80,12 @@ class App extends Component {
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/trips" component={Trips} />
                 <Route exact path="/profile/:handle" component={Profile} />
-                <Route exact path="/trips/:trip_id" component={TripDetail} />
+                <Route exact path="/trips/:trip_id" component={TripTimeline} />
+                <Route
+                  exact
+                  path="/trips/:trip_id/:day_id"
+                  component={DetailDay}
+                />
                 <Switch>
                   <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 </Switch>
@@ -103,7 +103,7 @@ class App extends Component {
                   <PrivateRoute
                     exact
                     path="/add-day/:trip_id/:day_id"
-                    component={Day}
+                    component={AddDay}
                   />
                 </Switch>
                 <Switch>

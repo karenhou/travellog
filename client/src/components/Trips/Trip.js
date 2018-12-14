@@ -23,8 +23,8 @@ const styles = theme => ({
   img: {
     margin: "auto",
     display: "block",
-    maxWidth: "100%",
-    maxHeight: "100%"
+    maxWidth: "300px",
+    maxHeight: "300px"
   }
 });
 
@@ -41,7 +41,7 @@ export class Trip extends Component {
                 <img
                   className={classes.img}
                   alt="loading"
-                  src="https://via.placeholder.com/350x200"
+                  src={trip.coverPhoto}
                 />
               </ButtonBase>
             </Grid>
@@ -55,6 +55,7 @@ export class Trip extends Component {
                     <Moment format="YYYY/MM/DD">{trip.from}</Moment> -
                     <Moment format="YYYY/MM/DD">{trip.to}</Moment>
                   </Typography>
+                  <Typography variant="subtitle1">by {trip.author}</Typography>
                   <Typography gutterBottom>{trip.description}</Typography>
                 </Grid>
                 <Grid item>

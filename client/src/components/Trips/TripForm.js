@@ -68,7 +68,8 @@ class TripForm extends Component {
     from: "2017-05-24",
     to: "2017-05-25",
     budget: 0,
-    description: ""
+    description: "",
+    coverPhoto: ""
   };
 
   calDateDiff = (d1, d2) => {
@@ -99,12 +100,14 @@ class TripForm extends Component {
     }
 
     const tripData = {
+      author: this.props.auth.user.name,
       country: this.state.country,
       from: moment.utc(this.state.from).format("YYYY-MM-DD"),
       to: moment.utc(this.state.to).format("YYYY-MM-DD"),
       length: this.calDateDiff(this.state.from, this.state.to),
       budget: this.state.budget,
       description: this.state.description,
+      coverPhoto: this.state.coverPhoto,
       days: [...daysArray]
     };
 
@@ -187,6 +190,15 @@ class TripForm extends Component {
                 rowsMax="4"
                 value={this.state.description}
                 onChange={this.handleChange("description")}
+                margin="normal"
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <TextField
+                fullWidth
+                label="coverPhoto"
+                value={this.state.coverPhoto}
+                onChange={this.handleChange("coverPhoto")}
                 margin="normal"
               />
             </FormControl>

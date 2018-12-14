@@ -7,6 +7,10 @@ const TripSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "users"
   },
+  author: {
+    type: String,
+    required: true
+  },
   country: {
     type: String,
     required: true
@@ -26,6 +30,9 @@ const TripSchema = new Schema({
     type: Number
   },
   description: {
+    type: String
+  },
+  coverPhoto: {
     type: String
   },
   days: [

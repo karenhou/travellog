@@ -69,6 +69,7 @@ class EditTrip extends Component {
     to: "",
     budget: "",
     description: "",
+    coverPhoto: "",
     days: ""
   };
   componentWillReceiveProps(nextProps) {
@@ -84,13 +85,14 @@ class EditTrip extends Component {
       trip.to = !isEmpty(trip.to) ? trip.to : "";
       trip.budget = !isEmpty(trip.budget) ? trip.budget : "";
       trip.description = !isEmpty(trip.description) ? trip.description : "";
-
+      trip.coverPhoto = !isEmpty(trip.coverPhoto) ? trip.coverPhoto : "";
       this.setState({
         country: trip.country,
         from: trip.from,
         to: trip.to,
         budget: trip.budget,
-        description: trip.description
+        description: trip.description,
+        coverPhoto: trip.coverPhoto
       });
     }
   }
@@ -166,6 +168,7 @@ class EditTrip extends Component {
       to: this.state.to,
       budget: this.state.budget,
       description: this.state.description,
+      coverPhoto: this.state.coverPhoto,
       days: [...newDayArray]
     };
     this.props.editTrip(
@@ -280,6 +283,15 @@ class EditTrip extends Component {
               margin="normal"
             />
           </FormControl>
+          <FormControl fullWidth>
+            <TextField
+              fullWidth
+              label="coverPhoto"
+              value={this.state.coverPhoto}
+              onChange={this.handleChange("coverPhoto")}
+              margin="normal"
+            />
+          </FormControl>
           <Typography variant="h4">Days</Typography>
           {daysDetailContent}
           <Grid justify="flex-end" container space={24}>
@@ -301,7 +313,7 @@ class EditTrip extends Component {
                 type="submit"
                 variant="contained"
                 className={classes.submit}>
-                Cancel
+                Dashboard
               </Button>
             </Grid>
           </Grid>
