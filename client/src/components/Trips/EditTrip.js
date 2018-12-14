@@ -70,7 +70,8 @@ class EditTrip extends Component {
     budget: "",
     description: "",
     coverPhoto: "",
-    days: ""
+    days: "",
+    error: false
   };
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
@@ -124,10 +125,6 @@ class EditTrip extends Component {
     let newDayArray = [...this.props.trip.trip.days];
     let count = this.calDateDiff(this.state.from, tempTripFrom);
 
-    if (this.compareFromTo(this.state.from, this.state.to)) {
-      console.log("To cannot be smaller than From");
-      return;
-    }
     if (this.state.from < tempTripFrom) {
       //add one day
       for (let i = 0; i < count; i++) {
@@ -220,6 +217,9 @@ class EditTrip extends Component {
 
       tripContent = (
         <form className={classes.form} onSubmit={this.onSubmit}>
+          {this.compareFromTo(this.state.from, this.state.to) ? (
+            <p style={{ color: "red" }}>To cannot be smaller than From</p>
+          ) : null}
           <FormControl margin="normal" required>
             <InputLabel htmlFor="country">country</InputLabel>
             <Input
@@ -234,6 +234,7 @@ class EditTrip extends Component {
           </FormControl>
           <FormControl margin="normal" required>
             <TextField
+              error={this.compareFromTo(this.state.from, this.state.to)}
               name="from"
               id="from"
               label="From"
@@ -248,6 +249,7 @@ class EditTrip extends Component {
           </FormControl>
           <FormControl margin="normal" required>
             <TextField
+              error={this.compareFromTo(this.state.from, this.state.to)}
               name="to"
               id="to"
               label="To"
@@ -302,8 +304,9 @@ class EditTrip extends Component {
                 type="submit"
                 variant="contained"
                 color="primary"
+                disabled={this.compareFromTo(this.state.from, this.state.to)}
                 className={classes.submit}>
-                ok
+                Save
               </Button>
             </Grid>
             <Grid item xs={2}>

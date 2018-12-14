@@ -40,7 +40,7 @@ router.post(
       //if any errors, send 400 with errors object
       return res.status(400).json(errors);
     }
-    console.log(req.body.from, req.body.to);
+
     const newTrip = new Trip({
       author: req.body.author,
       country: req.body.country,

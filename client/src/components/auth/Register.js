@@ -20,6 +20,8 @@ import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import isEmpty from "../../validation/is-empty";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const styles = theme => ({
   main: {
@@ -90,8 +92,23 @@ class Register extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, errors } = this.props;
 
+    let errorContent = [];
+    if (Object.keys(errors).length !== 0) {
+      for (var key in errors) {
+        if (errors.hasOwnProperty(key)) {
+          errorContent.push(
+            <FormHelperText
+              key={key}
+              style={{ color: "red" }}
+              id="component-error-text">
+              {errors[key]}
+            </FormHelperText>
+          );
+        }
+      }
+    }
     return (
       <main className={classes.main}>
         <CssBaseline />
@@ -173,6 +190,7 @@ class Register extends Component {
                   </InputAdornment>
                 }
               />
+              {errorContent}
             </FormControl>
             <Button
               fullWidth
@@ -203,7 +221,9 @@ Register.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  errors: state.errors
+});
 
 export default connect(
   mapStateToProps,

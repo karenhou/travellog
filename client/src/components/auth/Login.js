@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import Checkbox from "@material-ui/core/Checkbox";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -22,7 +23,7 @@ import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-
+import isEmpty from "../../validation/is-empty";
 const styles = theme => ({
   main: {
     width: "auto",
@@ -99,7 +100,7 @@ class Login extends Component {
     this.props.loginUser(userData);
   };
   render() {
-    const { classes } = this.props;
+    const { classes, errors } = this.props;
     return (
       <main className={classes.main}>
         <CssBaseline />
@@ -150,6 +151,9 @@ class Login extends Component {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            <FormHelperText style={{ color: "red" }} id="component-error-text">
+              {isEmpty(errors) ? "" : "**" + errors[Object.keys(errors)]}
+            </FormHelperText>
             <Button
               type="submit"
               fullWidth
