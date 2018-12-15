@@ -6,47 +6,14 @@ import { getTrips, getTripById } from "../../../actions/tripActions";
 import moment from "moment";
 
 import { withStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
+import MidGridLayout from "../../layout/MidGridLayout";
 
 const styles = theme => ({
-  main: {
-    flexGrow: 1,
-    width: "auto",
-    display: "block", // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(800 + theme.spacing.unit * 3 * 2)]: {
-      width: 800,
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-  },
-  container: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit * 5,
-    width: 200
-  },
-  paper: {
-    marginTop: theme.spacing.unit * 8,
-    marginBottom: theme.spacing.unit * 8,
-    display: "flex",
-    flexDirection: "column",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3
-  },
   btn: {
     marginRight: theme.spacing.unit * 2
   },
@@ -56,9 +23,6 @@ const styles = theme => ({
 });
 
 class TripSummary extends Component {
-  state = {
-    diff: 0
-  };
   onBack = () => {
     this.props.history.goBack();
   };
@@ -93,33 +57,30 @@ class TripSummary extends Component {
       }
     }
     return (
-      <main className={classes.main}>
-        <CssBaseline />
-        {trip === null ? (
-          <CircularProgress />
-        ) : (
-          <Paper className={classes.paper}>
-            <Typography variant="h3">{trip.country} trip Created...</Typography>
-            <p className="lead text-center">
-              Let's add details to each day of your journey
-            </p>
-            <div>{daysDetailContent}</div>
-
-            <Grid justify="flex-end" container space={16}>
-              <Grid item xs={2}>
-                <Button
-                  component={Link}
-                  to="/dashboard"
-                  className={classes.funcBtn}
-                  variant="outlined"
-                  color="secondary">
-                  Dashboard
-                </Button>
-              </Grid>
-            </Grid>
-          </Paper>
-        )}
-      </main>
+      <MidGridLayout>
+        <Typography variant="h3" gutterBottom>
+          {trip.country} trip Created...
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          gutterBottom
+          className={classes.subtitle}>
+          Let's add details to each day of your journey
+        </Typography>
+        <div>{daysDetailContent}</div>
+        <Grid container justify="flex-end" space={24}>
+          <Grid item xs={12}>
+            <Button
+              component={Link}
+              to="/dashboard"
+              className={classes.funcBtn}
+              variant="outlined"
+              color="secondary">
+              Dashboard
+            </Button>
+          </Grid>
+        </Grid>
+      </MidGridLayout>
     );
   }
 }

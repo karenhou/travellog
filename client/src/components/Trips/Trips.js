@@ -4,37 +4,9 @@ import { connect } from "react-redux";
 import { getTrips } from "../../actions/tripActions";
 import Trip from "./Trip";
 
-import { withStyles } from "@material-ui/core/styles";
-
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-
-const styles = theme => ({
-  main: {
-    flexGrow: 1,
-    width: "auto",
-    display: "block", // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-  },
-  paper: {
-    marginTop: theme.spacing.unit * 2.5,
-    marginBottom: theme.spacing.unit * 2.5,
-    display: "flex",
-    flexDirection: "column",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
-  },
-  button: {
-    margin: theme.spacing.unit
-  }
-});
+import GridLayout from "../layout/GridLayout";
 
 class Trips extends Component {
   componentDidMount() {
@@ -43,7 +15,6 @@ class Trips extends Component {
 
   render() {
     const { trips, loading } = this.props.trip;
-    const { classes } = this.props;
 
     let tripItems;
 
@@ -53,29 +24,19 @@ class Trips extends Component {
       if (trips.length > 0) {
         tripItems = trips.map(trip => <Trip key={trip._id} trip={trip} />);
       } else {
-        tripItems = <h4>No trips found...</h4>;
+        tripItems = <Typography variant="h2">No trips found...</Typography>;
       }
     }
 
     return (
-      <div className={classes.root}>
-        <Grid container spacing={24}>
-          <Grid item xs />
-          <Grid item xs={10}>
-            <Paper className={classes.paper}>
-              <Typography variant="h2">Popular Trips</Typography>
-              {tripItems}
-            </Paper>
-          </Grid>
-          <Grid item xs />
-        </Grid>
-      </div>
+      <GridLayout>
+        <Typography variant="h2">Popular Trips</Typography>
+        {tripItems}
+      </GridLayout>
     );
   }
 }
-Trips.propType = {
-  classes: PropTypes.object.isRequired
-};
+Trips.propType = {};
 
 const mapStateToProps = state => ({
   trip: state.trip
@@ -84,4 +45,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getTrips }
-)(withStyles(styles)(Trips));
+)(Trips);

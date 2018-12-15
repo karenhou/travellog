@@ -5,14 +5,12 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getTripById, editTrip } from "../../actions/tripActions";
 import { withStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
@@ -20,34 +18,11 @@ import moment from "moment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import isEmpty from "../../validation/is-empty";
+import MidGridLayout from "../layout/MidGridLayout";
+
 const styles = theme => ({
-  main: {
-    flexGrow: 1,
-    width: "auto",
-    display: "block", // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(800 + theme.spacing.unit * 3 * 2)]: {
-      width: 800,
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-  },
-  container: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
   textField: {
     marginRight: theme.spacing.unit * 5
-    // width: 200
-  },
-  paper: {
-    marginTop: theme.spacing.unit * 8,
-    marginBottom: theme.spacing.unit * 8,
-    display: "flex",
-    flexDirection: "column",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -56,9 +31,6 @@ const styles = theme => ({
   submit: {
     marginTop: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3
-  },
-  days: {
-    marginTop: theme.spacing.unit * 3
   }
 });
 
@@ -325,19 +297,10 @@ class EditTrip extends Component {
     }
 
     return (
-      <div className={classes.root}>
-        <CssBaseline />
-        <Grid container spacing={24}>
-          <Grid item xs />
-          <Grid item xs={10}>
-            <Paper className={classes.paper}>
-              <Typography variant="h3">Edit Trip</Typography>
-              {tripContent}
-            </Paper>
-          </Grid>
-          <Grid item xs />
-        </Grid>
-      </div>
+      <MidGridLayout>
+        <Typography variant="h3">Edit Trip</Typography>
+        {tripContent}
+      </MidGridLayout>
     );
   }
 }

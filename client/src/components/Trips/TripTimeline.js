@@ -17,6 +17,7 @@ import Typography from "@material-ui/core/Typography";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import isEmpty from "../../validation/is-empty";
+
 const styles = theme => ({
   btn: {
     marginTop: theme.spacing.unit * 2
@@ -92,7 +93,7 @@ export class TripTimeline extends Component {
     }
 
     return (
-      <div>
+      <>
         <Grid justify="center" container space={24}>
           <Grid item>
             <Button
@@ -106,9 +107,8 @@ export class TripTimeline extends Component {
             </Button>
           </Grid>
         </Grid>
-
         <VerticalTimeline>{timeLineItems}</VerticalTimeline>
-      </div>
+      </>
     );
   }
 }

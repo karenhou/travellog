@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import GridLayout from "../../layout/GridLayout";
+import Typography from "@material-ui/core/Typography";
 
 export class DetailDay extends Component {
-  static propTypes = {
-    prop: PropTypes
-  };
-
   render() {
     return (
-      <div>
-        <h1>DetailDay</h1>
-      </div>
+      <GridLayout>
+        <Typography variant="h2">DetailDays</Typography>
+      </GridLayout>
     );
   }
 }

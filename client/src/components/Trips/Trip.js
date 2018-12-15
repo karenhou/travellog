@@ -55,7 +55,9 @@ export class Trip extends Component {
                     <Moment format="YYYY/MM/DD">{trip.from}</Moment> -
                     <Moment format="YYYY/MM/DD">{trip.to}</Moment>
                   </Typography>
-                  <Typography variant="subtitle1">by {trip.author}</Typography>
+                  <Typography variant="subtitle1" gutterBottom>
+                    by {trip.author}
+                  </Typography>
                   <Typography gutterBottom>{trip.description}</Typography>
                 </Grid>
                 <Grid item>

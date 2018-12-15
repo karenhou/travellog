@@ -8,37 +8,12 @@ import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
-import Paper from "@material-ui/core/Paper";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
-
+import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
+import MidGridLayout from "../layout/MidGridLayout";
 
 const styles = theme => ({
-  main: {
-    flexGrow: 1,
-    width: "auto",
-    display: "block", // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(800 + theme.spacing.unit * 3 * 2)]: {
-      width: 800,
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-  },
-  paper: {
-    marginTop: theme.spacing.unit * 8,
-    marginBottom: theme.spacing.unit * 8,
-    display: "flex",
-    flexDirection: "column",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
-  },
-  avatar: {
-    margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main
-  },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing.unit
@@ -149,67 +124,65 @@ class CreateProfile extends Component {
     }
 
     return (
-      <main className={classes.main}>
-        <CssBaseline />
-        <Paper className={classes.paper}>
-          <h1 className="display-4 text-center">Create Your Profile</h1>
-          <p className="lead text-center">
-            Let's get some information to make your profile stand out
-          </p>
-          <form className={classes.form} onSubmit={this.onSubmit}>
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="email">Handle</InputLabel>
-              <Input
-                id="handle"
-                name="handle"
-                autoFocus
-                onChange={this.handleChange("handle")}
-                required
-              />
-            </FormControl>
-            <FormControl margin="normal" fullWidth>
-              <InputLabel htmlFor="location">Location</InputLabel>
-              <Input
-                id="location"
-                name="location"
-                onChange={this.handleChange("location")}
-              />
-            </FormControl>
-            <FormControl margin="normal" fullWidth>
-              <InputLabel htmlFor="location">Bio</InputLabel>
-              <Input
-                id="bio"
-                name="bio"
-                multiline
-                onChange={this.handleChange("bio")}
-              />
-            </FormControl>
-            <Grid justify="flex-end" container space={24}>
-              <Grid item />
-              <Grid item />
-              <Grid item xs={2}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}>
-                  ok
-                </Button>
-              </Grid>
-              <Grid item xs={2}>
-                <Button
-                  component={Link}
-                  to="/dashboard"
-                  type="submit"
-                  variant="contained"
-                  className={classes.submit}>
-                  Cancel
-                </Button>
-              </Grid>
+      <MidGridLayout>
+        <Typography variant="h3">Create Your Profile</Typography>
+        <Typography gutterBottom variant="subtitle1">
+          Let's get some information to make your profile stand out
+        </Typography>
+
+        <form className={classes.form} onSubmit={this.onSubmit}>
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="email">Handle</InputLabel>
+            <Input
+              id="handle"
+              name="handle"
+              autoFocus
+              onChange={this.handleChange("handle")}
+              required
+            />
+          </FormControl>
+          <FormControl margin="normal" fullWidth>
+            <InputLabel htmlFor="location">Location</InputLabel>
+            <Input
+              id="location"
+              name="location"
+              onChange={this.handleChange("location")}
+            />
+          </FormControl>
+          <FormControl margin="normal" fullWidth>
+            <InputLabel htmlFor="location">Bio</InputLabel>
+            <Input
+              id="bio"
+              name="bio"
+              multiline
+              onChange={this.handleChange("bio")}
+            />
+          </FormControl>
+          <Grid justify="flex-end" container space={24}>
+            <Grid item />
+            <Grid item />
+            <Grid item xs={2}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.submit}>
+                ok
+              </Button>
             </Grid>
-          </form>
-        </Paper>
-      </main>
+            <Grid item xs={2}>
+              <Button
+                component={Link}
+                to="/dashboard"
+                type="submit"
+                variant="contained"
+                className={classes.submit}>
+                Cancel
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </MidGridLayout>
     );
   }
 }
