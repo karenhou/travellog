@@ -25,7 +25,6 @@ import EditTrip from "./components/Trips/EditTrip";
 import TripTimeline from "./components/Trips/TripTimeline";
 import DetailDay from "./components/Trips/Days/DetailDay";
 import "./App.css";
-
 import PrivateRoute from "./components/common/PrivateRoute";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";

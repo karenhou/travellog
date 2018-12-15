@@ -12,7 +12,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
 
 import classNames from "classnames";
 import IconButton from "@material-ui/core/IconButton";
@@ -20,17 +19,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import isEmpty from "../../validation/is-empty";
-import PaperLayout from "../layout/PaperLayout";
-
-const styles = theme => ({
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3
-  }
-});
+import PaperHoc from "../hoc/PaperHoc";
 
 class Login extends Component {
   state = {
@@ -75,9 +64,8 @@ class Login extends Component {
   };
   render() {
     const { classes, errors } = this.props;
-
     return (
-      <PaperLayout>
+      <>
         <Typography component="h1" variant="h5">
           Login
         </Typography>
@@ -143,7 +131,7 @@ class Login extends Component {
             Cancel
           </Button>
         </form>
-      </PaperLayout>
+      </>
     );
   }
 }
@@ -161,4 +149,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { loginUser }
-)(withStyles(styles)(Login));
+)(PaperHoc(Login));
