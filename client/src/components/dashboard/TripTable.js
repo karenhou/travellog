@@ -137,7 +137,7 @@ class TripTable extends Component {
               <CustomTableCell>
                 <Button
                   component={Link}
-                  to={`/edit-trip/${row._id}`}
+                  to={`/trip/edit-trip/${row._id}`}
                   size="small"
                   variant="contained"
                   color="secondary"

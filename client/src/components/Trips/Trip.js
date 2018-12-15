@@ -61,7 +61,7 @@ export class Trip extends Component {
                 <Grid item>
                   <Button
                     component={Link}
-                    to={`/trips/${trip._id}`}
+                    to={`/trips/${trip._id}/timeline`}
                     type="submit"
                     variant="contained"
                     color="primary">

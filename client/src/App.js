@@ -80,12 +80,18 @@ class App extends Component {
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/trips" component={Trips} />
                 <Route exact path="/profile/:handle" component={Profile} />
-                <Route exact path="/trips/:trip_id" component={TripTimeline} />
-                <Route
-                  exact
-                  path="/trips/:trip_id/:day_id"
-                  component={DetailDay}
-                />
+                <Switch>
+                  <Route
+                    exact
+                    path="/trips/:trip_id/timeline"
+                    component={TripTimeline}
+                  />
+                  <Route
+                    exact
+                    path="/trips/:trip_id/:day_id"
+                    component={DetailDay}
+                  />
+                </Switch>
                 <Switch>
                   <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 </Switch>
@@ -95,28 +101,24 @@ class App extends Component {
                 <Switch>
                   <PrivateRoute
                     exact
-                    path="/add-days/:trip_id"
-                    component={TripSummary}
-                  />
-                </Switch>
-                <Switch>
-                  <PrivateRoute
-                    exact
-                    path="/add-day/:trip_id/:day_id"
+                    path="/trip/:trip_id/add-day/:day_id"
                     component={AddDay}
                   />
-                </Switch>
-                <Switch>
                   <PrivateRoute
                     exact
-                    path="/edit-day/:trip_id/:day_id"
+                    path="/trip/:trip_id"
+                    component={TripSummary}
+                  />
+                  <PrivateRoute
+                    exact
+                    path="/:trip_id/edit-day/:day_id"
                     component={EditDay}
                   />
                 </Switch>
                 <Switch>
                   <PrivateRoute
                     exact
-                    path="/edit-trip/:trip_id"
+                    path="/trip/edit-trip/:trip_id"
                     component={EditTrip}
                   />
                 </Switch>

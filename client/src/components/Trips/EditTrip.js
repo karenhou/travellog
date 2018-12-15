@@ -203,7 +203,7 @@ class EditTrip extends Component {
           <Button
             key={index}
             component={Link}
-            to={`/edit-day/${this.props.match.params.trip_id}/${day._id}`}
+            to={`/${this.props.match.params.trip_id}/edit-day/${day._id}`}
             className={classes.submit}
             type="submit"
             variant="contained"

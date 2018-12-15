@@ -80,7 +80,7 @@ class TripSummary extends Component {
           <Button
             key={index}
             component={Link}
-            to={`/add-day/${this.props.match.params.trip_id}/${day._id}`}
+            to={`/trip/${this.props.match.params.trip_id}/add-day/${day._id}`}
             className={classes.btn}
             type="submit"
             variant="contained"
@@ -106,17 +106,6 @@ class TripSummary extends Component {
             <div>{daysDetailContent}</div>
 
             <Grid justify="flex-end" container space={16}>
-              <Grid item />
-              <Grid item />
-              <Grid item xs={2}>
-                <Button
-                  onClick={this.onBack}
-                  className={classes.funcBtn}
-                  variant="outlined"
-                  color="secondary">
-                  Back
-                </Button>
-              </Grid>
               <Grid item xs={2}>
                 <Button
                   component={Link}
@@ -124,7 +113,7 @@ class TripSummary extends Component {
                   className={classes.funcBtn}
                   variant="outlined"
                   color="secondary">
-                  Ok
+                  Dashboard
                 </Button>
               </Grid>
             </Grid>

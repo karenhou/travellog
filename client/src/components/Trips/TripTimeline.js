@@ -102,7 +102,7 @@ export class TripTimeline extends Component {
               variant="contained"
               color="primary"
               className={classes.btn}>
-              Back to Trip
+              Back to Trips
             </Button>
           </Grid>
         </Grid>

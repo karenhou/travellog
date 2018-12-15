@@ -184,7 +184,8 @@ class AddDay extends Component {
               <Grid item xs={2}>
                 <Button
                   component={Link}
-                  to={`/add-days/${this.props.match.params.trip_id}`}
+                  to={`/trip/${this.props.match.params.trip_id}`}
+                  // to={`/add-days/${this.props.match.params.trip_id}`}
                   type="submit"
                   variant="contained"
                   className={classes.submit}>
