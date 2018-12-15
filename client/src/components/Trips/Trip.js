@@ -31,7 +31,6 @@ const styles = theme => ({
 export class Trip extends Component {
   render() {
     const { trip, classes } = this.props;
-
     return (
       <div className={classes.root}>
         <Paper className={classes.paper}>
@@ -41,7 +40,11 @@ export class Trip extends Component {
                 <img
                   className={classes.img}
                   alt="loading"
-                  src={trip.coverPhoto}
+                  src={
+                    trip.coverPhoto
+                      ? trip.coverPhoto
+                      : "https://via.placeholder.com/180"
+                  }
                 />
               </ButtonBase>
             </Grid>

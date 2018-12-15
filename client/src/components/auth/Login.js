@@ -75,7 +75,7 @@ class Login extends Component {
   };
   render() {
     const { classes, errors } = this.props;
-    console.log("in login ", this.props);
+
     return (
       <PaperLayout>
         <Typography component="h1" variant="h5">
