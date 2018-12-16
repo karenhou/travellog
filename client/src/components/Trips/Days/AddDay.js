@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 
 import { Link } from "react-router-dom";
-import { addDay, getTripById } from "../../../actions/tripActions";
+import { addDay, getTripById, clearErrors } from "../../../actions/tripActions";
 import isEmpty from "../../../validation/is-empty";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -13,6 +13,12 @@ import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import MidGridLayout from "../../layout/MidGridLayout";
+import Icon from "@material-ui/core/Icon";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import Chip from "@material-ui/core/Chip";
+import validator from "validator";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const styles = theme => ({
   textField: {
@@ -25,7 +31,8 @@ const styles = theme => ({
   },
   submit: {
     marginTop: theme.spacing.unit * 3
-  }
+  },
+  chip: { marginTop: theme.spacing.unit * 2 }
 });
 
 class AddDay extends Component {
@@ -35,9 +42,12 @@ class AddDay extends Component {
     photoLinks: "",
     edit: false,
     id: "",
-    date: ""
+    date: "",
+    content: "",
+    cityContent: ""
   };
   componentDidMount() {
+    this.props.clearErrors();
     this.props.getTripById(this.props.match.params.trip_id);
   }
   componentWillReceiveProps(nextProps) {
@@ -50,11 +60,9 @@ class AddDay extends Component {
       if (days !== null) {
         days.map(day => {
           if (this.props.match.params.day_id === day._id) {
-            const cities = day.cities.join(",");
-            const links = day.photoLinks.join(",");
             day.hotel = !isEmpty(day.hotel) ? day.hotel : "";
             this.setState({
-              cities: cities,
+              cities: [...day.cities],
               hotel: day.hotel,
               photoLinks: [...day.photoLinks],
               date: day.date
@@ -74,9 +82,9 @@ class AddDay extends Component {
 
     const dayData = {
       date: this.state.date,
-      cities: this.state.cities,
+      cities: [...this.state.cities],
       hotel: this.state.hotel,
-      photoLinks: this.state.photoLinks
+      photoLinks: [...this.state.photoLinks]
     };
     this.props.addDay(
       dayData,
@@ -86,28 +94,97 @@ class AddDay extends Component {
     );
   };
 
-  render() {
-    const { classes } = this.props;
+  handleAddCity = () => {
+    let newArray = [...this.state.cities];
+    let c = this.state.cityContent;
+    newArray.push(c);
+    this.setState({ cities: newArray, cityContent: "" });
+  };
 
+  handleAddPhotoLinks = () => {
+    let newArray = [...this.state.photoLinks];
+    let c = this.state.content;
+    newArray.push(c);
+    this.setState({ photoLinks: newArray, content: "" });
+  };
+
+  handleDelete = index => {
+    let content = [...this.state.photoLinks];
+    content.splice(index, 1);
+    this.setState({ photoLinks: [...content] });
+  };
+  handleCityDelete = index => {
+    let content = [...this.state.cities];
+    content.splice(index, 1);
+    this.setState({ cities: [...content] });
+  };
+
+  render() {
+    const { classes, errors } = this.props;
+    let photoContent, cityContent;
+
+    cityContent = this.state.cities
+      ? this.state.cities.map((city, index) => {
+          return (
+            <Chip
+              key={index}
+              label={city}
+              onDelete={() => this.handleCityDelete(index)}
+              className={classes.chip}
+              color="secondary"
+            />
+          );
+        })
+      : null;
+
+    photoContent = this.state.photoLinks
+      ? this.state.photoLinks.map((photo, index) => {
+          return (
+            <Chip
+              key={index}
+              label={photo}
+              onDelete={() => this.handleDelete(index)}
+              className={classes.chip}
+              color="secondary"
+            />
+          );
+        })
+      : null;
     return (
       <MidGridLayout>
         <Typography variant="h3">Content to your day</Typography>
         <form className={classes.form} onSubmit={this.onSubmit}>
-          <FormControl margin="normal" required fullWidth>
+          <FormHelperText style={{ color: "red" }} id="component-error-text">
+            {isEmpty(errors) ? "" : "**" + errors[Object.keys(errors)]}
+          </FormHelperText>
+          <FormControl margin="normal">
             <TextField
-              value={this.state.cities}
-              required
-              name="cities"
-              id="cities"
-              label="cities"
+              value={this.state.cityContent}
+              name="cityContent"
+              label="cities*"
               type="text"
               className={classes.textField}
-              onChange={this.handleChange("cities")}
+              onChange={this.handleChange("cityContent")}
               InputLabelProps={{
                 shrink: true
               }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment variant="filled" position="end">
+                    <IconButton
+                      aria-label="add-cities"
+                      onClick={this.handleAddCity}>
+                      <Icon className={classes.icon} color="primary">
+                        add_circle
+                      </Icon>
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
+            {cityContent}
           </FormControl>
+
           <FormControl margin="normal" fullWidth>
             <TextField
               value={this.state.hotel}
@@ -123,19 +200,33 @@ class AddDay extends Component {
             />
           </FormControl>
 
-          <FormControl margin="normal" fullWidth>
+          <FormControl margin="normal">
             <TextField
-              value={this.state.photoLinks}
-              name="photoLinks"
-              id="photoLinks"
+              value={this.state.content}
+              name="content"
               label="photoLinks"
               type="text"
               className={classes.textField}
-              onChange={this.handleChange("photoLinks")}
+              onChange={this.handleChange("content")}
               InputLabelProps={{
                 shrink: true
               }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment variant="filled" position="end">
+                    <IconButton
+                      disabled={!validator.isURL(this.state.content)}
+                      aria-label="add-photos"
+                      onClick={this.handleAddPhotoLinks}>
+                      <Icon className={classes.icon} color="primary">
+                        add_circle
+                      </Icon>
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
+            {photoContent}
           </FormControl>
 
           <Grid justify="flex-end" container space={24}>
@@ -172,11 +263,12 @@ AddDay.propType = {
 
 const mapStateToProps = state => ({
   trip: state.trip,
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,
-  { getTripById, addDay }
+  { getTripById, addDay, clearErrors }
 )(withStyles(styles)(AddDay));
