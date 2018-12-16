@@ -236,16 +236,16 @@ class EditDay extends Component {
           <Grid justify="flex-end" container space={24}>
             <Grid item />
             <Grid item />
-            <Grid item xs={2}>
+            <Grid item xs={6} lg={2}>
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
                 className={classes.submit}>
-                ok
+                Submit
               </Button>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={6} lg={2}>
               <Button
                 component={Link}
                 to={`/trip/edit-trip/${this.props.match.params.trip_id}`}

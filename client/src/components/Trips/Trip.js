@@ -23,6 +23,7 @@ const styles = theme => ({
   img: {
     margin: "auto",
     display: "block",
+    // width: "100%",
     maxWidth: "300px",
     maxHeight: "300px"
   }
@@ -34,7 +35,7 @@ export class Trip extends Component {
     return (
       <div className={classes.root}>
         <Paper className={classes.paper}>
-          <Grid container spacing={16}>
+          <Grid container spacing={24}>
             <Grid item>
               <ButtonBase className={classes.image}>
                 <img

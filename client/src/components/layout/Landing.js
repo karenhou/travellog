@@ -45,7 +45,7 @@ class Landing extends Component {
         <Paper className={classes.root} elevation={1}>
           <Grid className={classes.cont} container spacing={24}>
             <Grid item xs />
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <Typography className={classes.title} variant="h1" component="h2">
                 Travellog
               </Typography>
@@ -69,12 +69,6 @@ class Landing extends Component {
                 SignUp
               </Button>
             </Grid>
-            <Grid item xs />
-          </Grid>
-          <Grid container spacing={24}>
-            <Grid item xs />
-            <Grid item xs={1} />
-            <Grid item xs={1} />
             <Grid item xs />
           </Grid>
         </Paper>

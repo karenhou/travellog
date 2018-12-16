@@ -15,6 +15,7 @@ import MidGridLayout from "../../layout/MidGridLayout";
 
 const styles = theme => ({
   btn: {
+    marginTop: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2
   },
   funcBtn: {
@@ -69,7 +70,10 @@ class TripSummary extends Component {
         </Typography>
         <div>{daysDetailContent}</div>
         <Grid container justify="flex-end" space={24}>
-          <Grid item xs={12}>
+          <Grid item />
+          <Grid item />
+          <Grid item />
+          <Grid item xs={12} lg={2}>
             <Button
               component={Link}
               to="/dashboard"
