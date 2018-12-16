@@ -161,7 +161,7 @@ class CreateProfile extends Component {
           <Grid justify="flex-end" container space={24}>
             <Grid item />
             <Grid item />
-            <Grid item xs={6} lg={2}>
+            <Grid item xs={6} md={2}>
               <Button
                 type="submit"
                 variant="contained"
@@ -170,7 +170,7 @@ class CreateProfile extends Component {
                 ok
               </Button>
             </Grid>
-            <Grid item xs={6} lg={2}>
+            <Grid item xs={6} md={2}>
               <Button
                 component={Link}
                 to="/dashboard"

@@ -50,13 +50,13 @@ class Profile extends Component {
       profileContent = (
         <>
           <Typography gutterBottom variant="h3">
-            {profile.handle}
+            username: {profile.handle}
           </Typography>
           <Typography gutterBottom variant="h5">
             {profile.location}
           </Typography>
           <Typography gutterBottom variant="h6">
-            {profile.bio}
+            bio: {profile.bio}
           </Typography>
         </>
       );

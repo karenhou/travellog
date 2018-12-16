@@ -73,7 +73,7 @@ class TripSummary extends Component {
           <Grid item />
           <Grid item />
           <Grid item />
-          <Grid item xs={12} lg={2}>
+          <Grid item xs={12} md={2}>
             <Button
               component={Link}
               to="/dashboard"
