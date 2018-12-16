@@ -159,9 +159,10 @@ router.post(
 
     Trip.findById(req.params.trip_id).then(trip => {
       const newDay = {
-        cities: req.body.cities.split(","),
+        // cities: req.body.cities.split(","),
+        cities: [...req.body.cities],
         hotel: req.body.hotel,
-        photoLinks: req.body.photoLinks.split(","),
+        photoLinks: [...req.body.photoLinks],
         date: req.body.date,
         _id: req.params.day_id
       };

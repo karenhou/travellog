@@ -56,7 +56,7 @@ class AddDay extends Component {
             this.setState({
               cities: cities,
               hotel: day.hotel,
-              photoLinks: links,
+              photoLinks: [...day.photoLinks],
               date: day.date
             });
           }
@@ -147,14 +147,13 @@ class AddDay extends Component {
                 variant="contained"
                 color="primary"
                 className={classes.submit}>
-                ok
+                Submit
               </Button>
             </Grid>
             <Grid item xs={2}>
               <Button
                 component={Link}
                 to={`/trip/${this.props.match.params.trip_id}`}
-                // to={`/add-days/${this.props.match.params.trip_id}`}
                 type="submit"
                 variant="contained"
                 className={classes.submit}>
