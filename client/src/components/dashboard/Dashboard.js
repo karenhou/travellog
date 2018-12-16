@@ -22,6 +22,9 @@ const styles = theme => ({
 
 class Dashboard extends Component {
   componentDidMount() {
+    if (!this.props.auth.isAuthenticated) {
+      this.props.history.push("/login");
+    }
     this.props.getCurrentProfile();
     if (this.props.auth.user.id) {
       this.props.getTripsByUserId(this.props.auth.user.id);
@@ -32,7 +35,7 @@ class Dashboard extends Component {
     const { profile, loading } = this.props.profile;
     const { trips } = this.props.trip;
     const { classes } = this.props;
-
+    console.log("dash ", user);
     let dashboardContent;
 
     if (profile === null || loading) {

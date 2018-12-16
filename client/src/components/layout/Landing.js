@@ -16,7 +16,7 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 2,
     background:
       'url("https://source.unsplash.com/Ye6rupMjAWk/1360x640") no-repeat',
-    height: "80vh",
+    height: "90vh",
     textAlign: "center"
   },
   cont: {

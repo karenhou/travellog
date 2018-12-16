@@ -130,7 +130,7 @@ class App extends Component {
                 </Switch>
                 <Route path="/not-found" component={NotFound} />
               </div>
-              <MyFooter />
+              {/* <MyFooter /> */}
             </MuiThemeProvider>
           </div>
         </Router>
