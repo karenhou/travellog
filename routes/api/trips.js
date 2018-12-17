@@ -98,7 +98,7 @@ router.post(
 );
 
 // @route   DELETE api/trips/:trip_id
-// @desc    delete post by id
+// @desc    delete trip by id
 // @access  private
 router.delete(
   "/:trip_id",
@@ -179,5 +179,18 @@ router.post(
     });
   }
 );
+
+// @route   GET api/trips/:trip_id
+// @desc    Get trip by id
+// @access  Public
+router.get("/:trip_id", (req, res) => {
+  Trip.findById(req.params.trip_id)
+    .then(trip => {
+      res.json(trip);
+    })
+    .catch(err =>
+      res.status(404).json({ notripfound: "No trip found with that id" })
+    );
+});
 
 module.exports = router;

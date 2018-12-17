@@ -21,9 +21,6 @@ import isEmpty from "../../validation/is-empty";
 const styles = theme => ({
   btn: {
     marginTop: theme.spacing.unit * 2
-  },
-  carousel: {
-    width: "100%"
   }
 });
 
@@ -49,7 +46,7 @@ export class TripTimeline extends Component {
         } else {
           photoContent = day.photoLinks.map((photo, index) => {
             return (
-              <div key={index}>
+              <div key={index} className={classes.img}>
                 <img src={photo} alt="photos" />
               </div>
             );
@@ -75,7 +72,6 @@ export class TripTimeline extends Component {
             <Carousel
               className={classes.carousel}
               showThumbs={false}
-              dynamicHeight={true}
               onClickItem={() => this.clicked(day._id)}>
               {photoContent}
             </Carousel>

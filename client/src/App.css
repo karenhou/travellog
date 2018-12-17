@@ -11,3 +11,6 @@
 .vertical-timeline.vertical-timeline--two-columns {
   margin-top: 2em;
 }
+.carousel-slider {
+  height: 300px;
+}

@@ -35,7 +35,6 @@ class Dashboard extends Component {
     const { profile, loading } = this.props.profile;
     const { trips } = this.props.trip;
     const { classes } = this.props;
-    console.log("dash ", user);
     let dashboardContent;
 
     if (profile === null || loading) {

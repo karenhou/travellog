@@ -66,7 +66,7 @@ export const addTrip = (tripData, history) => dispatch => {
 };
 
 // edit trip
-export const editTrip = (tripData, trip_id, history) => dispatch => {
+export const editTrip = (tripData, trip_id) => dispatch => {
   axios
     .post(`/api/trips/${trip_id}`, tripData)
     .then(res => {
