@@ -134,7 +134,7 @@ class DaySummary extends Component {
           <Grid item xs={6} lg={4}>
             <Button
               component={Link}
-              to={`/${this.props.match.params.trip_id}/edit-day/${
+              to={`/trip/${this.props.match.params.trip_id}/update-day/${
                 this.props.match.params.day_id
               }`}
               variant="outlined"

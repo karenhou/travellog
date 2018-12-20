@@ -117,7 +117,7 @@ export const getTripsByUserId = user_id => dispatch => {
 };
 
 // Add/edit day
-export const addDay = (dayData, trip_id, day_id, history) => dispatch => {
+export const updateDay = (dayData, trip_id, day_id, history) => dispatch => {
   axios
     .post(`/api/trips/${trip_id}/${day_id}`, dayData)
     .then(res => history.push(`/trip/${trip_id}`))

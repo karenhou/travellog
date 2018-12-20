@@ -29,13 +29,10 @@ const styles = theme => ({
   submit: {
     marginTop: theme.spacing.unit * 3
   },
-  fab: {
-    marginTop: theme.spacing.unit * 2
-  },
   chip: { marginTop: theme.spacing.unit * 2 }
 });
 
-class EditDay extends Component {
+class UpdateDay extends Component {
   state = {
     cities: "",
     hotel: "",
@@ -78,6 +75,7 @@ class EditDay extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+
     const dayData = {
       date: this.state.date,
       cities: [...this.state.cities],
@@ -132,6 +130,7 @@ class EditDay extends Component {
   render() {
     const { classes, errors } = this.props;
     let cityContent;
+
     cityContent = this.state.cities
       ? this.state.cities.map((city, index) => {
           return (
@@ -145,9 +144,10 @@ class EditDay extends Component {
           );
         })
       : null;
+
     return (
       <MidGridLayout>
-        <Typography variant="h3">Content of your day</Typography>
+        <Typography variant="h3">Content to your day</Typography>
         <form className={classes.form} onSubmit={this.onSubmit}>
           <FormHelperText style={{ color: "red" }} id="component-error-text">
             {isEmpty(errors) ? "" : "**" + errors[Object.keys(errors)]}
@@ -229,7 +229,7 @@ class EditDay extends Component {
     );
   }
 }
-EditDay.propType = {
+UpdateDay.propType = {
   classes: PropTypes.object.isRequired
 };
 
@@ -238,7 +238,9 @@ const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
+const mapDispatchToProps = {};
+
 export default connect(
   mapStateToProps,
   { getTripById, updateDay, clearErrors }
-)(withStyles(styles)(EditDay));
+)(withStyles(styles)(UpdateDay));

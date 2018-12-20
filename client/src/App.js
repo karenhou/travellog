@@ -22,6 +22,7 @@ import DaySummary from "./components/Trips/Days/DaySummary";
 import AddDay from "./components/Trips/Days/AddDay";
 import AddPOI from "./components/Trips/Days/AddPOI";
 import EditDay from "./components/Trips/EditDay";
+import UpdateDay from "./components/Trips/updateDay";
 import NotFound from "./components/not-found/NotFound";
 import EditTrip from "./components/Trips/EditTrip";
 import TripTimeline from "./components/Trips/TripTimeline";
@@ -114,20 +115,19 @@ class App extends Component {
                   />
                   <PrivateRoute
                     exact
-                    path="/trip/:trip_id/add-day/:day_id"
-                    component={AddDay}
+                    path="/trip/:trip_id/update-day/:day_id"
+                    component={UpdateDay}
                   />
                   <PrivateRoute
                     exact
                     path="/trip/:trip_id"
                     component={TripSummary}
                   />
-
-                  <PrivateRoute
+                  {/* <PrivateRoute
                     exact
                     path="/:trip_id/edit-day/:day_id"
                     component={EditDay}
-                  />
+                  /> */}
                 </Switch>
                 <Switch>
                   <PrivateRoute

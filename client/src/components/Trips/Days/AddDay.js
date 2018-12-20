@@ -5,7 +5,11 @@ import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 
 import { Link } from "react-router-dom";
-import { addDay, getTripById, clearErrors } from "../../../actions/tripActions";
+import {
+  updateDay,
+  getTripById,
+  clearErrors
+} from "../../../actions/tripActions";
 import isEmpty from "../../../validation/is-empty";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -37,7 +41,6 @@ class AddDay extends Component {
     cities: "",
     hotel: "",
     schedule: "",
-    id: "",
     date: "",
     content: "",
     cityContent: "",
@@ -83,7 +86,7 @@ class AddDay extends Component {
       hotel: this.state.hotel,
       schedule: this.state.schedule
     };
-    this.props.addDay(
+    this.props.updateDay(
       dayData,
       this.props.match.params.trip_id,
       this.props.match.params.day_id,
@@ -177,7 +180,6 @@ class AddDay extends Component {
             <TextField
               value={this.state.hotel}
               name="hotel"
-              id="hotel"
               label="hotel"
               type="text"
               className={classes.textField}
@@ -244,5 +246,5 @@ const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,
-  { getTripById, addDay, clearErrors }
+  { getTripById, updateDay, clearErrors }
 )(withStyles(styles)(AddDay));

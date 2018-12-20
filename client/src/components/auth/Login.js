@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
+import { clearErrors } from "../../actions/tripActions";
 import { Link } from "react-router-dom";
 
 import Button from "@material-ui/core/Button";
@@ -37,6 +38,7 @@ class Login extends Component {
   };
 
   componentDidMount() {
+    this.props.clearErrors();
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
     }
@@ -148,5 +150,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  { loginUser, clearErrors }
 )(PaperHoc(Login));

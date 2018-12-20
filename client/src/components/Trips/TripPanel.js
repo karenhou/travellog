@@ -61,7 +61,7 @@ function TripPanel(props) {
             <Tooltip title="add/edit date info">
               <Fab
                 component={Link}
-                to={`/trip/${props.trip._id}/add-day/${day._id}`}
+                to={`/trip/${props.trip._id}/update-day/${day._id}`}
                 size="small"
                 aria-label="Edit"
                 className={classes.fab}>
