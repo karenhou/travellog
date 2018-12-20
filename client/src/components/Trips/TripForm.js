@@ -17,6 +17,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import GridLayout from "../layout/GridLayout";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import validator from "validator";
 
 const styles = theme => ({
   textField: {
@@ -101,6 +103,18 @@ class TripForm extends Component {
     this.setState({ [prop]: event.target.value });
   };
 
+  validateFields = () => {
+    if (
+      this.compareFromTo(this.state.from, this.state.to) ||
+      (!validator.isURL(this.state.coverPhoto) &&
+        !validator.isEmpty(this.state.coverPhoto))
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   render() {
     const { errors } = this.state;
     const { classes } = this.props;
@@ -113,6 +127,10 @@ class TripForm extends Component {
         <form className={classes.form} onSubmit={this.onSubmit}>
           {this.compareFromTo(this.state.from, this.state.to) ? (
             <p style={{ color: "red" }}>To cannot be smaller than From</p>
+          ) : null}
+          {!validator.isURL(this.state.coverPhoto) &&
+          !validator.isEmpty(this.state.coverPhoto) ? (
+            <p style={{ color: "red" }}>false URL</p>
           ) : null}
           <FormControl margin="normal" required>
             <InputLabel htmlFor="country">country</InputLabel>
@@ -180,6 +198,10 @@ class TripForm extends Component {
           <FormControl fullWidth>
             <TextField
               fullWidth
+              error={
+                !validator.isURL(this.state.coverPhoto) &&
+                !validator.isEmpty(this.state.coverPhoto)
+              }
               label="coverPhoto"
               value={this.state.coverPhoto}
               onChange={this.handleChange("coverPhoto")}
@@ -195,7 +217,7 @@ class TripForm extends Component {
                 type="submit"
                 variant="contained"
                 color="primary"
-                disabled={this.compareFromTo(this.state.from, this.state.to)}
+                disabled={this.validateFields()}
                 className={classes.submit}>
                 Save
               </Button>

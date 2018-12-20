@@ -144,26 +144,25 @@ router.get("/user/:user_id", (req, res) => {
     );
 });
 
-// @route   POST api/trips/:trip_id/:day_date
+// @route   POST api/trips/:trip_id/:day_id
 // @desc    Add/edit day to trips
 // @access  Private
 router.post(
   "/:trip_id/:day_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { errors, isValid } = validateDaysInput(req.body);
-    //check validation
-    if (!isValid) {
-      return res.status(400).json(errors);
-    }
+    // const { errors, isValid } = validateDaysInput(req.body);
+    // //check validation
+    // if (!isValid) {
+    //   return res.status(400).json(errors);
+    // }
 
     Trip.findById(req.params.trip_id).then(trip => {
       const newDay = {
-        // cities: req.body.cities.split(","),
         cities: [...req.body.cities],
         hotel: req.body.hotel,
-        photoLinks: [...req.body.photoLinks],
         date: req.body.date,
+        schedule: req.body.schedule,
         _id: req.params.day_id
       };
 
@@ -180,17 +179,35 @@ router.post(
   }
 );
 
-// @route   GET api/trips/:trip_id
-// @desc    Get trip by id
-// @access  Public
-router.get("/:trip_id", (req, res) => {
-  Trip.findById(req.params.trip_id)
-    .then(trip => {
-      res.json(trip);
-    })
-    .catch(err =>
-      res.status(404).json({ notripfound: "No trip found with that id" })
-    );
-});
+// @route   POST api/trips/:trip_id/:day_id/:city_name
+// @desc    Add/edit POI to day
+// @access  Private
+router.post(
+  "/:trip_id/:day_id/:city_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    // const { errors, isValid } = validateDaysInput(req.body);
+    // //check validation
+    // if (!isValid) {
+    //   return res.status(400).json(errors);
+    // }
+
+    Trip.findById(req.params.trip_id).then(trip => {
+      trip.days.map((d, i) => {
+        if (d._id.toString() === req.params.day_id) {
+          d.cities.map((c, j) => {
+            if (c._id.toString() === req.params.city_id) {
+              trip.days[i].cities[j].POI.push(req.body);
+            }
+          });
+        }
+      });
+
+      trip.save().then(trip => {
+        res.json(trip);
+      });
+    });
+  }
+);
 
 module.exports = router;

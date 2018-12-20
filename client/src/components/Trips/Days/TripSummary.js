@@ -9,9 +9,13 @@ import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-
+import isEmpty from "../../../validation/is-empty";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import MidGridLayout from "../../layout/MidGridLayout";
+import TripPanel from "../TripPanel";
+import Tooltip from "@material-ui/core/Tooltip";
+import Fab from "@material-ui/core/Fab";
+import Icon from "@material-ui/core/Icon";
 
 const styles = theme => ({
   btn: {
@@ -20,6 +24,9 @@ const styles = theme => ({
   },
   funcBtn: {
     marginTop: theme.spacing.unit * 3
+  },
+  fab: {
+    marginLeft: theme.spacing.unit * 2
   }
 });
 
@@ -32,6 +39,10 @@ class TripSummary extends Component {
       this.props.getTripById(this.props.match.params.trip_id);
     }
   }
+
+  handleCityDelete = index => {
+    console.log("delete clicked in trip summ ", index);
+  };
   render() {
     const { classes } = this.props;
     const { trip, loading } = this.props.trip;
@@ -40,7 +51,7 @@ class TripSummary extends Component {
     if (trip === null || loading) {
       daysDetailContent = <CircularProgress />;
     } else {
-      if (trip.length > 0) {
+      if (!isEmpty(trip)) {
         daysDetailContent = trip.days.map((day, index) => (
           <Button
             key={index}
@@ -60,20 +71,27 @@ class TripSummary extends Component {
     return (
       <MidGridLayout>
         <Typography variant="h3" gutterBottom>
-          {trip.country} trip Created...
+          {trip.country}
+          <Tooltip title="edit country info">
+            <Fab
+              component={Link}
+              to={`/trip/edit-trip/${this.props.match.params.trip_id}`}
+              size="small"
+              aria-label="Edit"
+              className={classes.fab}>
+              <Icon>edit_icon</Icon>
+            </Fab>
+          </Tooltip>
         </Typography>
-        <Typography
-          variant="subtitle1"
-          gutterBottom
-          className={classes.subtitle}>
-          Let's add details to each day of your journey
+        <Typography variant="subtitle2" gutterBottom>
+          click city chips to add/edit POIs
         </Typography>
-        <div>{daysDetailContent}</div>
-        <Grid container justify="flex-end" space={24}>
-          <Grid item />
-          <Grid item />
-          <Grid item />
-          <Grid item xs={12} md={2}>
+        <TripPanel
+          trip={this.props.trip.trip}
+          onDelete={this.handleCityDelete}
+        />
+        <Grid container space={24}>
+          <Grid item xs={12} md={3}>
             <Button
               component={Link}
               to="/dashboard"
@@ -81,6 +99,16 @@ class TripSummary extends Component {
               variant="outlined"
               color="secondary">
               Dashboard
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Button
+              component={Link}
+              to="/dashboard"
+              className={classes.funcBtn}
+              variant="outlined"
+              color="secondary">
+              Back to EdTrip
             </Button>
           </Grid>
         </Grid>

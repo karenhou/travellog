@@ -26,6 +26,9 @@ const styles = theme => ({
     // width: "100%",
     maxWidth: "300px",
     maxHeight: "300px"
+  },
+  submit: {
+    marginRight: theme.spacing.unit * 3
   }
 });
 
@@ -68,10 +71,20 @@ export class Trip extends Component {
                   <Button
                     component={Link}
                     to={`/trips/${trip._id}/timeline`}
+                    className={classes.submit}
                     type="submit"
                     variant="contained"
                     color="primary">
                     Details
+                  </Button>
+                  <Button
+                    component={Link}
+                    to={`/trips/${trip._id}/map`}
+                    className={classes.submit}
+                    type="submit"
+                    variant="contained"
+                    color="primary">
+                    Map
                   </Button>
                 </Grid>
               </Grid>

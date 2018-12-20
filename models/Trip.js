@@ -41,19 +41,47 @@ const TripSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "users"
       },
-      cities: {
-        type: [String],
-        required: true
-      },
       hotel: {
         type: String
       },
-      photoLinks: {
-        type: [String]
-      },
       date: {
         type: Date
-      }
+      },
+      schedule: {
+        type: String
+      },
+      cities: [
+        {
+          name: {
+            type: String
+          },
+          description: {
+            type: String
+          },
+          POI: [
+            {
+              name: {
+                type: String
+              },
+              lat: {
+                type: String
+              },
+              lng: {
+                type: String
+              },
+              placeId: {
+                type: String
+              },
+              photoLinks: {
+                type: [String]
+              },
+              description: {
+                type: String
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 });

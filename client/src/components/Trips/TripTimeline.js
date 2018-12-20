@@ -37,7 +37,7 @@ export class TripTimeline extends Component {
   render() {
     const { classes } = this.props;
     const { trip } = this.props.trip;
-
+    console.log("timeline ", this.props.trip);
     let photoContent, timeLineItems;
     if (trip.days) {
       timeLineItems = trip.days.map(day => {

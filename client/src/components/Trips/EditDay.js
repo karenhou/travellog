@@ -13,12 +13,9 @@ import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import MidGridLayout from "../layout/MidGridLayout";
-import Icon from "@material-ui/core/Icon";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
 import Chip from "@material-ui/core/Chip";
-import validator from "validator";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import Geosuggest from "react-geosuggest";
 
 const styles = theme => ({
   textField: {
@@ -32,9 +29,6 @@ const styles = theme => ({
   submit: {
     marginTop: theme.spacing.unit * 3
   },
-  photoTextFields: {
-    width: ""
-  },
   fab: {
     marginTop: theme.spacing.unit * 2
   },
@@ -45,12 +39,11 @@ class EditDay extends Component {
   state = {
     cities: "",
     hotel: "",
-    photoLinks: "",
-    edit: false,
-    id: "",
+    schedule: "",
     date: "",
     content: "",
-    cityContent: ""
+    cityContent: "",
+    POI: ""
   };
   componentDidMount() {
     this.props.clearErrors();
@@ -70,8 +63,8 @@ class EditDay extends Component {
             this.setState({
               cities: [...day.cities],
               hotel: day.hotel,
-              photoLinks: [...day.photoLinks],
-              date: day.date
+              date: day.date,
+              schedule: day.schedule
             });
           }
         });
@@ -89,7 +82,7 @@ class EditDay extends Component {
       date: this.state.date,
       cities: [...this.state.cities],
       hotel: this.state.hotel,
-      photoLinks: [...this.state.photoLinks]
+      schedule: this.state.schedule
     };
     this.props.editDay(
       dayData,
@@ -124,31 +117,28 @@ class EditDay extends Component {
     this.setState({ cities: [...content] });
   };
 
+  onSuggestSelect = suggest => {
+    if (suggest) {
+      let newArray = [...this.state.cities];
+      newArray.push({ name: suggest.gmaps.name });
+      this.setState({ cities: newArray, cityContent: "" });
+      this._geoSuggest.clear();
+    }
+  };
+  onSuggestNoResults(noresult) {
+    console.log("no result", noresult);
+  }
+
   render() {
     const { classes, errors } = this.props;
-    let photoContent, cityContent;
-
+    let cityContent;
     cityContent = this.state.cities
       ? this.state.cities.map((city, index) => {
           return (
             <Chip
               key={index}
-              label={city}
+              label={city.name}
               onDelete={() => this.handleCityDelete(index)}
-              className={classes.chip}
-              color="secondary"
-            />
-          );
-        })
-      : null;
-
-    photoContent = this.state.photoLinks
-      ? this.state.photoLinks.map((photo, index) => {
-          return (
-            <Chip
-              key={index}
-              label={photo}
-              onDelete={() => this.handleDelete(index)}
               className={classes.chip}
               color="secondary"
             />
@@ -157,35 +147,27 @@ class EditDay extends Component {
       : null;
     return (
       <MidGridLayout>
-        <Typography variant="h3">Content to your day</Typography>
+        <Typography variant="h3">Content of your day</Typography>
         <form className={classes.form} onSubmit={this.onSubmit}>
           <FormHelperText style={{ color: "red" }} id="component-error-text">
             {isEmpty(errors) ? "" : "**" + errors[Object.keys(errors)]}
           </FormHelperText>
-          <FormControl margin="normal" className={classes.photoTextFields}>
-            <TextField
-              value={this.state.cityContent}
-              name="cityContent"
-              label="cities"
-              type="text"
-              className={classes.textField}
-              onChange={this.handleChange("cityContent")}
-              InputLabelProps={{
-                shrink: true
+          <FormControl margin="normal">
+            <FormHelperText>Cities</FormHelperText>
+            <Geosuggest
+              ref={el => (this._geoSuggest = el)}
+              style={{
+                input: {
+                  width: "300px",
+                  borderTop: "none",
+                  borderLeft: "none",
+                  borderRight: "none",
+                  borderBottomWidth: "1px",
+                  borderBottomColor: "grey"
+                }
               }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment variant="filled" position="end">
-                    <IconButton
-                      aria-label="add-cities"
-                      onClick={this.handleAddCity}>
-                      <Icon className={classes.icon} color="primary">
-                        add_circle
-                      </Icon>
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
+              onSuggestSelect={this.onSuggestSelect}
+              onSuggestNoResults={this.onSuggestNoResults}
             />
             {cityContent}
           </FormControl>
@@ -204,33 +186,19 @@ class EditDay extends Component {
             />
           </FormControl>
 
-          <FormControl margin="normal" className={classes.photoTextFields}>
+          <FormControl margin="normal" fullWidth>
             <TextField
-              value={this.state.content}
-              name="content"
-              label="photoLinks"
+              value={this.state.schedule}
+              name="schedule"
+              label="schedule"
               type="text"
+              multiline
               className={classes.textField}
-              onChange={this.handleChange("content")}
+              onChange={this.handleChange("schedule")}
               InputLabelProps={{
                 shrink: true
               }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment variant="filled" position="end">
-                    <IconButton
-                      disabled={!validator.isURL(this.state.content)}
-                      aria-label="add-photos"
-                      onClick={this.handleAddPhotoLinks}>
-                      <Icon className={classes.icon} color="primary">
-                        add_circle
-                      </Icon>
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
             />
-            {photoContent}
           </FormControl>
 
           <Grid justify="flex-end" container space={24}>
@@ -248,7 +216,7 @@ class EditDay extends Component {
             <Grid item xs={6} md={2}>
               <Button
                 component={Link}
-                to={`/trip/edit-trip/${this.props.match.params.trip_id}`}
+                to={`/trip/${this.props.match.params.trip_id}`}
                 type="submit"
                 variant="contained"
                 className={classes.submit}>

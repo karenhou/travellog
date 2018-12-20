@@ -119,7 +119,7 @@ export const getTripsByUserId = user_id => dispatch => {
 export const addDay = (dayData, trip_id, day_id, history) => dispatch => {
   axios
     .post(`/api/trips/${trip_id}/${day_id}`, dayData)
-    .then(res => history.goBack())
+    .then(res => history.push(`/trip/${trip_id}`))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -132,7 +132,29 @@ export const addDay = (dayData, trip_id, day_id, history) => dispatch => {
 export const editDay = (dayData, trip_id, day_id, history) => dispatch => {
   axios
     .post(`/api/trips/${trip_id}/${day_id}`, dayData)
-    .then(res => history.goBack())
+    .then(res => history.push(`/trip/${trip_id}`))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// Add/edit POI
+export const addPOI = (
+  dayData,
+  trip_id,
+  day_id,
+  city_id,
+  history
+) => dispatch => {
+  axios
+    .post(`/api/trips/${trip_id}/${day_id}/${city_id}`, dayData)
+    .then(res => {
+      history.push(`/trip/${trip_id}`);
+      console.log("apipoi added action");
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

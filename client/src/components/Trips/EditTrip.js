@@ -19,6 +19,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import isEmpty from "../../validation/is-empty";
 import MidGridLayout from "../layout/MidGridLayout";
+import validator from "validator";
 
 const styles = theme => ({
   textField: {
@@ -92,6 +93,9 @@ class EditTrip extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    if (!validator.isURL(this.state.coverPhoto)) {
+      console.log("url invalid");
+    }
     let tempTripFrom = this.props.trip.trip.from;
     let tempTripTo = this.props.trip.trip.to;
     let newDayArray = [...this.props.trip.trip.days];
@@ -151,12 +155,23 @@ class EditTrip extends Component {
     this.setState({ [prop]: event.target.value });
   };
 
+  validateFields = () => {
+    if (
+      this.compareFromTo(this.state.from, this.state.to) ||
+      (!validator.isURL(this.state.coverPhoto) &&
+        !validator.isEmpty(this.state.coverPhoto))
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   render() {
     const { classes } = this.props;
     const { trip, loading } = this.props.trip;
 
-    let tripContent;
-    let daysDetailContent = [];
+    let tripContent, daysDetailContent;
 
     if (trip === null || loading) {
       tripContent = (
@@ -191,6 +206,10 @@ class EditTrip extends Component {
         <form className={classes.form} onSubmit={this.onSubmit}>
           {this.compareFromTo(this.state.from, this.state.to) ? (
             <p style={{ color: "red" }}>To cannot be smaller than From</p>
+          ) : null}
+          {!validator.isURL(this.state.coverPhoto) &&
+          !validator.isEmpty(this.state.coverPhoto) ? (
+            <p style={{ color: "red" }}>false URL</p>
           ) : null}
           <FormControl margin="normal" required>
             <InputLabel htmlFor="country">country</InputLabel>
@@ -259,6 +278,10 @@ class EditTrip extends Component {
           </FormControl>
           <FormControl fullWidth>
             <TextField
+              error={
+                !validator.isURL(this.state.coverPhoto) &&
+                !validator.isEmpty(this.state.coverPhoto)
+              }
               fullWidth
               label="coverPhoto"
               value={this.state.coverPhoto}
@@ -276,7 +299,7 @@ class EditTrip extends Component {
                 type="submit"
                 variant="contained"
                 color="primary"
-                disabled={this.compareFromTo(this.state.from, this.state.to)}
+                disabled={this.validateFields()}
                 className={classes.submit}>
                 Save
               </Button>
