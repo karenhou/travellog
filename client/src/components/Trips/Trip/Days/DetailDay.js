@@ -1,20 +1,20 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import MidGridLayout from "../../layout/MidGridLayout";
-import Typography from "@material-ui/core/Typography";
-import isEmpty from "../../../validation/is-empty";
-import { getTripById } from "../../../actions/tripActions";
 import moment from "moment";
-import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-
-import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 
+import { withStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+
+import MidGridLayout from "../../layout/MidGridLayout";
+import isEmpty from "../../../validation/is-empty";
+import { getTripById } from "../../../actions/tripActions";
 import TabeItems from "./TabItems";
 
 function TabContainer(props) {

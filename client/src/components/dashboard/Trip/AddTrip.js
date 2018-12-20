@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { addTrip } from "../../actions/tripActions";
+import validator from "validator";
 import moment from "moment";
-import "moment-timezone";
-
 import { Link } from "react-router-dom";
-
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -16,9 +13,9 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import GridLayout from "../layout/GridLayout";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import validator from "validator";
+
+import { addTrip } from "../../../actions/tripActions";
+import GridLayout from "../../layout/GridLayout";
 
 const styles = theme => ({
   textField: {
@@ -39,7 +36,7 @@ const styles = theme => ({
   }
 });
 
-class TripForm extends Component {
+class AddTrip extends Component {
   state = {
     country: "",
     from: "2017-05-24",
@@ -238,7 +235,7 @@ class TripForm extends Component {
     );
   }
 }
-TripForm.propType = {
+AddTrip.propType = {
   addTrip: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
@@ -252,4 +249,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { addTrip }
-)(withStyles(styles)(TripForm));
+)(withStyles(styles)(AddTrip));

@@ -15,16 +15,16 @@ import Register from "./components/auth/Register";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import Profile from "./components/profile/Profile";
-import TripForm from "./components/Trips/TripForm";
-import Trips from "./components/Trips/Trips";
-import TripSummary from "./components/Trips/Days/TripSummary";
-import AddPOI from "./components/Trips/Days/AddPOI";
-import UpdateDay from "./components/Trips/updateDay";
+import AddTrip from "./components/dashboard/Trip/AddTrip";
+import TripsList from "./components/Trips/TripsList";
+import TripSummary from "./components/dashboard/Trip/TripSummary";
+import AddPOI from "./components/Trips/Days/POI/AddPOI";
+import UpdateDay from "./components/dashboard/Trip/Day/updateDay";
 import NotFound from "./components/not-found/NotFound";
-import EditTrip from "./components/Trips/EditTrip";
-import TripTimeline from "./components/Trips/TripTimeline";
+import EditTrip from "./components/dashboard/Trip/EditTrip";
+import TripTimeline from "./components/Trips/Trip/TripTimeline";
 import DetailDay from "./components/Trips/Days/DetailDay";
-import TripMap from "./components/Trips/TripMap";
+import TripMap from "./components/Trips/Trip/TripMap";
 import "./App.css";
 import PrivateRoute from "./components/common/PrivateRoute";
 
@@ -78,7 +78,7 @@ class App extends Component {
               <div>
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
-                <Route exact path="/trips" component={Trips} />
+                <Route exact path="/trips" component={TripsList} />
                 <Route exact path="/profile/:handle" component={Profile} />
                 <Switch>
                   <Route
@@ -89,7 +89,7 @@ class App extends Component {
                   <Route exact path="/trips/:trip_id/map" component={TripMap} />
                   <Route
                     exact
-                    path="/trips/:trip_id/:day_id"
+                    path="/trips/:trip_id/:day_id/details"
                     component={DetailDay}
                   />
                 </Switch>
@@ -97,7 +97,7 @@ class App extends Component {
                   <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 </Switch>
                 <Switch>
-                  <PrivateRoute exact path="/add-trip" component={TripForm} />
+                  <PrivateRoute exact path="/add-trip" component={AddTrip} />
                 </Switch>
                 <Switch>
                   <PrivateRoute
@@ -112,15 +112,13 @@ class App extends Component {
                   />
                   <PrivateRoute
                     exact
-                    path="/trip/:trip_id"
-                    component={TripSummary}
+                    path="/trip/:trip_id/edit-trip"
+                    component={EditTrip}
                   />
-                </Switch>
-                <Switch>
                   <PrivateRoute
                     exact
-                    path="/trip/edit-trip/:trip_id"
-                    component={EditTrip}
+                    path="/trip/:trip_id"
+                    component={TripSummary}
                   />
                 </Switch>
                 <Switch>

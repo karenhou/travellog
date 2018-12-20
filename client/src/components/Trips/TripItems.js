@@ -23,7 +23,6 @@ const styles = theme => ({
   img: {
     margin: "auto",
     display: "block",
-    // width: "100%",
     maxWidth: "300px",
     maxHeight: "300px"
   },
@@ -32,8 +31,9 @@ const styles = theme => ({
   }
 });
 
-export class Trip extends Component {
+export class TripItems extends Component {
   render() {
+    console.log("items", this.props.trip);
     const { trip, classes } = this.props;
     return (
       <div className={classes.root}>
@@ -75,7 +75,7 @@ export class Trip extends Component {
                     type="submit"
                     variant="contained"
                     color="primary">
-                    Details
+                    TimeLine
                   </Button>
                   <Button
                     component={Link}
@@ -95,8 +95,8 @@ export class Trip extends Component {
     );
   }
 }
-Trip.propType = {
+TripItems.propType = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Trip);
+export default withStyles(styles)(TripItems);

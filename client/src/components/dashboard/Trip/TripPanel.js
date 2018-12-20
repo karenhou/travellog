@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Chip from "@material-ui/core/Chip";
 import moment from "moment";
-import isEmpty from "../../validation/is-empty";
+import isEmpty from "../../../validation/is-empty";
 import { Link } from "react-router-dom";
 import Fab from "@material-ui/core/Fab";
 import Icon from "@material-ui/core/Icon";

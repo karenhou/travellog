@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import GridLayout from "../layout/GridLayout";
+import GridLayout from "../../layout/GridLayout";
 import Typography from "@material-ui/core/Typography";
 
 export class TripMap extends Component {

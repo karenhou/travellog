@@ -2,20 +2,21 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getTrips, getTripById } from "../../../actions/tripActions";
 import moment from "moment";
 
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import isEmpty from "../../../validation/is-empty";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import MidGridLayout from "../../layout/MidGridLayout";
-import TripPanel from "../TripPanel";
 import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
 import Icon from "@material-ui/core/Icon";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+import { getTrips, getTripById } from "../../../actions/tripActions";
+import isEmpty from "../../../validation/is-empty";
+import MidGridLayout from "../../layout/MidGridLayout";
+import TripPanel from "./TripPanel";
 
 const styles = theme => ({
   btn: {
@@ -75,7 +76,7 @@ class TripSummary extends Component {
           <Tooltip title="edit country info">
             <Fab
               component={Link}
-              to={`/trip/edit-trip/${this.props.match.params.trip_id}`}
+              to={`/trip/${this.props.match.params.trip_id}/edit-trip`}
               size="small"
               aria-label="Edit"
               className={classes.fab}>
@@ -101,16 +102,6 @@ class TripSummary extends Component {
               Dashboard
             </Button>
           </Grid>
-          {/* <Grid item xs={12} md={3}>
-            <Button
-              component={Link}
-              to={`/trip/edit-trip/${this.props.match.params.trip_id}`}
-              className={classes.funcBtn}
-              variant="outlined"
-              color="secondary">
-              Back to Trip
-            </Button>
-          </Grid> */}
         </Grid>
       </MidGridLayout>
     );

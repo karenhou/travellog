@@ -2,21 +2,22 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { Carousel } from "react-responsive-carousel";
 import moment from "moment";
+import isEmpty from "../../../validation/is-empty";
 
 const TabItems = props => {
   const { day } = props;
   let photoContent;
-  if (day) {
-    photoContent = day.photoLinks.map((photo, index) => (
-      <div key={index}>
-        <img src={photo} alt="photos" />
-      </div>
-    ));
-  }
+  // if (!isEmpty(day)) {
+  //   photoContent = day.photoLinks.map((photo, index) => (
+  //     <div key={index}>
+  //       <img src={photo} alt="photos" />
+  //     </div>
+  //   ));
+  // }
   return (
     <div>
-      {/* <p>Hello</p> */}
-      <Carousel showThumbs={false}>{photoContent}</Carousel>
+      <h1>TabItems</h1>
+      {/* <Carousel showThumbs={false}>{photoContent}</Carousel>
       <Typography
         align="center"
         variant="h5"
@@ -36,7 +37,7 @@ const TabItems = props => {
         variant="h5"
         style={{ alignContent: "center" }}>
         Hotel: {day.hotel}
-      </Typography>
+      </Typography> */}
     </div>
   );
 };

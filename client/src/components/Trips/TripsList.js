@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getTrips } from "../../actions/tripActions";
-import Trip from "./Trip";
+import TripItems from "./TripItems";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
 import GridLayout from "../layout/GridLayout";
 
-class Trips extends Component {
+class TripsList extends Component {
   componentDidMount() {
     this.props.getTrips();
   }
@@ -22,7 +22,7 @@ class Trips extends Component {
       tripItems = <CircularProgress />;
     } else {
       if (trips.length > 0) {
-        tripItems = trips.map(trip => <Trip key={trip._id} trip={trip} />);
+        tripItems = trips.map(trip => <TripItems key={trip._id} trip={trip} />);
       } else {
         tripItems = <Typography variant="h2">No trips found...</Typography>;
       }
@@ -36,7 +36,7 @@ class Trips extends Component {
     );
   }
 }
-Trips.propType = {};
+TripsList.propType = {};
 
 const mapStateToProps = state => ({
   trip: state.trip
@@ -45,4 +45,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getTrips }
-)(Trips);
+)(TripsList);

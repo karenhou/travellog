@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
-import { getTripById } from "../../actions/tripActions";
+import { getTripById } from "../../../actions/tripActions";
 import {
   VerticalTimeline,
   VerticalTimelineElement
@@ -16,7 +16,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import isEmpty from "../../validation/is-empty";
+import isEmpty from "../../../validation/is-empty";
 
 const styles = theme => ({
   btn: {
@@ -77,11 +77,11 @@ export class TripTimeline extends Component {
             </Carousel>
             <Button
               component={Link}
-              to={`/trips/${trip._id}/${day._id}`}
+              to={`/trips/${trip._id}/${day._id}/details`}
               fullWidth
               variant="contained"
               color="primary">
-              More...
+              Details...
             </Button>
           </VerticalTimelineElement>
         );

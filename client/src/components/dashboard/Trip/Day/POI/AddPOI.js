@@ -1,25 +1,29 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import MidGridLayout from "../../layout/MidGridLayout";
+import { Link } from "react-router-dom";
+import validator from "validator";
+import Geosuggest from "react-geosuggest";
+
+import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import Geosuggest from "react-geosuggest";
 import Chip from "@material-ui/core/Chip";
 import Grid from "@material-ui/core/Grid";
-import { Link } from "react-router-dom";
-import { addPOI, clearErrors, getTripById } from "../../../actions/tripActions";
-import isEmpty from "../../../validation/is-empty";
-
 import Icon from "@material-ui/core/Icon";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
-import validator from "validator";
 
-import { withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import MidGridLayout from "../../../layout/MidGridLayout";
+import {
+  addPOI,
+  clearErrors,
+  getTripById
+} from "../../../../actions/tripActions";
+import isEmpty from "../../../../validation/is-empty";
 
 const styles = theme => ({
   textField: {

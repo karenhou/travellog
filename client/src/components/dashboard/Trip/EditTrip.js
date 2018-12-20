@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-
 import { Link } from "react-router-dom";
-import { getTripById, editTrip } from "../../actions/tripActions";
+import moment from "moment";
+import validator from "validator";
+
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -13,13 +14,11 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
-
-import moment from "moment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import isEmpty from "../../validation/is-empty";
-import MidGridLayout from "../layout/MidGridLayout";
-import validator from "validator";
+import { getTripById, editTrip } from "../../../actions/tripActions";
+import isEmpty from "../../../validation/is-empty";
+import MidGridLayout from "../../layout/MidGridLayout";
 
 const styles = theme => ({
   textField: {
