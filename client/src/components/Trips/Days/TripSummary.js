@@ -101,16 +101,16 @@ class TripSummary extends Component {
               Dashboard
             </Button>
           </Grid>
-          <Grid item xs={12} md={3}>
+          {/* <Grid item xs={12} md={3}>
             <Button
               component={Link}
-              to="/dashboard"
+              to={`/trip/edit-trip/${this.props.match.params.trip_id}`}
               className={classes.funcBtn}
               variant="outlined"
               color="secondary">
-              Back to EdTrip
+              Back to Trip
             </Button>
-          </Grid>
+          </Grid> */}
         </Grid>
       </MidGridLayout>
     );

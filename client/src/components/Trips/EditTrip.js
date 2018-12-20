@@ -46,6 +46,7 @@ class EditTrip extends Component {
     days: "",
     error: false
   };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
@@ -93,9 +94,7 @@ class EditTrip extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    if (!validator.isURL(this.state.coverPhoto)) {
-      console.log("url invalid");
-    }
+
     let tempTripFrom = this.props.trip.trip.from;
     let tempTripTo = this.props.trip.trip.to;
     let newDayArray = [...this.props.trip.trip.days];
@@ -289,8 +288,8 @@ class EditTrip extends Component {
               margin="normal"
             />
           </FormControl>
-          <Typography variant="h4">Days</Typography>
-          {daysDetailContent}
+          {/* <Typography variant="h4">Days</Typography>
+          {daysDetailContent} */}
           <Grid justify="flex-end" container space={24}>
             <Grid item />
             <Grid item />

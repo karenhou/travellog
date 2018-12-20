@@ -66,12 +66,13 @@ export const addTrip = (tripData, history) => dispatch => {
 };
 
 // edit trip
-export const editTrip = (tripData, trip_id) => dispatch => {
+export const editTrip = (tripData, trip_id, history) => dispatch => {
   axios
     .post(`/api/trips/${trip_id}`, tripData)
     .then(res => {
       dispatch({ type: ADD_TRIP, payload: res.data });
-      dispatch(getTripById(trip_id));
+      // dispatch(getTripById(trip_id));
+      history.push(`/trip/${trip_id}`);
     })
     .catch(err =>
       dispatch({
