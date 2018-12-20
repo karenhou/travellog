@@ -14,8 +14,6 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from "react-responsive-carousel";
 import isEmpty from "../../../validation/is-empty";
 
 const styles = theme => ({
@@ -37,22 +35,11 @@ export class TripTimeline extends Component {
   render() {
     const { classes } = this.props;
     const { trip } = this.props.trip;
-    console.log("timeline ", this.props.trip);
-    let photoContent, timeLineItems;
+    let timeLineItems, cityContent;
     if (trip.days) {
       timeLineItems = trip.days.map(day => {
-        if (isEmpty(day.photoLinks)) {
-          photoContent = null;
-        } else {
-          photoContent = day.photoLinks.map((photo, index) => {
-            return (
-              <div key={index} className={classes.img}>
-                <img src={photo} alt="photos" />
-              </div>
-            );
-          });
-        }
-
+        cityContent = day.cities.map(city => city.name + ", ");
+        console.log("check city ", day);
         return (
           <VerticalTimelineElement
             key={day._id}
@@ -61,20 +48,27 @@ export class TripTimeline extends Component {
             iconStyle={{ background: "#80cbc4", color: "#00796b" }}>
             <Typography
               className="vertical-timeline-element-title"
-              variant="h3">
-              {day.cities.join(",")}
+              variant="h5">
+              Cities: {cityContent}
             </Typography>
             <Typography
               className="vertical-timeline-element-subtitle"
               variant="subtitle1">
+              <i className="fas fa-globe" />
               {trip.country}
             </Typography>
-            <Carousel
-              className={classes.carousel}
-              showThumbs={false}
-              onClickItem={() => this.clicked(day._id)}>
-              {photoContent}
-            </Carousel>
+            <Typography
+              className="vertical-timeline-element-subtitle"
+              variant="subtitle1">
+              <i className="fas fa-hotel" />
+              {day.hotel}
+            </Typography>
+            <Typography
+              className="vertical-timeline-element-subtitle"
+              variant="subtitle1">
+              <i class="fas fa-align-justify" />
+              {day.schedule}
+            </Typography>
             <Button
               component={Link}
               to={`/trips/${trip._id}/${day._id}/details`}

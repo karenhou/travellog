@@ -17,13 +17,13 @@ import Icon from "@material-ui/core/Icon";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 
-import MidGridLayout from "../../../layout/MidGridLayout";
+import MidGridLayout from "../../../../layout/MidGridLayout";
 import {
   addPOI,
   clearErrors,
   getTripById
-} from "../../../../actions/tripActions";
-import isEmpty from "../../../../validation/is-empty";
+} from "../../../../../actions/tripActions";
+import isEmpty from "../../../../../validation/is-empty";
 
 const styles = theme => ({
   textField: {

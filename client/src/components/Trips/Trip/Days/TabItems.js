@@ -1,43 +1,55 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import moment from "moment";
-import isEmpty from "../../../validation/is-empty";
+
+import isEmpty from "../../../../validation/is-empty";
 
 const TabItems = props => {
-  const { day } = props;
-  let photoContent;
-  // if (!isEmpty(day)) {
-  //   photoContent = day.photoLinks.map((photo, index) => (
-  //     <div key={index}>
-  //       <img src={photo} alt="photos" />
-  //     </div>
-  //   ));
-  // }
+  const { POI } = props.day;
+  let photoContent, cityContent, poiContent;
+  let photoArray = [];
+
+  console.log("POI", POI);
+  if (!isEmpty(POI)) {
+    cityContent = POI.map((poi, index) => {
+      if (!isEmpty(poi.photoLinks)) {
+        photoContent = poi.photoLinks.map((photo, i) => {
+          return (
+            <div key={i}>
+              <img
+                src={photo}
+                alt="photos"
+                style={{ width: "300px", height: "300px" }}
+              />
+            </div>
+          );
+        });
+      }
+      return (
+        <div key={index}>
+          <Typography variant="h5">{poi.name}</Typography>
+          <Typography variant="subtitle2">{poi.description}</Typography>
+          <br />
+        </div>
+      );
+    });
+    poiContent = POI.map(poi => {
+      return poi.name + " ";
+    });
+  } else {
+  }
   return (
     <div>
-      <h1>TabItems</h1>
-      {/* <Carousel showThumbs={false}>{photoContent}</Carousel>
-      <Typography
-        align="center"
-        variant="h5"
-        style={{ alignContent: "center" }}>
-        City: {day.cities}
-      </Typography>
-      <Typography
-        align="center"
-        variant="h5"
-        style={{ alignContent: "center" }}>
-        {" "}
-        Date:
-        {moment.utc(day.date).format("YYYY-MM-DD")}
-      </Typography>
-      <Typography
-        align="center"
-        variant="h5"
-        style={{ alignContent: "center" }}>
-        Hotel: {day.hotel}
-      </Typography> */}
+      {!isEmpty(POI) ? (
+        <>
+          <Carousel showThumbs={false}>{photoContent}</Carousel>
+          {cityContent}
+        </>
+      ) : (
+        <Typography variant="h5">No POI found...</Typography>
+      )}
     </div>
   );
 };

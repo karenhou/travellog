@@ -12,10 +12,10 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
-import MidGridLayout from "../../layout/MidGridLayout";
-import isEmpty from "../../../validation/is-empty";
-import { getTripById } from "../../../actions/tripActions";
-import TabeItems from "./TabItems";
+import MidGridLayout from "../../../layout/MidGridLayout";
+import isEmpty from "../../../../validation/is-empty";
+import { getTripById } from "../../../../actions/tripActions";
+import TabItems from "./TabItems";
 
 function TabContainer(props) {
   return (
@@ -75,16 +75,22 @@ export class DetailDay extends Component {
     const { trip } = this.props.trip;
     const { value } = this.state;
     let tabHeadText, tabContent;
-
-    if (!isEmpty(trip)) {
-      tabHeadText = trip.days.map((day, index) => (
-        <Tab key={index} label={moment.utc(day.date).format("YYYY-MM-DD")} />
-      ));
+    let tripContent, cityContent, poiContent;
+    let day = this.state.day;
+    if (!isEmpty(day)) {
+      tabHeadText = day.cities.map((city, index) => {
+        return <Tab key={index} label={city.name} />;
+      });
       tabContent = (
         <TabContainer>
-          <TabeItems day={trip.days[value]} />
+          <TabItems key={value} day={day.cities[value]} />
         </TabContainer>
       );
+      // tabContent = (
+      //   <TabContainer>
+      //     <TabeItems day={trip.days[value]} />
+      //   </TabContainer>
+      // );
     }
 
     return (
@@ -99,6 +105,7 @@ export class DetailDay extends Component {
               scrollable
               scrollButtons="auto">
               {tabHeadText}
+              {/* {cityContent} */}
             </Tabs>
           </AppBar>
           {tabContent}

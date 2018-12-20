@@ -33,7 +33,6 @@ const styles = theme => ({
 
 export class TripItems extends Component {
   render() {
-    console.log("items", this.props.trip);
     const { trip, classes } = this.props;
     return (
       <div className={classes.root}>
