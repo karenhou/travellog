@@ -180,7 +180,7 @@ router.post(
 );
 
 // @route   POST api/trips/:trip_id/:day_id/:city_name
-// @desc    Add/edit POI to day
+// @desc    Add to POI
 // @access  Private
 router.post(
   "/:trip_id/:day_id/:city_id",
@@ -203,6 +203,36 @@ router.post(
         }
       });
 
+      trip.save().then(trip => {
+        res.json(trip);
+      });
+    });
+  }
+);
+
+// @route   POST api/trips/:trip_id/:day_id/:city_id/update
+// @desc    update POI to day
+// @access  Private
+router.post(
+  "/:trip_id/:day_id/:city_id/update",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    // const { errors, isValid } = validateDaysInput(req.body);
+    // //check validation
+    // if (!isValid) {
+    //   return res.status(400).json(errors);
+    // }
+
+    Trip.findById(req.params.trip_id).then(trip => {
+      trip.days.map((d, i) => {
+        if (d._id.toString() === req.params.day_id) {
+          d.cities.map((c, j) => {
+            if (c._id.toString() === req.params.city_id) {
+              trip.days[i].cities[j].POI = [...req.body];
+            }
+          });
+        }
+      });
       trip.save().then(trip => {
         res.json(trip);
       });

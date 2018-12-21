@@ -40,7 +40,7 @@ function TripPanel(props) {
               key={i}
               label={city.name}
               component={Link}
-              to={`/trip/${props.trip._id}/${day._id}/${city._id}/add-poi`}
+              to={`/trip/${props.trip._id}/${day._id}/${city._id}/POI`}
               className={classes.chip}
               color="secondary"
             />

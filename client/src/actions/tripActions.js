@@ -140,7 +140,48 @@ export const addPOI = (
   axios
     .post(`/api/trips/${trip_id}/${day_id}/${city_id}`, dayData)
     .then(res => {
-      history.push(`/trip/${trip_id}`);
+      history.push(`/trip/${trip_id}/${day_id}/${city_id}/POI`);
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+// Add/edit POI
+export const updatePOI = (
+  dayData,
+  trip_id,
+  day_id,
+  city_id,
+  history
+) => dispatch => {
+  axios
+    .post(`/api/trips/${trip_id}/${day_id}/${city_id}/update`, dayData)
+    .then(res => {
+      history.push(`/trip/${trip_id}/${day_id}/${city_id}/POI`);
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// delete POI
+export const deletePOI = (
+  dayData,
+  trip_id,
+  day_id,
+  city_id,
+  history
+) => dispatch => {
+  axios
+    .post(`/api/trips/${trip_id}/${day_id}/${city_id}/update`, dayData)
+    .then(res => {
+      //history.push(`/trip/${trip_id}/${day_id}/${city_id}/POI`);
     })
     .catch(err =>
       dispatch({

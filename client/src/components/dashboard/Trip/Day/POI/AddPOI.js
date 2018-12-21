@@ -37,7 +37,10 @@ const styles = theme => ({
   submit: {
     marginTop: theme.spacing.unit * 3
   },
-  chip: { marginTop: theme.spacing.unit * 2 }
+  chip: {
+    marginTop: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2
+  }
 });
 
 export class AddPOI extends Component {
@@ -135,24 +138,10 @@ export class AddPOI extends Component {
       this.props.history
     );
   };
-  onBack = () => {
-    this.props.history.goBack();
-  };
 
   render() {
     const { classes } = this.props;
-    let cityContent, photoContent, POIContent;
-
-    if (this.state.POIArray.length > 0) {
-      POIContent = this.state.POIArray.map((poi, i) => (
-        <Chip
-          className={classes.chip}
-          key={i}
-          label={poi.name}
-          color="secondary"
-        />
-      ));
-    }
+    let cityContent, photoContent;
 
     cityContent = this.state.POI ? (
       <Chip
@@ -177,14 +166,7 @@ export class AddPOI extends Component {
       : null;
     return (
       <MidGridLayout>
-        <Typography variant="h4" color="primary">
-          {this.state.current}
-        </Typography>
-        <p>Added POI</p>
-        {POIContent}
-        <div>
-          <p>Add POI</p>
-        </div>
+        <Typography variant="subtitle2">Add POI</Typography>
         <form onSubmit={this.onSubmit}>
           <FormControl margin="normal" fullWidth>
             <TextField
@@ -264,7 +246,9 @@ export class AddPOI extends Component {
             <Grid item xs={6} md={2}>
               <Button
                 component={Link}
-                to={`/trip/${this.props.match.params.trip_id}`}
+                to={`/trip/${this.props.match.params.trip_id}/${
+                  this.props.match.params.day_id
+                }/${this.props.match.params.city_id}/POI`}
                 type="submit"
                 variant="contained">
                 Cancel

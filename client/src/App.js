@@ -18,6 +18,8 @@ import Profile from "./components/profile/Profile";
 import AddTrip from "./components/dashboard/Trip/AddTrip";
 import TripsList from "./components/Trips/TripsList";
 import TripSummary from "./components/dashboard/Trip/TripSummary";
+import PoiLists from "./components/dashboard/Trip/Day/POI/PoiLists";
+import EditPOI from "./components/dashboard/Trip//Day/POI/EditPOI";
 import AddPOI from "./components/dashboard/Trip//Day/POI/AddPOI";
 import UpdateDay from "./components/dashboard/Trip/Day/updateDay";
 import NotFound from "./components/not-found/NotFound";
@@ -102,8 +104,19 @@ class App extends Component {
                 <Switch>
                   <PrivateRoute
                     exact
-                    path="/trip/:trip_id/:day_id/:city_id/add-poi"
+                    path="/trip/:trip_id/:day_id/:city_id/POI/add"
                     component={AddPOI}
+                  />
+                  <PrivateRoute
+                    exact
+                    path="/trip/:trip_id/:day_id/:city_id/POI/:poi_id"
+                    component={EditPOI}
+                  />
+
+                  <PrivateRoute
+                    exact
+                    path="/trip/:trip_id/:day_id/:city_id/POI"
+                    component={PoiLists}
                   />
                   <PrivateRoute
                     exact

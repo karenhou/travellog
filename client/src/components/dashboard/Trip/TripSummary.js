@@ -73,7 +73,7 @@ class TripSummary extends Component {
       <MidGridLayout>
         <Typography variant="h3" gutterBottom>
           {trip.country}
-          <Tooltip title="edit country info">
+          <Tooltip title="edit Trip info">
             <Fab
               component={Link}
               to={`/trip/${this.props.match.params.trip_id}/edit-trip`}
