@@ -66,7 +66,7 @@ export class TripTimeline extends Component {
             <Typography
               className="vertical-timeline-element-subtitle"
               variant="subtitle1">
-              <i class="fas fa-align-justify" />
+              <i className="fas fa-align-justify" />
               {day.schedule}
             </Typography>
             <Button
