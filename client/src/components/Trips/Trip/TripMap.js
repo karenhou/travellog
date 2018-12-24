@@ -6,6 +6,7 @@ import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 import Typography from "@material-ui/core/Typography";
 
 import { getTripById } from "../../../actions/tripActions";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import GridLayout from "../../layout/GridLayout";
 import isEmpty from "../../../validation/is-empty";
 
@@ -18,7 +19,8 @@ export class TripMap extends Component {
   state = {
     POI: "",
     showingInfoWindow: false,
-    activeMarker: {}
+    activeMarker: {},
+    country: ""
   };
 
   componentDidMount() {
@@ -31,8 +33,12 @@ export class TripMap extends Component {
     }
     let POIarray = [];
     if (!isEmpty(nextProps.trip.trip)) {
-      const { days } = nextProps.trip.trip;
-
+      const { days, country } = nextProps.trip.trip;
+      if (!isEmpty(country[0].name)) {
+        this.setState({
+          country: country
+        });
+      }
       if (!isEmpty(days)) {
         days.map(day => {
           day.cities.map(city => {
@@ -62,25 +68,11 @@ export class TripMap extends Component {
       });
     }
   };
+  centerMoved = (mapProps, map) => {
+    console.log(mapProps, map);
+  };
 
   render() {
-    const { days } = this.props.trip.trip;
-    let POIcontent;
-
-    // console.log("POI = ", this.state.POI);
-    if (!isEmpty(this.state.POI)) {
-      POIcontent = this.state.POI.map((poi, ind) => {
-        return (
-          <Marker
-            key={ind}
-            title={"test"}
-            name={poi.name}
-            position={{ lat: poi.lat, lng: poi.lng }}
-            onClick={this.onMarkerClick}
-          />
-        );
-      });
-    }
     var bounds = new this.props.google.maps.LatLngBounds();
     for (var i = 0; i < this.state.POI.length; i++) {
       bounds.extend({
@@ -88,32 +80,50 @@ export class TripMap extends Component {
         lng: parseFloat(this.state.POI[i].lng)
       });
     }
-    return (
-      <Map
-        google={this.props.google}
-        zoom={10}
-        style={style}
-        initialCenter={{
-          lat: 25.105497,
-          lng: 121.597366
-        }}
-        onClick={this.onMapClicked}
-        bounds={bounds}>
-        {POIcontent}
-        <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}>
-          <div>
-            <h1>{this.state.activeMarker.name}</h1>
-          </div>
-        </InfoWindow>
-      </Map>
-    );
+    let POIcontent, mapContent;
+
+    if (!isEmpty(this.state.POI)) {
+      POIcontent = this.state.POI.map((poi, ind) => {
+        return (
+          <Marker
+            key={ind}
+            title={poi.name}
+            name={poi.name}
+            position={{ lat: poi.lat, lng: poi.lng }}
+            onClick={this.onMarkerClick}
+          />
+        );
+      });
+    }
+    if (!isEmpty(this.state.country)) {
+      mapContent = (
+        <Map
+          google={this.props.google}
+          zoom={7}
+          style={style}
+          initialCenter={{
+            lat: this.state.country[0].lat,
+            lng: this.state.country[0].lng
+          }}
+          onClick={this.onMapClicked}
+          bounds={bounds}>
+          {POIcontent}
+          <InfoWindow
+            marker={this.state.activeMarker}
+            visible={this.state.showingInfoWindow}>
+            <div>
+              <h1>{this.state.activeMarker.name}</h1>
+            </div>
+          </InfoWindow>
+        </Map>
+      );
+    } else {
+      mapContent = <CircularProgress />;
+    }
+
+    return <>{mapContent}</>;
   }
 }
-TripMap.propType = {
-  classes: PropTypes.object.isRequired
-};
 
 const mapStateToProps = state => ({
   trip: state.trip

@@ -4,11 +4,14 @@ import { connect } from "react-redux";
 import validator from "validator";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import Geosuggest from "react-geosuggest";
+
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
@@ -19,7 +22,6 @@ import GridLayout from "../../layout/GridLayout";
 
 const styles = theme => ({
   textField: {
-    marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit * 5,
     width: 200
   },
@@ -66,6 +68,27 @@ class AddTrip extends Component {
     }
   }
 
+  onSuggestSelect = suggest => {
+    if (suggest) {
+      let newCountry = {
+        name: suggest.gmaps.name,
+        placeId: suggest.placeId,
+        lat: suggest.location.lat,
+        lng: suggest.location.lng
+      };
+      this.setState({
+        country: newCountry,
+        cityContent: ""
+      });
+    }
+  };
+
+  onSuggestNoResults = noresult => {
+    this.setState({
+      country: false
+    });
+  };
+
   onSubmit = e => {
     e.preventDefault();
     let len = this.calDateDiff(this.state.from, this.state.to);
@@ -90,7 +113,6 @@ class AddTrip extends Component {
       coverPhoto: this.state.coverPhoto,
       days: [...daysArray]
     };
-
     this.props.addTrip(tripData, this.props.history);
 
     this.setState({ description: "" });
@@ -101,6 +123,9 @@ class AddTrip extends Component {
   };
 
   validateFields = () => {
+    if (this.state.country === false) {
+      return true;
+    }
     if (
       this.compareFromTo(this.state.from, this.state.to) ||
       (!validator.isURL(this.state.coverPhoto) &&
@@ -122,6 +147,10 @@ class AddTrip extends Component {
           Let's add your journey to share your experience with the world
         </Typography>
         <form className={classes.form} onSubmit={this.onSubmit}>
+          {this.state.country === false ? (
+            <p style={{ color: "red" }}>Must Select a Country</p>
+          ) : null}
+
           {this.compareFromTo(this.state.from, this.state.to) ? (
             <p style={{ color: "red" }}>To cannot be smaller than From</p>
           ) : null}
@@ -129,7 +158,7 @@ class AddTrip extends Component {
           !validator.isEmpty(this.state.coverPhoto) ? (
             <p style={{ color: "red" }}>false URL</p>
           ) : null}
-          <FormControl margin="normal" required>
+          {/* <FormControl margin="normal" required>
             <InputLabel htmlFor="country">country</InputLabel>
             <Input
               className={classes.textField}
@@ -139,7 +168,26 @@ class AddTrip extends Component {
               onChange={this.handleChange("country")}
               required
             />
+          </FormControl> */}
+          <FormControl margin="normal">
+            <FormHelperText>Country</FormHelperText>
+            <Geosuggest
+              ref={el => (this._geoSuggest = el)}
+              style={{
+                input: {
+                  width: "300px",
+                  borderTop: "none",
+                  borderLeft: "none",
+                  borderRight: "none",
+                  borderBottomWidth: "1px",
+                  borderBottomColor: "grey"
+                }
+              }}
+              onSuggestSelect={this.onSuggestSelect}
+              onSuggestNoResults={this.onSuggestNoResults}
+            />
           </FormControl>
+          <br />
           <FormControl margin="normal" required>
             <TextField
               error={this.compareFromTo(this.state.from, this.state.to)}
@@ -205,7 +253,6 @@ class AddTrip extends Component {
               margin="normal"
             />
           </FormControl>
-
           <Grid justify="flex-end" container space={24}>
             <Grid item />
             <Grid item />

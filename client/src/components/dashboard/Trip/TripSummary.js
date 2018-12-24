@@ -47,6 +47,7 @@ class TripSummary extends Component {
   render() {
     const { classes } = this.props;
     const { trip, loading } = this.props.trip;
+    const { country } = this.props.trip.trip;
     let daysDetailContent = [];
 
     if (trip === null || loading) {
@@ -71,8 +72,8 @@ class TripSummary extends Component {
     }
     return (
       <MidGridLayout>
-        <Typography variant="h3" gutterBottom>
-          {trip.country}
+        <Typography variant="h4" gutterBottom>
+          {!isEmpty(country) ? country[0].name : null}
           <Tooltip title="edit Trip info">
             <Fab
               component={Link}

@@ -11,9 +11,19 @@ const TripSchema = new Schema({
     type: String,
     required: true
   },
+  // country: {
+  //   type: String,
+  //   required: true
+  // },
   country: {
-    type: String,
-    required: true
+    type: [
+      {
+        name: { type: String, required: true },
+        lat: { type: String },
+        lng: { type: String },
+        placeId: { type: String }
+      }
+    ]
   },
   from: {
     type: Date,
@@ -23,61 +33,34 @@ const TripSchema = new Schema({
     type: Date,
     required: true
   },
-  length: {
-    type: Number
-  },
-  budget: {
-    type: Number
-  },
-  description: {
-    type: String
-  },
-  coverPhoto: {
-    type: String
-  },
+  length: { type: Number },
+  budget: { type: Number },
+  description: { type: String },
+  coverPhoto: { type: String },
   days: [
     {
       users: {
         type: Schema.Types.ObjectId,
         ref: "users"
       },
-      hotel: {
-        type: String
-      },
-      date: {
-        type: Date
-      },
-      schedule: {
-        type: String
-      },
+      hotel: { type: String },
+      date: { type: Date },
+      schedule: { type: String },
       cities: [
         {
-          name: {
-            type: String
-          },
-          description: {
-            type: String
-          },
+          name: { type: String },
+          description: { type: String },
+          // lat: { type: String },
+          // lng: { type: String },
+          // placeId: { type: String },
           POI: [
             {
-              name: {
-                type: String
-              },
-              lat: {
-                type: String
-              },
-              lng: {
-                type: String
-              },
-              placeId: {
-                type: String
-              },
-              photoLinks: {
-                type: [String]
-              },
-              description: {
-                type: String
-              }
+              name: { type: String },
+              lat: { type: String },
+              lng: { type: String },
+              placeId: { type: String },
+              photoLinks: { type: [String] },
+              description: { type: String }
             }
           ]
         }

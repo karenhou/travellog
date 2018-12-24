@@ -55,7 +55,7 @@ export class TripItems extends Component {
               <Grid item xs container direction="column" spacing={16}>
                 <Grid item xs>
                   <Typography gutterBottom variant="h5">
-                    {trip.country}
+                    {trip.country[0].name}
                   </Typography>
                   <Typography gutterBottom variant="subtitle1">
                     <Moment format="YYYY/MM/DD">{trip.from}</Moment> -

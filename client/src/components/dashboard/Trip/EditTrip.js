@@ -4,17 +4,20 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import validator from "validator";
+import Geosuggest from "react-geosuggest";
 
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Chip from "@material-ui/core/Chip";
 
 import { getTripById, editTrip } from "../../../actions/tripActions";
 import isEmpty from "../../../validation/is-empty";
@@ -89,6 +92,24 @@ class EditTrip extends Component {
     var date1 = new Date(from);
     var date2 = new Date(to);
     return date2.getTime() < date1.getTime() ? true : false;
+  };
+
+  onSuggestSelect = suggest => {
+    if (suggest) {
+      let newCountry = {
+        name: suggest.gmaps.name,
+        placeId: suggest.placeId,
+        lat: suggest.location.lat,
+        lng: suggest.location.lng,
+        _id: this.state.country[0]._id
+      };
+      let newArray = [];
+      newArray.push(newCountry);
+      this.setState({
+        country: [...newArray],
+        cityContent: ""
+      });
+    }
   };
 
   onSubmit = e => {
@@ -169,39 +190,14 @@ class EditTrip extends Component {
     const { classes } = this.props;
     const { trip, loading } = this.props.trip;
 
-    let tripContent, daysDetailContent;
-
+    let tripContent;
     if (trip === null || loading) {
       tripContent = (
         <div>
           <CircularProgress />
         </div>
       );
-      daysDetailContent = (
-        <div>
-          <CircularProgress />
-        </div>
-      );
     } else {
-      if (trip.days) {
-        daysDetailContent = trip.days.map((day, index) => (
-          <Button
-            key={index}
-            component={Link}
-            to={`/trip/${this.props.match.params.trip_id}/update-day/${
-              day._id
-            }`}
-            className={classes.submit}
-            type="submit"
-            variant="contained"
-            color="primary">
-            {moment.utc(day.date).format("YYYY-MM-DD")}
-          </Button>
-        ));
-      } else {
-        daysDetailContent = <h4>No day found...</h4>;
-      }
-
       tripContent = (
         <form className={classes.form} onSubmit={this.onSubmit}>
           {this.compareFromTo(this.state.from, this.state.to) ? (
@@ -211,18 +207,31 @@ class EditTrip extends Component {
           !validator.isEmpty(this.state.coverPhoto) ? (
             <p style={{ color: "red" }}>false URL</p>
           ) : null}
-          <FormControl margin="normal" required>
-            <InputLabel htmlFor="country">country</InputLabel>
-            <Input
-              className={classes.textField}
-              id="country"
-              name="country"
-              autoFocus
-              value={this.state.country}
-              onChange={this.handleChange("country")}
-              required
+          <FormControl margin="normal">
+            <FormHelperText>Country</FormHelperText>
+            <Geosuggest
+              ref={el => (this._geoSuggest = el)}
+              style={{
+                input: {
+                  width: "300px",
+                  borderTop: "none",
+                  borderLeft: "none",
+                  borderRight: "none",
+                  borderBottomWidth: "1px",
+                  borderBottomColor: "grey"
+                }
+              }}
+              onSuggestSelect={this.onSuggestSelect}
             />
+            {!isEmpty(this.state.country[0]) ? (
+              <Chip
+                label={this.state.country[0].name}
+                className={classes.chip}
+                color="secondary"
+              />
+            ) : null}
           </FormControl>
+          <br />
           <FormControl margin="normal" required>
             <TextField
               error={this.compareFromTo(this.state.from, this.state.to)}

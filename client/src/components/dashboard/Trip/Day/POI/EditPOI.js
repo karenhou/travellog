@@ -72,7 +72,6 @@ export class editPOI extends Component {
               if (this.props.match.params.city_id === c._id) {
                 c.POI.map(p => {
                   if (this.props.match.params.poi_id === p._id) {
-                    console.log("propmount ", p);
                     this.setState({
                       POIArray: [...c.POI],
                       POI: p,
@@ -87,7 +86,6 @@ export class editPOI extends Component {
         });
       }
     }
-    console.log(this.state.POI);
   }
 
   handleChange = prop => event => {
@@ -102,7 +100,6 @@ export class editPOI extends Component {
   };
 
   onSuggestSelect = suggest => {
-    console.log("b4 suggest ", this.state.POI);
     if (suggest) {
       let newPOI = {
         name: suggest.gmaps.name,
@@ -118,7 +115,6 @@ export class editPOI extends Component {
         cityContent: ""
       });
     }
-    console.log("aft suggest ", this.state.POI);
     this._geoSuggest.clear();
   };
 
@@ -138,7 +134,6 @@ export class editPOI extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state.POI);
     const poiData = {
       name: this.state.POI.name,
       lat: this.state.POI.lat,

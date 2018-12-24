@@ -168,8 +168,9 @@ export class AddPOI extends Component {
               component={Link}
               to={`/trip/${this.props.match.params.trip_id}`}
               type="submit"
-              variant="contained">
-              Cancel
+              variant="contained"
+              color="primary">
+              TripOverView
             </Button>
           </Grid>
         </Grid>

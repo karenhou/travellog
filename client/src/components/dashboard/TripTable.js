@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
 import moment from "moment";
-
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+
 import { getCurrentProfile } from "../../actions/profileActions";
 import { deleteTrip, getTripsByUserId } from "../../actions/tripActions";
+
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -17,6 +17,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
+
 const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: "#80cbc4",
@@ -111,7 +112,6 @@ class TripTable extends Component {
     const { trips, loading } = this.props.trip;
     const { classes } = this.props;
     const { rowsPerPage, page, order, orderBy } = this.state;
-
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, trips.length - page * rowsPerPage);
 
@@ -125,7 +125,7 @@ class TripTable extends Component {
           return (
             <TableRow className={classes.row} key={row._id}>
               <CustomTableCell component="th" scope="row">
-                {row.country}
+                {row.country[0].name}
               </CustomTableCell>
               <CustomTableCell>
                 {moment.utc(row.from).format("YYYY-MM-DD")}

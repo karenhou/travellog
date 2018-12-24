@@ -55,7 +55,7 @@ export class TripTimeline extends Component {
               className="vertical-timeline-element-subtitle"
               variant="subtitle1">
               <i className="fas fa-globe" />
-              {trip.country}
+              {trip.country[0].name}
             </Typography>
             <Typography
               className="vertical-timeline-element-subtitle"
