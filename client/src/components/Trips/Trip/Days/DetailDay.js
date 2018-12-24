@@ -110,18 +110,16 @@ export class DetailDay extends Component {
           </AppBar>
           {tabContent}
         </div>
-        <Grid justify="center" container space={24}>
-          <Grid item>
-            <Button
-              component={Link}
-              to="/trips"
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.btn}>
-              Back to Trips
-            </Button>
-          </Grid>
+        <Grid container space={24}>
+          <Button
+            component={Link}
+            to="/trips"
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.btn}>
+            Back to Trips
+          </Button>
         </Grid>
       </MidGridLayout>
     );

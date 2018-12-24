@@ -19,7 +19,8 @@ const styles = theme => ({
     marginTop: theme.spacing.unit
   },
   submit: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit * 2
   }
 });
 
@@ -159,27 +160,21 @@ class CreateProfile extends Component {
             />
           </FormControl>
           <Grid justify="flex-end" container space={24}>
-            <Grid item />
-            <Grid item />
-            <Grid item xs={6} md={2}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                className={classes.submit}>
-                ok
-              </Button>
-            </Grid>
-            <Grid item xs={6} md={2}>
-              <Button
-                component={Link}
-                to="/dashboard"
-                type="submit"
-                variant="contained"
-                className={classes.submit}>
-                Cancel
-              </Button>
-            </Grid>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submit}>
+              ok
+            </Button>
+            <Button
+              component={Link}
+              to="/dashboard"
+              type="submit"
+              variant="contained"
+              className={classes.submit}>
+              Cancel
+            </Button>
           </Grid>
         </form>
       </MidGridLayout>

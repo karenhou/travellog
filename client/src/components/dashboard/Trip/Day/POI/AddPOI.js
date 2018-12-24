@@ -35,7 +35,8 @@ const styles = theme => ({
     marginTop: theme.spacing.unit
   },
   submit: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit * 2
   },
   chip: {
     marginTop: theme.spacing.unit * 2,
@@ -232,28 +233,22 @@ export class AddPOI extends Component {
             {photoContent}
           </FormControl>
           <Grid justify="flex-end" container space={24}>
-            <Grid item />
-            <Grid item />
-            <Grid item xs={6} md={2}>
-              <Button
-                disabled={isEmpty(this.state.POI)}
-                type="submit"
-                variant="contained"
-                color="primary">
-                Submit
-              </Button>
-            </Grid>
-            <Grid item xs={6} md={2}>
-              <Button
-                component={Link}
-                to={`/trip/${this.props.match.params.trip_id}/${
-                  this.props.match.params.day_id
-                }/${this.props.match.params.city_id}/POI`}
-                type="submit"
-                variant="contained">
-                Cancel
-              </Button>
-            </Grid>
+            <Button
+              disabled={isEmpty(this.state.POI)}
+              type="submit"
+              variant="contained"
+              color="primary">
+              Submit
+            </Button>
+            <Button
+              component={Link}
+              to={`/trip/${this.props.match.params.trip_id}/${
+                this.props.match.params.day_id
+              }/${this.props.match.params.city_id}/POI`}
+              type="submit"
+              variant="contained">
+              Cancel
+            </Button>
           </Grid>
         </form>
       </MidGridLayout>

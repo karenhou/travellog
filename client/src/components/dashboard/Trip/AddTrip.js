@@ -30,7 +30,8 @@ const styles = theme => ({
     marginTop: theme.spacing.unit
   },
   submit: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit * 2
   },
   subtitle: {
     marginTop: theme.spacing.unit * 3,
@@ -158,17 +159,6 @@ class AddTrip extends Component {
           !validator.isEmpty(this.state.coverPhoto) ? (
             <p style={{ color: "red" }}>false URL</p>
           ) : null}
-          {/* <FormControl margin="normal" required>
-            <InputLabel htmlFor="country">country</InputLabel>
-            <Input
-              className={classes.textField}
-              id="country"
-              name="country"
-              autoFocus
-              onChange={this.handleChange("country")}
-              required
-            />
-          </FormControl> */}
           <FormControl margin="normal">
             <FormHelperText>Country</FormHelperText>
             <Geosuggest
@@ -254,28 +244,22 @@ class AddTrip extends Component {
             />
           </FormControl>
           <Grid justify="flex-end" container space={24}>
-            <Grid item />
-            <Grid item />
-            <Grid item xs={6} md={2}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={this.validateFields()}
-                className={classes.submit}>
-                Save
-              </Button>
-            </Grid>
-            <Grid item xs={6} md={2}>
-              <Button
-                component={Link}
-                to="/dashboard"
-                type="submit"
-                variant="contained"
-                className={classes.submit}>
-                Cancel
-              </Button>
-            </Grid>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={this.validateFields()}
+              className={classes.submit}>
+              Save
+            </Button>
+            <Button
+              component={Link}
+              to="/dashboard"
+              type="submit"
+              variant="contained"
+              className={classes.submit}>
+              Cancel
+            </Button>
           </Grid>
         </form>
       </GridLayout>

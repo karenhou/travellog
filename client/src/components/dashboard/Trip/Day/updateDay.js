@@ -22,15 +22,15 @@ import MidGridLayout from "../../../layout/MidGridLayout";
 
 const styles = theme => ({
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit * 5
+    marginLeft: theme.spacing.unit
   },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing.unit
   },
   submit: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit * 3
   },
   chip: { marginTop: theme.spacing.unit * 2 }
 });
@@ -150,7 +150,7 @@ class UpdateDay extends Component {
 
     return (
       <MidGridLayout>
-        <Typography variant="h3">Content to your day</Typography>
+        <Typography variant="h3">Edit Day</Typography>
         <form className={classes.form} onSubmit={this.onSubmit}>
           <FormHelperText style={{ color: "red" }} id="component-error-text">
             {isEmpty(errors) ? "" : "**" + errors[Object.keys(errors)]}
@@ -205,27 +205,21 @@ class UpdateDay extends Component {
           </FormControl>
 
           <Grid justify="flex-end" container space={24}>
-            <Grid item />
-            <Grid item />
-            <Grid item xs={6} md={2}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                className={classes.submit}>
-                Submit
-              </Button>
-            </Grid>
-            <Grid item xs={6} md={2}>
-              <Button
-                component={Link}
-                to={`/trip/${this.props.match.params.trip_id}`}
-                type="submit"
-                variant="contained"
-                className={classes.submit}>
-                Cancel
-              </Button>
-            </Grid>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submit}>
+              Submit
+            </Button>
+            <Button
+              component={Link}
+              to={`/trip/${this.props.match.params.trip_id}`}
+              type="submit"
+              variant="contained"
+              className={classes.submit}>
+              Cancel
+            </Button>
           </Grid>
         </form>
       </MidGridLayout>

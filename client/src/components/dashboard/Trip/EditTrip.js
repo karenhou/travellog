@@ -33,7 +33,7 @@ const styles = theme => ({
   },
   submit: {
     marginTop: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3
+    marginLeft: theme.spacing.unit * 3
   }
 });
 
@@ -298,31 +298,23 @@ class EditTrip extends Component {
               margin="normal"
             />
           </FormControl>
-          {/* <Typography variant="h4">Days</Typography>
-          {daysDetailContent} */}
-          <Grid justify="flex-end" container space={24}>
-            <Grid item />
-            <Grid item />
-            <Grid item xs={6} md={2}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={this.validateFields()}
-                className={classes.submit}>
-                Save
-              </Button>
-            </Grid>
-            <Grid item xs={6} md={2}>
-              <Button
-                component={Link}
-                to="/dashboard"
-                type="submit"
-                variant="contained"
-                className={classes.submit}>
-                Dashboard
-              </Button>
-            </Grid>
+          <Grid justify="flex-end" container space={40}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={this.validateFields()}
+              className={classes.submit}>
+              Save
+            </Button>
+            <Button
+              component={Link}
+              to={`/trip/${this.props.match.params.trip_id}`}
+              type="submit"
+              variant="contained"
+              className={classes.submit}>
+              Cancel
+            </Button>
           </Grid>
         </form>
       );

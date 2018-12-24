@@ -85,17 +85,15 @@ export class TripTimeline extends Component {
     return (
       <>
         <Grid justify="center" container space={24}>
-          <Grid item>
-            <Button
-              component={Link}
-              to="/trips"
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.btn}>
-              Back to Trips
-            </Button>
-          </Grid>
+          <Button
+            component={Link}
+            to="/trips"
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.btn}>
+            Back to Trips
+          </Button>
         </Grid>
         <VerticalTimeline>{timeLineItems}</VerticalTimeline>
       </>

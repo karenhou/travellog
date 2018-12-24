@@ -9,6 +9,7 @@ const styles = theme => ({
   main: {
     width: "auto",
     display: "block", // Fix IE 11 issue.
+    marginTop: theme.spacing.unit * 3.5,
     marginLeft: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {

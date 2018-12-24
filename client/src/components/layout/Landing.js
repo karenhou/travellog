@@ -15,7 +15,7 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     background:
-      'url("https://source.unsplash.com/Ye6rupMjAWk/1360x640") no-repeat',
+      'url("https://source.unsplash.com/Ye6rupMjAWk/1600x800") no-repeat',
     height: "90vh",
     textAlign: "center"
   },
@@ -44,7 +44,6 @@ class Landing extends Component {
       <div>
         <Paper className={classes.root} elevation={1}>
           <Grid className={classes.cont} container spacing={24}>
-            <Grid item xs />
             <Grid item xs={12}>
               <Typography className={classes.title} variant="h1" component="h2">
                 Travellog
@@ -69,7 +68,6 @@ class Landing extends Component {
                 SignUp
               </Button>
             </Grid>
-            <Grid item xs />
           </Grid>
         </Paper>
       </div>

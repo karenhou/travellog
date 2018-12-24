@@ -40,6 +40,10 @@ const styles = theme => ({
   },
   title: {
     marginBottom: theme.spacing.unit * 2
+  },
+  submit: {
+    marginTop: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit * 2
   }
 });
 
@@ -152,27 +156,25 @@ export class AddPOI extends Component {
           click each chip to modify POI
         </Typography>
         {POIContent}
-        <Grid container space={24} className={classes.grid}>
-          <Grid item xs={6} md={3}>
-            <Button
-              component={Link}
-              to={`/dashboard`}
-              type="submit"
-              variant="contained"
-              color="primary">
-              Dashboard
-            </Button>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <Button
-              component={Link}
-              to={`/trip/${this.props.match.params.trip_id}`}
-              type="submit"
-              variant="contained"
-              color="primary">
-              TripOverView
-            </Button>
-          </Grid>
+        <Grid justify="flex-end" container space={24} className={classes.grid}>
+          <Button
+            component={Link}
+            to={`/dashboard`}
+            type="submit"
+            variant="contained"
+            className={classes.submit}
+            color="secondary">
+            Dashboard
+          </Button>
+          <Button
+            component={Link}
+            to={`/trip/${this.props.match.params.trip_id}`}
+            type="submit"
+            variant="contained"
+            className={classes.submit}
+            color="secondary">
+            TripOverView
+          </Button>
         </Grid>
       </MidGridLayout>
     );

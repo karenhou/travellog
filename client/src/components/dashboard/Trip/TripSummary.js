@@ -92,17 +92,15 @@ class TripSummary extends Component {
           trip={this.props.trip.trip}
           onDelete={this.handleCityDelete}
         />
-        <Grid container space={24}>
-          <Grid item xs={12} md={3}>
-            <Button
-              component={Link}
-              to="/dashboard"
-              className={classes.funcBtn}
-              variant="outlined"
-              color="secondary">
-              Dashboard
-            </Button>
-          </Grid>
+        <Grid justify="flex-end" container space={24}>
+          <Button
+            component={Link}
+            to="/dashboard"
+            className={classes.funcBtn}
+            variant="outlined"
+            color="secondary">
+            Dashboard
+          </Button>
         </Grid>
       </MidGridLayout>
     );
