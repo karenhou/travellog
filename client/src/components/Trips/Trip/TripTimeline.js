@@ -14,11 +14,11 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import isEmpty from "../../../validation/is-empty";
 
 const styles = theme => ({
   btn: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2
   }
 });
 
@@ -39,7 +39,7 @@ export class TripTimeline extends Component {
     if (trip.days) {
       timeLineItems = trip.days.map(day => {
         cityContent = day.cities.map(city => city.name + ", ");
-        console.log("check city ", day);
+        // console.log("check city ", day);
         return (
           <VerticalTimelineElement
             key={day._id}
@@ -48,25 +48,25 @@ export class TripTimeline extends Component {
             iconStyle={{ background: "#80cbc4", color: "#00796b" }}>
             <Typography
               className="vertical-timeline-element-title"
+              color="primary"
               variant="h5">
-              Cities: {cityContent}
+              {cityContent}
             </Typography>
             <Typography
               className="vertical-timeline-element-subtitle"
-              variant="subtitle1">
-              <i className="fas fa-globe" />
+              variant="subtitle1"
+              color="secondary">
               {trip.country[0].name}
             </Typography>
             <Typography
               className="vertical-timeline-element-subtitle"
               variant="subtitle1">
-              <i className="fas fa-hotel" />
+              <i className="fas fa-hotel" style={{ marginRight: "5px" }} />
               {day.hotel}
             </Typography>
             <Typography
               className="vertical-timeline-element-subtitle"
               variant="subtitle1">
-              <i className="fas fa-align-justify" />
               {day.schedule}
             </Typography>
             <Button
@@ -93,6 +93,15 @@ export class TripTimeline extends Component {
             color="primary"
             className={classes.btn}>
             Back to Trips
+          </Button>
+          <Button
+            component={Link}
+            to={`/trips/${trip._id}/map`}
+            className={classes.btn}
+            type="submit"
+            variant="contained"
+            color="primary">
+            Go to Map
           </Button>
         </Grid>
         <VerticalTimeline>{timeLineItems}</VerticalTimeline>

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import moment from "moment";
 
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -11,7 +10,6 @@ import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
 import Icon from "@material-ui/core/Icon";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { getTrips, getTripById } from "../../../actions/tripActions";
 import isEmpty from "../../../validation/is-empty";
@@ -46,30 +44,8 @@ class TripSummary extends Component {
   };
   render() {
     const { classes } = this.props;
-    const { trip, loading } = this.props.trip;
     const { country } = this.props.trip.trip;
-    let daysDetailContent = [];
 
-    if (trip === null || loading) {
-      daysDetailContent = <CircularProgress />;
-    } else {
-      if (!isEmpty(trip)) {
-        daysDetailContent = trip.days.map((day, index) => (
-          <Button
-            key={index}
-            component={Link}
-            to={`/trip/${this.props.match.params.trip_id}/add-day/${day._id}`}
-            className={classes.btn}
-            type="submit"
-            variant="contained"
-            color="primary">
-            {moment.utc(day.date).format("YYYY-MM-DD")}
-          </Button>
-        ));
-      } else {
-        daysDetailContent = <h4>No day found...</h4>;
-      }
-    }
     return (
       <MidGridLayout>
         <Typography variant="h4" gutterBottom>

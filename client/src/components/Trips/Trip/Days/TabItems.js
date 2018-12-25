@@ -1,19 +1,19 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import moment from "moment";
 
 import isEmpty from "../../../../validation/is-empty";
 
-const TabItems = props => {
-  const { POI } = props.day;
-  let photoContent, cityContent, poiContent;
-  let photoArray = [];
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
+import Typography from "@material-ui/core/Typography";
 
-  console.log("POI", POI);
-  if (!isEmpty(POI)) {
-    cityContent = POI.map((poi, index) => {
+const TabItems = props => {
+  let photoContent, cityContent, tabContent;
+  if (!isEmpty(props.day.POI)) {
+    cityContent = props.day.POI.map((poi, index) => {
       if (!isEmpty(poi.photoLinks)) {
         photoContent = poi.photoLinks.map((photo, i) => {
           return (
@@ -29,28 +29,24 @@ const TabItems = props => {
       }
       return (
         <div key={index}>
-          <Typography variant="h5">{poi.name}</Typography>
-          <Typography variant="subtitle2">{poi.description}</Typography>
-          <br />
+          <ListItem button>
+            <ListItemText primary={poi.name} secondary={poi.description} />
+          </ListItem>
+          <Divider />
         </div>
       );
     });
-    poiContent = POI.map(poi => {
-      return poi.name + " ";
-    });
+
+    tabContent = (
+      <>
+        <Carousel showThumbs={false}>{photoContent}</Carousel>
+        <List>{cityContent}</List>
+      </>
+    );
   } else {
+    tabContent = <Typography variant="h5">No POI found</Typography>;
   }
-  return (
-    <div>
-      {!isEmpty(POI) ? (
-        <>
-          <Carousel showThumbs={false}>{photoContent}</Carousel>
-          {cityContent}
-        </>
-      ) : (
-        <Typography variant="h5">No POI found...</Typography>
-      )}
-    </div>
-  );
+
+  return tabContent;
 };
 export default TabItems;

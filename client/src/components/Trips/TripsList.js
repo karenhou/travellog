@@ -36,7 +36,9 @@ class TripsList extends Component {
     );
   }
 }
-TripsList.propType = {};
+TripsList.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
 const mapStateToProps = state => ({
   trip: state.trip

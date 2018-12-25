@@ -237,7 +237,8 @@ export class AddPOI extends Component {
               disabled={isEmpty(this.state.POI)}
               type="submit"
               variant="contained"
-              color="primary">
+              color="primary"
+              className={classes.submit}>
               Submit
             </Button>
             <Button
@@ -246,7 +247,8 @@ export class AddPOI extends Component {
                 this.props.match.params.day_id
               }/${this.props.match.params.city_id}/POI`}
               type="submit"
-              variant="contained">
+              variant="contained"
+              className={classes.submit}>
               Cancel
             </Button>
           </Grid>
@@ -255,14 +257,15 @@ export class AddPOI extends Component {
     );
   }
 }
+AddPOI.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
 const mapStateToProps = state => ({
   trip: state.trip,
   auth: state.auth,
   errors: state.errors
 });
-
-const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

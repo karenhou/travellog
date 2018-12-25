@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import moment from "moment";
 import { Link } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -32,8 +31,14 @@ TabContainer.propTypes = {
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    width: "100%",
-    backgroundColor: theme.palette.background.paper
+    width: "100%"
+  },
+  btn: {
+    marginTop: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 2
+  },
+  text: {
+    marginTop: theme.spacing.unit * 3
   }
 });
 
@@ -54,11 +59,10 @@ export class DetailDay extends Component {
     if (!isEmpty(nextProps.trip.trip)) {
       const days = nextProps.trip.trip.days;
       if (days !== null) {
-        days.map((day, index) => {
-          if (this.props.match.params.day_id === day._id) {
+        days.map(d => {
+          if (this.props.match.params.day_id === d._id) {
             this.setState({
-              day: day,
-              value: index
+              day: d
             });
           }
         });
@@ -72,44 +76,40 @@ export class DetailDay extends Component {
 
   render() {
     const { classes } = this.props;
-    const { trip } = this.props.trip;
-    const { value } = this.state;
     let tabHeadText, tabContent;
-    let tripContent, cityContent, poiContent;
     let day = this.state.day;
+
     if (!isEmpty(day)) {
       tabHeadText = day.cities.map((city, index) => {
         return <Tab key={index} label={city.name} />;
       });
-      tabContent = (
-        <TabContainer>
-          <TabItems key={value} day={day.cities[value]} />
-        </TabContainer>
-      );
-      // tabContent = (
-      //   <TabContainer>
-      //     <TabeItems day={trip.days[value]} />
-      //   </TabContainer>
-      // );
-    }
 
+      if (day.cities[this.state.value] !== undefined) {
+        tabContent = (
+          <>
+            <AppBar position="static" color="default">
+              <Tabs
+                value={this.state.value}
+                onChange={this.handleChange}
+                indicatorColor="primary"
+                textColor="primary"
+                scrollable
+                scrollButtons="auto">
+                {tabHeadText}
+              </Tabs>
+            </AppBar>
+            <TabContainer>
+              <TabItems day={day.cities[this.state.value]} />
+            </TabContainer>
+          </>
+        );
+      } else {
+        tabContent = <Typography variant="h5">no City found</Typography>;
+      }
+    }
     return (
       <MidGridLayout>
-        <div className={classes.root}>
-          <AppBar position="static" color="default">
-            <Tabs
-              value={value}
-              onChange={this.handleChange}
-              indicatorColor="primary"
-              textColor="primary"
-              scrollable
-              scrollButtons="auto">
-              {tabHeadText}
-              {/* {cityContent} */}
-            </Tabs>
-          </AppBar>
-          {tabContent}
-        </div>
+        <div className={classes.root}>{tabContent}</div>
         <Grid container space={24}>
           <Button
             component={Link}
@@ -120,6 +120,15 @@ export class DetailDay extends Component {
             className={classes.btn}>
             Back to Trips
           </Button>
+          <Button
+            component={Link}
+            to={`/trips/${this.props.match.params.trip_id}/timeline`}
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.btn}>
+            Back to Timeline
+          </Button>
         </Grid>
       </MidGridLayout>
     );
@@ -129,8 +138,6 @@ export class DetailDay extends Component {
 const mapStateToProps = state => ({
   trip: state.trip
 });
-
-const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

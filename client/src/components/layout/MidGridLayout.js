@@ -44,5 +44,8 @@ export class MidGridLayout extends Component {
     );
   }
 }
+MidGridLayout.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
 export default withStyles(styles)(MidGridLayout);

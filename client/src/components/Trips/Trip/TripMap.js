@@ -3,11 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 
-import Typography from "@material-ui/core/Typography";
-
 import { getTripById } from "../../../actions/tripActions";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import GridLayout from "../../layout/GridLayout";
 import isEmpty from "../../../validation/is-empty";
 
 const style = {
@@ -128,8 +125,6 @@ export class TripMap extends Component {
 const mapStateToProps = state => ({
   trip: state.trip
 });
-
-const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

@@ -146,7 +146,7 @@ export class editPOI extends Component {
 
     let tempPOI = this.state.POIArray;
     tempPOI.map((poi, index) => {
-      if (this.state.POI._id == poi._id) {
+      if (this.state.POI._id === poi._id) {
         tempPOI[index] = poiData;
       }
     });
@@ -256,7 +256,8 @@ export class editPOI extends Component {
               disabled={isEmpty(this.state.POI)}
               type="submit"
               variant="contained"
-              color="primary">
+              color="primary"
+              className={classes.submit}>
               Submit
             </Button>
             <Button
@@ -265,7 +266,8 @@ export class editPOI extends Component {
                 this.props.match.params.day_id
               }/${this.props.match.params.city_id}/POI`}
               type="submit"
-              variant="contained">
+              variant="contained"
+              className={classes.submit}>
               Cancel
             </Button>
           </Grid>
@@ -280,8 +282,6 @@ const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
-
-const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

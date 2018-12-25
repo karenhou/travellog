@@ -235,7 +235,6 @@ const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
-const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

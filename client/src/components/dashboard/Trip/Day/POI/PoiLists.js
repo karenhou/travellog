@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import validator from "validator";
 
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -47,7 +46,7 @@ const styles = theme => ({
   }
 });
 
-export class AddPOI extends Component {
+export class PoiLists extends Component {
   state = {
     POI: "",
     POIArray: "",
@@ -118,22 +117,20 @@ export class AddPOI extends Component {
               label={poi.name}
               variant="outlined"
             />
-            <IconButton
-              className={classes.button}
-              aria-label="Delete"
-              color="secondary"
-              onClick={() => this.handleDelete(i)}>
-              <DeleteIcon />
-            </IconButton>
+            <Tooltip title="delete POI">
+              <IconButton
+                className={classes.button}
+                aria-label="Delete"
+                color="secondary"
+                onClick={() => this.handleDelete(i)}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
           </span>
         );
       });
     } else {
-      POIContent = (
-        <Typography variant="subtitle1" className={classes.title}>
-          No POI found...
-        </Typography>
-      );
+      POIContent = <Typography variant="subtitle1" className={classes.title} />;
     }
     return (
       <MidGridLayout className={classes.root}>
@@ -152,9 +149,16 @@ export class AddPOI extends Component {
             </Fab>
           </Tooltip>
         </Typography>
-        <Typography variant="subtitle2" className={classes.title}>
-          click each chip to modify POI
-        </Typography>
+        {isEmpty(this.state.POIArray) ? (
+          <Typography variant="subtitle2" className={classes.title}>
+            Click add button to add POI
+          </Typography>
+        ) : (
+          <Typography variant="subtitle2" className={classes.title}>
+            click each chip to modify POI or add button to add POI
+          </Typography>
+        )}
+
         {POIContent}
         <Grid justify="flex-end" container space={24} className={classes.grid}>
           <Button
@@ -180,6 +184,9 @@ export class AddPOI extends Component {
     );
   }
 }
+PoiLists.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
 const mapStateToProps = state => ({
   trip: state.trip,
@@ -187,9 +194,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-const mapDispatchToProps = {};
-
 export default connect(
   mapStateToProps,
   { clearErrors, getTripById, deletePOI }
-)(withStyles(styles)(AddPOI));
+)(withStyles(styles)(PoiLists));

@@ -139,7 +139,6 @@ class AddTrip extends Component {
   };
 
   render() {
-    const { errors } = this.state;
     const { classes } = this.props;
     return (
       <GridLayout>
