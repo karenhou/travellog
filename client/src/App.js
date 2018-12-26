@@ -76,73 +76,62 @@ class App extends Component {
           <div className="App">
             <MuiThemeProvider theme={theme}>
               <MyNavbar />
-              <Route exact path="/" component={Landing} />
-              <div>
+              <Switch>
+                <Route exact path="/" component={Landing} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/trips" component={TripsList} />
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/add-trip" component={AddTrip} />
+                <PrivateRoute
+                  exact
+                  path="/create-profile"
+                  component={CreateProfile}
+                />
                 <Route exact path="/profile/:handle" component={Profile} />
-                <Switch>
-                  <Route
-                    exact
-                    path="/trips/:trip_id/timeline"
-                    component={TripTimeline}
-                  />
-                  <Route exact path="/trips/:trip_id/map" component={TripMap} />
-                  <Route
-                    exact
-                    path="/trips/:trip_id/:day_id/details"
-                    component={DetailDay}
-                  />
-                </Switch>
-                <Switch>
-                  <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                </Switch>
-                <Switch>
-                  <PrivateRoute exact path="/add-trip" component={AddTrip} />
-                </Switch>
-                <Switch>
-                  <PrivateRoute
-                    exact
-                    path="/trip/:trip_id/:day_id/:city_id/POI/add"
-                    component={AddPOI}
-                  />
-                  <PrivateRoute
-                    exact
-                    path="/trip/:trip_id/:day_id/:city_id/POI/:poi_id"
-                    component={EditPOI}
-                  />
-
-                  <PrivateRoute
-                    exact
-                    path="/trip/:trip_id/:day_id/:city_id/POI"
-                    component={PoiLists}
-                  />
-                  <PrivateRoute
-                    exact
-                    path="/trip/:trip_id/update-day/:day_id"
-                    component={UpdateDay}
-                  />
-                  <PrivateRoute
-                    exact
-                    path="/trip/:trip_id/edit-trip"
-                    component={EditTrip}
-                  />
-                  <PrivateRoute
-                    exact
-                    path="/trip/:trip_id"
-                    component={TripSummary}
-                  />
-                </Switch>
-                <Switch>
-                  <PrivateRoute
-                    exact
-                    path="/create-profile"
-                    component={CreateProfile}
-                  />
-                </Switch>
-                <Route path="/not-found" component={NotFound} />
-              </div>
+                <Route
+                  exact
+                  path="/trips/:trip_id/timeline"
+                  component={TripTimeline}
+                />
+                <Route exact path="/trips/:trip_id/map" component={TripMap} />
+                <Route
+                  exact
+                  path="/trips/:trip_id/:day_id/details"
+                  component={DetailDay}
+                />
+                <PrivateRoute
+                  exact
+                  path="/trip/:trip_id/:day_id/:city_id/POI/add"
+                  component={AddPOI}
+                />
+                <PrivateRoute
+                  exact
+                  path="/trip/:trip_id/:day_id/:city_id/POI/:poi_id"
+                  component={EditPOI}
+                />
+                <PrivateRoute
+                  exact
+                  path="/trip/:trip_id/:day_id/:city_id/POI"
+                  component={PoiLists}
+                />
+                <PrivateRoute
+                  exact
+                  path="/trip/:trip_id/update-day/:day_id"
+                  component={UpdateDay}
+                />
+                <PrivateRoute
+                  exact
+                  path="/trip/:trip_id/edit-trip"
+                  component={EditTrip}
+                />
+                <PrivateRoute
+                  exact
+                  path="/trip/:trip_id"
+                  component={TripSummary}
+                />
+                <Route path="*" component={NotFound} />
+              </Switch>
               {/* <MyFooter /> */}
             </MuiThemeProvider>
           </div>
