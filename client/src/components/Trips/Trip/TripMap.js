@@ -11,6 +11,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Paper from "@material-ui/core/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
+import { Typography } from "@material-ui/core";
 
 const styles = theme => ({
   main: {
@@ -52,7 +53,11 @@ export class TripMap extends Component {
     country: "",
     city: "",
     cityOn: true,
-    poiOn: true
+    poiOn: true,
+    lat: "",
+    lng: "",
+    zoom: 4,
+    bound: 0
   };
 
   componentDidMount() {
@@ -70,13 +75,14 @@ export class TripMap extends Component {
 
       if (!isEmpty(country[0].name)) {
         this.setState({
-          country: country
+          country: country,
+          lat: country[0].lat,
+          lng: country[0].lng
         });
       }
       if (!isEmpty(days)) {
         days.map(day => {
           day.cities.map(city => {
-            console.log("city ", city);
             cityArray.push(city);
             city.POI.map(poi => {
               POIarray.push(poi);
@@ -85,18 +91,31 @@ export class TripMap extends Component {
         });
       }
     }
+    var bounds = new this.props.google.maps.LatLngBounds();
+    for (var i = 0; i < POIarray.length; i++) {
+      bounds.extend({
+        lat: parseFloat(POIarray[i].lat),
+        lng: parseFloat(POIarray[i].lng)
+      });
+    }
+
     this.setState({
       POI: [...POIarray],
-      city: [...cityArray]
+      city: [...cityArray],
+      bound: bounds
     });
   }
 
   onMarkerClick = (props, marker, e) => {
     this.setState({
       activeMarker: marker,
-      showingInfoWindow: !this.state.showingInfoWindow
+      showingInfoWindow: !this.state.showingInfoWindow,
+      lat: props.position.lat,
+      lng: props.position.lng,
+      zoom: 12
     });
   };
+
   onMapClicked = props => {
     if (this.state.showingInfoWindow) {
       this.setState({
@@ -107,32 +126,26 @@ export class TripMap extends Component {
   };
 
   onClickAll = () => {
-    console.log("click all");
     this.setState({
       poiOn: true,
-      cityOn: true
+      cityOn: true,
+      showingInfoWindow: false,
+      lat: this.state.country[0].lat,
+      lng: this.state.country[0].lng,
+      zoom: 4
     });
   };
 
   onClickCities = () => {
-    console.log("click citites");
     this.setState({ poiOn: !this.state.poiOn, cityOn: true });
   };
 
   onClickPOIs = () => {
-    console.log("click pois");
     this.setState({ cityOn: !this.state.cityOn, poiOn: true });
   };
 
   render() {
     const { classes } = this.props;
-    var bounds = new this.props.google.maps.LatLngBounds();
-    for (var i = 0; i < this.state.POI.length; i++) {
-      bounds.extend({
-        lat: parseFloat(this.state.POI[i].lat),
-        lng: parseFloat(this.state.POI[i].lng)
-      });
-    }
     let POIcontent, mapContent, cityContent;
 
     if (!isEmpty(this.state.city)) {
@@ -173,21 +186,25 @@ export class TripMap extends Component {
         <Map
           className={classes.map}
           google={this.props.google}
-          zoom={4}
+          zoom={this.state.zoom}
           initialCenter={{
-            lat: this.state.country[0].lat,
-            lng: this.state.country[0].lng
+            lat: this.state.lat,
+            lng: this.state.lng
+          }}
+          center={{
+            lat: this.state.lat,
+            lng: this.state.lng
           }}
           onClick={this.onMapClicked}
-          bounds={bounds}>
+          bounds={this.state.bound}>
           {this.state.poiOn ? POIcontent : null}
           {this.state.cityOn ? cityContent : null}
           <InfoWindow
             marker={this.state.activeMarker}
             visible={this.state.showingInfoWindow}>
-            <div>
-              <h1>{this.state.activeMarker.name}</h1>
-            </div>
+            <Typography variant="subheading">
+              {this.state.activeMarker.name}
+            </Typography>
           </InfoWindow>
         </Map>
       );
