@@ -15,7 +15,6 @@ class TripsList extends Component {
 
   render() {
     const { trips, loading } = this.props.trip;
-
     let tripItems;
 
     if (trips === null || loading) {
@@ -36,10 +35,6 @@ class TripsList extends Component {
     );
   }
 }
-TripsList.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
 const mapStateToProps = state => ({
   trip: state.trip
 });

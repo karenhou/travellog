@@ -4,13 +4,38 @@ import { connect } from "react-redux";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 
 import { getTripById } from "../../../actions/tripActions";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import isEmpty from "../../../validation/is-empty";
 
-const style = {
-  width: "100%",
-  height: "100%"
-};
+import Grid from "@material-ui/core/Grid";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Paper from "@material-ui/core/Paper";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+const styles = theme => ({
+  main: {
+    width: "auto",
+    display: "block", // Fix IE 11 issue.
+    marginTop: theme.spacing.unit * 3.5,
+    marginLeft: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      marginLeft: "auto",
+      marginRight: "auto"
+    }
+  },
+  paper: {
+    height: "80vh",
+    marginTop: theme.spacing.unit * 2.5,
+    marginBottom: theme.spacing.unit * 2.5,
+    display: "flex",
+    flexDirection: "column",
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
+      .spacing.unit * 3}px`
+  },
+  map: {
+    position: "relative !important"
+  }
+});
 
 export class TripMap extends Component {
   state = {
@@ -70,6 +95,7 @@ export class TripMap extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     var bounds = new this.props.google.maps.LatLngBounds();
     for (var i = 0; i < this.state.POI.length; i++) {
       bounds.extend({
@@ -95,9 +121,9 @@ export class TripMap extends Component {
     if (!isEmpty(this.state.country)) {
       mapContent = (
         <Map
+          className={classes.map}
           google={this.props.google}
           zoom={7}
-          style={style}
           initialCenter={{
             lat: this.state.country[0].lat,
             lng: this.state.country[0].lng
@@ -118,7 +144,17 @@ export class TripMap extends Component {
       mapContent = <CircularProgress />;
     }
 
-    return <>{mapContent}</>;
+    return (
+      <div className={classes.main}>
+        <Grid container spacing={24}>
+          <Grid item xs />
+          <Grid item xs={10}>
+            <Paper className={classes.paper}>{mapContent}</Paper>
+          </Grid>
+          <Grid item xs />
+        </Grid>
+      </div>
+    );
   }
 }
 
@@ -130,7 +166,9 @@ export default connect(
   mapStateToProps,
   { getTripById }
 )(
-  GoogleApiWrapper({
-    apiKey: "AIzaSyD0AbphMOhr1wveT2T-x8EbazsgwtC7ONc"
-  })(TripMap)
+  withStyles(styles)(
+    GoogleApiWrapper({
+      apiKey: "AIzaSyD0AbphMOhr1wveT2T-x8EbazsgwtC7ONc"
+    })(TripMap)
+  )
 );
