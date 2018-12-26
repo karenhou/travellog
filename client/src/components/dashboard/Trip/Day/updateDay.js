@@ -121,7 +121,12 @@ class UpdateDay extends Component {
   onSuggestSelect = suggest => {
     if (suggest) {
       let newArray = [...this.state.cities];
-      newArray.push({ name: suggest.gmaps.name });
+      newArray.push({
+        name: suggest.gmaps.name,
+        placeId: suggest.placeId,
+        lat: suggest.location.lat,
+        lng: suggest.location.lng
+      });
       this.setState({ cities: newArray, cityContent: "" });
       this._geoSuggest.clear();
     }

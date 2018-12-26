@@ -50,9 +50,9 @@ const TripSchema = new Schema({
         {
           name: { type: String },
           description: { type: String },
-          // lat: { type: String },
-          // lng: { type: String },
-          // placeId: { type: String },
+          lat: { type: String },
+          lng: { type: String },
+          placeId: { type: String },
           POI: [
             {
               name: { type: String },
