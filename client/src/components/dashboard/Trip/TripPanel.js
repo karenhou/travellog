@@ -1,5 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
+import { Link } from "react-router-dom";
+
 import { withStyles } from "@material-ui/core/styles";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -7,12 +10,11 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Chip from "@material-ui/core/Chip";
-import moment from "moment";
-import isEmpty from "../../../validation/is-empty";
-import { Link } from "react-router-dom";
 import Fab from "@material-ui/core/Fab";
 import Icon from "@material-ui/core/Icon";
 import Tooltip from "@material-ui/core/Tooltip";
+
+import isEmpty from "../../../validation/is-empty";
 
 const styles = theme => ({
   root: {

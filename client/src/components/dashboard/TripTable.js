@@ -1,11 +1,6 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import moment from "moment";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-
-import { getCurrentProfile } from "../../actions/profileActions";
-import { deleteTrip, getTripsByUserId } from "../../actions/tripActions";
 
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -28,32 +23,32 @@ const CustomTableCell = withStyles(theme => ({
   }
 }))(TableCell);
 
-let counter = 0;
+// let counter = 0;
 
-function stableSort(array, cmp) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = cmp(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map(el => el[0]);
-}
+// function stableSort(array, cmp) {
+//   const stabilizedThis = array.map((el, index) => [el, index]);
+//   stabilizedThis.sort((a, b) => {
+//     const order = cmp(a[0], b[0]);
+//     if (order !== 0) return order;
+//     return a[1] - b[1];
+//   });
+//   return stabilizedThis.map(el => el[0]);
+// }
 
-function getSorting(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => desc(a, b, orderBy)
-    : (a, b) => -desc(a, b, orderBy);
-}
-function desc(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
+// function getSorting(order, orderBy) {
+//   return order === "desc"
+//     ? (a, b) => desc(a, b, orderBy)
+//     : (a, b) => -desc(a, b, orderBy);
+// }
+// function desc(a, b, orderBy) {
+//   if (b[orderBy] < a[orderBy]) {
+//     return -1;
+//   }
+//   if (b[orderBy] > a[orderBy]) {
+//     return 1;
+//   }
+//   return 0;
+// }
 
 const styles = theme => ({
   root: {
@@ -73,8 +68,8 @@ const styles = theme => ({
 
 class TripTable extends Component {
   state = {
-    order: "asc",
-    orderBy: "From",
+    // order: "asc",
+    // orderBy: "From",
     page: 0,
     rowsPerPage: 5
   };
@@ -98,65 +93,50 @@ class TripTable extends Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  onDeleteClick = id => {
-    this.props.deleteTrip(id, this.props.auth.user.id);
-  };
-
-  componentDidMount() {
-    if (this.props.auth.user.id) {
-      this.props.getTripsByUserId(this.props.auth.user.id);
-    }
-  }
-
   render() {
-    const { trips, loading } = this.props.trip;
-    const { classes } = this.props;
-    const { rowsPerPage, page, order, orderBy } = this.state;
+    const { classes, trips } = this.props;
+    // const { rowsPerPage, page, order, orderBy } = this.state;
+    const { rowsPerPage, page } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, trips.length - page * rowsPerPage);
 
-    let tableContent;
-    if (trips === null || loading) {
-      tableContent = null;
-    } else {
-      tableContent = trips
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        .map(row => {
-          return (
-            <TableRow className={classes.row} key={row._id}>
-              <CustomTableCell component="th" scope="row">
-                {row.country[0].name}
-              </CustomTableCell>
-              <CustomTableCell>
-                {moment.utc(row.from).format("YYYY-MM-DD")}
-              </CustomTableCell>
+    let tableContent = trips
+      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      .map(trip => {
+        return (
+          <TableRow className={classes.row} key={trip._id}>
+            <CustomTableCell component="th" scope="row">
+              {trip.country[0].name}
+            </CustomTableCell>
+            <CustomTableCell>
+              {moment.utc(trip.from).format("YYYY-MM-DD")}
+            </CustomTableCell>
 
-              <CustomTableCell>
-                {moment.utc(row.to).format("YYYY-MM-DD")}
-              </CustomTableCell>
-              <CustomTableCell>
-                <Button
-                  component={Link}
-                  to={`/trip/${row._id}`}
-                  size="small"
-                  variant="contained"
-                  color="secondary"
-                  className={classes.button}>
-                  <Icon>edit</Icon>
-                </Button>
-                <Button
-                  onClick={() => this.onDeleteClick(row._id)}
-                  size="small"
-                  variant="contained"
-                  color="secondary"
-                  className={classes.button}>
-                  <Icon>delete</Icon>
-                </Button>
-              </CustomTableCell>
-            </TableRow>
-          );
-        });
-    }
+            <CustomTableCell>
+              {moment.utc(trip.to).format("YYYY-MM-DD")}
+            </CustomTableCell>
+            <CustomTableCell>
+              <Button
+                component={Link}
+                to={`/trip/${trip._id}`}
+                size="small"
+                variant="contained"
+                color="secondary"
+                className={classes.button}>
+                <Icon>edit</Icon>
+              </Button>
+              <Button
+                onClick={() => this.props.onDelete(trip._id)}
+                size="small"
+                variant="contained"
+                color="secondary"
+                className={classes.button}>
+                <Icon>delete</Icon>
+              </Button>
+            </CustomTableCell>
+          </TableRow>
+        );
+      });
 
     return (
       <Paper className={classes.root}>
@@ -200,17 +180,4 @@ class TripTable extends Component {
   }
 }
 
-TripTable.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-  profile: state.profile,
-  auth: state.auth,
-  trip: state.trip
-});
-
-export default connect(
-  mapStateToProps,
-  { getCurrentProfile, deleteTrip, getTripsByUserId }
-)(withStyles(styles)(TripTable));
+export default withStyles(styles)(TripTable);

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import Geosuggest from "react-geosuggest";
+import { Link } from "react-router-dom";
+
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -8,8 +11,6 @@ import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import Chip from "@material-ui/core/Chip";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import Geosuggest from "react-geosuggest";
-import { Link } from "react-router-dom";
 
 import {
   updateDay,
@@ -40,7 +41,7 @@ class UpdateDay extends Component {
     if (!isEmpty(nextProps.trip.trip)) {
       const days = nextProps.trip.trip.days;
       if (days !== null) {
-        days.map(day => {
+        days.forEach(day => {
           if (this.props.match.params.day_id === day._id) {
             day.hotel = !isEmpty(day.hotel) ? day.hotel : "";
             this.setState({

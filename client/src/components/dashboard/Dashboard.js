@@ -10,18 +10,21 @@ import Icon from "@material-ui/core/Icon";
 
 import TripTable from "./TripTable";
 import { getCurrentProfile } from "../../actions/profileActions";
-import { getTripsByUserId } from "../../actions/tripActions";
+import { getTripsByUserId, deleteTrip } from "../../actions/tripActions";
 
 class Dashboard extends Component {
   componentDidMount() {
-    if (!this.props.auth.isAuthenticated) {
-      this.props.history.push("/login");
-    }
     this.props.getCurrentProfile();
     if (this.props.auth.user.id) {
       this.props.getTripsByUserId(this.props.auth.user.id);
     }
   }
+
+  onDeleteClick = id => {
+    console.log("dash clicked");
+    this.props.deleteTrip(id, this.props.auth.user.id);
+  };
+
   render() {
     const { user } = this.props.auth;
     const { profile, loading } = this.props.profile;
@@ -50,7 +53,9 @@ class Dashboard extends Component {
               Add Trip
               <Icon>add_box</Icon>
             </Button>
-            {trips.length > 0 ? <TripTable /> : null}
+            {trips.length > 0 ? (
+              <TripTable trips={trips} onDelete={this.onDeleteClick} />
+            ) : null}
           </div>
         );
       } else {
@@ -87,5 +92,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile, getTripsByUserId }
+  { getCurrentProfile, getTripsByUserId, deleteTrip }
 )(Dashboard);

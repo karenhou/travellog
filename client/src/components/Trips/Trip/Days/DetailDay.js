@@ -43,7 +43,7 @@ export class DetailDay extends Component {
     if (!isEmpty(nextProps.trip.trip)) {
       const days = nextProps.trip.trip.days;
       if (days !== null) {
-        days.map(d => {
+        days.forEach(d => {
           if (this.props.match.params.day_id === d._id) {
             this.setState({
               day: d

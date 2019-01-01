@@ -45,9 +45,9 @@ export class AddPOI extends Component {
     if (!isEmpty(nextProps.trip.trip)) {
       const { days } = nextProps.trip.trip;
       if (!isEmpty(days)) {
-        days.map(day => {
+        days.forEach(day => {
           if (this.props.match.params.day_id === day._id) {
-            day.cities.map(c => {
+            day.cities.forEach(c => {
               if (this.props.match.params.city_id === c._id) {
                 this.setState({
                   POIArray: [...c.POI],

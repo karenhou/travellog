@@ -8,7 +8,7 @@ import { clearCurrentProfile } from "./actions/profileActions";
 
 import store from "./store";
 import MyNavbar from "./components/layout/MyNavbar";
-import MyFooter from "./components/layout/MyFooter";
+// import MyFooter from "./components/layout/MyFooter";
 import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";

@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 
 class CreateProfile extends Component {
   state = {
-    displaySocialInputs: false,
+    // displaySocialInputs: false,
     handle: "",
     location: "",
     bio: "",
@@ -53,60 +53,60 @@ class CreateProfile extends Component {
   };
 
   render() {
-    const { errors, displaySocialInputs } = this.state;
+    // const { errors, displaySocialInputs } = this.state;
     const { classes } = this.props;
-    let socialInputs;
+    // let socialInputs;
 
-    if (displaySocialInputs) {
-      socialInputs = (
-        <div>
-          {/* <InputGroup
-            placeholder="Twitter Profile URL"
-            name="twitter"
-            icon="fab fa-twitter"
-            value={this.state.twitter}
-            onChange={this.onChange}
-            error={errors.twitter}
-          />
+    // if (displaySocialInputs) {
+    //   socialInputs = (
+    //     <div>
+    //       {/* <InputGroup
+    //         placeholder="Twitter Profile URL"
+    //         name="twitter"
+    //         icon="fab fa-twitter"
+    //         value={this.state.twitter}
+    //         onChange={this.onChange}
+    //         error={errors.twitter}
+    //       />
 
-          <InputGroup
-            placeholder="Facebook Page URL"
-            name="facebook"
-            icon="fab fa-facebook"
-            value={this.state.facebook}
-            onChange={this.onChange}
-            error={errors.facebook}
-          />
+    //       <InputGroup
+    //         placeholder="Facebook Page URL"
+    //         name="facebook"
+    //         icon="fab fa-facebook"
+    //         value={this.state.facebook}
+    //         onChange={this.onChange}
+    //         error={errors.facebook}
+    //       />
 
-          <InputGroup
-            placeholder="Linkedin Profile URL"
-            name="linkedin"
-            icon="fab fa-linkedin"
-            value={this.state.linkedin}
-            onChange={this.onChange}
-            error={errors.linkedin}
-          />
+    //       <InputGroup
+    //         placeholder="Linkedin Profile URL"
+    //         name="linkedin"
+    //         icon="fab fa-linkedin"
+    //         value={this.state.linkedin}
+    //         onChange={this.onChange}
+    //         error={errors.linkedin}
+    //       />
 
-          <InputGroup
-            placeholder="YouTube Channel URL"
-            name="youtube"
-            icon="fab fa-youtube"
-            value={this.state.youtube}
-            onChange={this.onChange}
-            error={errors.youtube}
-          />
+    //       <InputGroup
+    //         placeholder="YouTube Channel URL"
+    //         name="youtube"
+    //         icon="fab fa-youtube"
+    //         value={this.state.youtube}
+    //         onChange={this.onChange}
+    //         error={errors.youtube}
+    //       />
 
-          <InputGroup
-            placeholder="Instagram Page URL"
-            name="instagram"
-            icon="fab fa-instagram"
-            value={this.state.instagram}
-            onChange={this.onChange}
-            error={errors.instagram}
-          /> */}
-        </div>
-      );
-    }
+    //       <InputGroup
+    //         placeholder="Instagram Page URL"
+    //         name="instagram"
+    //         icon="fab fa-instagram"
+    //         value={this.state.instagram}
+    //         onChange={this.onChange}
+    //         error={errors.instagram}
+    //       /> */}
+    //     </div>
+    //   );
+    // }
 
     return (
       <>

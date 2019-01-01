@@ -27,6 +27,7 @@ class TripSummary extends Component {
   handleCityDelete = index => {
     console.log("delete clicked in trip summ ", index);
   };
+
   render() {
     const { classes } = this.props;
     const { country } = this.props.trip.trip;

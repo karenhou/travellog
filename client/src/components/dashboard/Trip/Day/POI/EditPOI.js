@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import validator from "validator";
@@ -46,11 +45,11 @@ export class editPOI extends Component {
     if (!isEmpty(nextProps.trip.trip)) {
       const { days } = nextProps.trip.trip;
       if (!isEmpty(days)) {
-        days.map(day => {
+        days.forEach(day => {
           if (this.props.match.params.day_id === day._id) {
-            day.cities.map(c => {
+            day.cities.forEach(c => {
               if (this.props.match.params.city_id === c._id) {
-                c.POI.map(p => {
+                c.POI.forEach(p => {
                   if (this.props.match.params.poi_id === p._id) {
                     this.setState({
                       POIArray: [...c.POI],
@@ -124,7 +123,7 @@ export class editPOI extends Component {
     };
 
     let tempPOI = this.state.POIArray;
-    tempPOI.map((poi, index) => {
+    tempPOI.forEach((poi, index) => {
       if (this.state.POI._id === poi._id) {
         tempPOI[index] = poiData;
       }

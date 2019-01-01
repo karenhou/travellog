@@ -72,7 +72,9 @@ class Profile extends Component {
           </Button>
         </div>
 
-        <Typography variant="h2">Profile</Typography>
+        <Typography variant="h2" className={classes.subtitle}>
+          Profile
+        </Typography>
         {profileContent}
       </>
     );

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 
@@ -81,10 +80,10 @@ export class TripMap extends Component {
         });
       }
       if (!isEmpty(days)) {
-        days.map(day => {
-          day.cities.map(city => {
+        days.forEach(day => {
+          day.cities.forEach(city => {
             cityArray.push(city);
-            city.POI.map(poi => {
+            city.POI.forEach(poi => {
               POIarray.push(poi);
             });
           });
