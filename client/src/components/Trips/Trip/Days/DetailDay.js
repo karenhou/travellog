@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -11,7 +10,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
-import MidGridLayout from "../../../layout/MidGridLayout";
 import isEmpty from "../../../../validation/is-empty";
 import { getTripById } from "../../../../actions/tripActions";
 import TabItems from "./TabItems";
@@ -27,20 +25,6 @@ function TabContainer(props) {
 TabContainer.propTypes = {
   children: PropTypes.node.isRequired
 };
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    width: "100%"
-  },
-  btn: {
-    marginTop: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 2
-  },
-  text: {
-    marginTop: theme.spacing.unit * 3
-  }
-});
 
 export class DetailDay extends Component {
   state = {
@@ -108,8 +92,8 @@ export class DetailDay extends Component {
       }
     }
     return (
-      <MidGridLayout>
-        <div className={classes.root}>{tabContent}</div>
+      <>
+        {tabContent}
         <Grid container space={24}>
           <Button
             component={Link}
@@ -130,7 +114,7 @@ export class DetailDay extends Component {
             Back to Timeline
           </Button>
         </Grid>
-      </MidGridLayout>
+      </>
     );
   }
 }
@@ -138,8 +122,7 @@ export class DetailDay extends Component {
 const mapStateToProps = state => ({
   trip: state.trip
 });
-
 export default connect(
   mapStateToProps,
   { getTripById }
-)(withStyles(styles)(DetailDay));
+)(DetailDay);

@@ -6,23 +6,12 @@ import {
   getProfileByHandle,
   deleteAccount
 } from "../../actions/profileActions";
-import withStyles from "@material-ui/core/styles/withStyles";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 import Icon from "@material-ui/core/Icon";
-import GridLayout from "../layout/GridLayout";
-
-const styles = theme => ({
-  button: {
-    width: "100px",
-    marginTop: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 2
-  }
-});
 
 class Profile extends Component {
   componentDidMount() {
@@ -63,13 +52,13 @@ class Profile extends Component {
     }
 
     return (
-      <GridLayout>
+      <>
         <div>
           <Button
             onClick={() => this.onDeleteClick()}
             variant="contained"
             style={{ backgroundColor: "red" }}
-            className={classes.button}>
+            className={classes.btn}>
             Delete
             <Icon>delete</Icon>
           </Button>
@@ -77,7 +66,7 @@ class Profile extends Component {
             component={Link}
             to="/dashboard"
             variant="contained"
-            className={classes.button}
+            className={classes.btn}
             color="secondary">
             Dashboard
           </Button>
@@ -85,7 +74,7 @@ class Profile extends Component {
 
         <Typography variant="h2">Profile</Typography>
         {profileContent}
-      </GridLayout>
+      </>
     );
   }
 }
@@ -102,4 +91,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getProfileByHandle, deleteAccount }
-)(withStyles(styles)(Profile));
+)(Profile);

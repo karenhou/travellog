@@ -6,7 +6,6 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import Geosuggest from "react-geosuggest";
 
-import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -18,26 +17,6 @@ import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
 import { addTrip } from "../../../actions/tripActions";
-import GridLayout from "../../layout/GridLayout";
-
-const styles = theme => ({
-  textField: {
-    marginRight: theme.spacing.unit * 5,
-    width: 200
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3,
-    marginLeft: theme.spacing.unit * 2
-  },
-  subtitle: {
-    marginTop: theme.spacing.unit * 3,
-    marginBottom: theme.spacing.unit * 3
-  }
-});
 
 class AddTrip extends Component {
   state = {
@@ -141,7 +120,7 @@ class AddTrip extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <GridLayout>
+      <>
         <Typography variant="h3">Create Your trip</Typography>
         <Typography gutterBottom variant="subtitle2">
           Let's add your journey to share your experience with the world
@@ -207,9 +186,11 @@ class AddTrip extends Component {
               }}
             />
           </FormControl>
-          <FormControl fullWidth className={classes.margin}>
+          <br />
+          <FormControl>
             <InputLabel htmlFor="adornment-amount">Budget</InputLabel>
             <Input
+              className={classes.textField}
               id="adornment-amount"
               value={this.state.budget}
               onChange={this.handleChange("budget")}
@@ -231,7 +212,6 @@ class AddTrip extends Component {
           </FormControl>
           <FormControl fullWidth>
             <TextField
-              fullWidth
               error={
                 !validator.isURL(this.state.coverPhoto) &&
                 !validator.isEmpty(this.state.coverPhoto)
@@ -261,7 +241,7 @@ class AddTrip extends Component {
             </Button>
           </Grid>
         </form>
-      </GridLayout>
+      </>
     );
   }
 }
@@ -279,4 +259,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { addTrip }
-)(withStyles(styles)(AddTrip));
+)(AddTrip);

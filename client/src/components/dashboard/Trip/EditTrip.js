@@ -6,7 +6,6 @@ import moment from "moment";
 import validator from "validator";
 import Geosuggest from "react-geosuggest";
 
-import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -21,21 +20,6 @@ import Chip from "@material-ui/core/Chip";
 
 import { getTripById, editTrip } from "../../../actions/tripActions";
 import isEmpty from "../../../validation/is-empty";
-import MidGridLayout from "../../layout/MidGridLayout";
-
-const styles = theme => ({
-  textField: {
-    marginRight: theme.spacing.unit * 5
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3,
-    marginLeft: theme.spacing.unit * 3
-  }
-});
 
 class EditTrip extends Component {
   state = {
@@ -321,10 +305,10 @@ class EditTrip extends Component {
     }
 
     return (
-      <MidGridLayout>
+      <>
         <Typography variant="h3">Edit Trip</Typography>
         {tripContent}
-      </MidGridLayout>
+      </>
     );
   }
 }
@@ -341,4 +325,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getTripById, editTrip }
-)(withStyles(styles)(EditTrip));
+)(EditTrip);

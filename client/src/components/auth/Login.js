@@ -20,7 +20,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import isEmpty from "../../validation/is-empty";
-import PaperHoc from "../hoc/PaperHoc";
 
 class Login extends Component {
   state = {
@@ -151,4 +150,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { loginUser, clearErrors }
-)(PaperHoc(Login));
+)(Login);

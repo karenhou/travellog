@@ -10,36 +10,20 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
-import MidGridLayout from "../layout/MidGridLayout";
-
-const styles = theme => ({
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3,
-    marginLeft: theme.spacing.unit * 2
-  }
-});
 
 class CreateProfile extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      displaySocialInputs: false,
-      handle: "",
-      location: "",
-      bio: "",
-      twitter: "",
-      facebook: "",
-      linkedin: "",
-      youtube: "",
-      instagram: "",
-      errors: {}
-    };
-  }
+  state = {
+    displaySocialInputs: false,
+    handle: "",
+    location: "",
+    bio: "",
+    twitter: "",
+    facebook: "",
+    linkedin: "",
+    youtube: "",
+    instagram: "",
+    errors: {}
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
@@ -125,7 +109,7 @@ class CreateProfile extends Component {
     }
 
     return (
-      <MidGridLayout>
+      <>
         <Typography variant="h3">Create Your Profile</Typography>
         <Typography gutterBottom variant="subtitle1">
           Let's get some information to make your profile stand out
@@ -177,7 +161,7 @@ class CreateProfile extends Component {
             </Button>
           </Grid>
         </form>
-      </MidGridLayout>
+      </>
     );
   }
 }
@@ -195,4 +179,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { createProfile }
-)(withRouter(withStyles(styles)(CreateProfile)));
+)(withRouter(CreateProfile));

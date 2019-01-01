@@ -14,9 +14,6 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
 const styles = theme => ({
-  root: {
-    // flexGrow: 1
-  },
   grow: {
     flexGrow: 1
   },
@@ -79,7 +76,7 @@ class MyNavbar extends Component {
       </Button>
     );
     return (
-      <AppBar position="static" className={classes.root}>
+      <AppBar position="static">
         <Toolbar>
           <IconButton
             className={classes.menuButton}

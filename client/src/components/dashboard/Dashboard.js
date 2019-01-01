@@ -2,23 +2,15 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getCurrentProfile } from "../../actions/profileActions";
-import { getTripsByUserId } from "../../actions/tripActions";
-import withStyles from "@material-ui/core/styles/withStyles";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
-import TripTable from "./TripTable";
-import GridLayout from "../layout/GridLayout";
 
-const styles = theme => ({
-  button: {
-    marginTop: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2
-  }
-});
+import TripTable from "./TripTable";
+import { getCurrentProfile } from "../../actions/profileActions";
+import { getTripsByUserId } from "../../actions/tripActions";
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -34,7 +26,6 @@ class Dashboard extends Component {
     const { user } = this.props.auth;
     const { profile, loading } = this.props.profile;
     const { trips } = this.props.trip;
-    const { classes } = this.props;
     let dashboardContent;
 
     if (profile === null || loading) {
@@ -55,8 +46,7 @@ class Dashboard extends Component {
               component={Link}
               to="/add-trip"
               variant="contained"
-              color="secondary"
-              className={classes.button}>
+              color="secondary">
               Add Trip
               <Icon>add_box</Icon>
             </Button>
@@ -77,10 +67,10 @@ class Dashboard extends Component {
       }
     }
     return (
-      <GridLayout>
+      <>
         <Typography variant="h2">Dashboard</Typography>
         {dashboardContent}
-      </GridLayout>
+      </>
     );
   }
 }
@@ -98,4 +88,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getCurrentProfile, getTripsByUserId }
-)(withStyles(styles)(Dashboard));
+)(Dashboard);

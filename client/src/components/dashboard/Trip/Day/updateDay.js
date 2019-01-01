@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -18,22 +17,6 @@ import {
   clearErrors
 } from "../../../../actions/tripActions";
 import isEmpty from "../../../../validation/is-empty";
-import MidGridLayout from "../../../layout/MidGridLayout";
-
-const styles = theme => ({
-  textField: {
-    marginLeft: theme.spacing.unit
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3,
-    marginLeft: theme.spacing.unit * 3
-  },
-  chip: { marginTop: theme.spacing.unit * 2 }
-});
 
 class UpdateDay extends Component {
   state = {
@@ -154,7 +137,7 @@ class UpdateDay extends Component {
       : null;
 
     return (
-      <MidGridLayout>
+      <>
         <Typography variant="h3">Edit Day</Typography>
         <form className={classes.form} onSubmit={this.onSubmit}>
           <FormHelperText style={{ color: "red" }} id="component-error-text">
@@ -227,7 +210,7 @@ class UpdateDay extends Component {
             </Button>
           </Grid>
         </form>
-      </MidGridLayout>
+      </>
     );
   }
 }
@@ -244,4 +227,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getTripById, updateDay, clearErrors }
-)(withStyles(styles)(UpdateDay));
+)(UpdateDay);

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import moment from "moment";
 import { withStyles } from "@material-ui/core/styles";
 import { getTripById } from "../../../actions/tripActions";
 import {
@@ -9,7 +10,6 @@ import {
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 
-import moment from "moment";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
@@ -39,7 +39,6 @@ export class TripTimeline extends Component {
     if (trip.days) {
       timeLineItems = trip.days.map(day => {
         cityContent = day.cities.map(city => city.name + ", ");
-        // console.log("check city ", day);
         return (
           <VerticalTimelineElement
             key={day._id}

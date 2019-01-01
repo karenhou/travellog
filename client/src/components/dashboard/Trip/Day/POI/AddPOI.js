@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import validator from "validator";
 import Geosuggest from "react-geosuggest";
 
-import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
@@ -17,32 +16,12 @@ import Icon from "@material-ui/core/Icon";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 
-import MidGridLayout from "../../../../layout/MidGridLayout";
 import {
   addPOI,
   clearErrors,
   getTripById
 } from "../../../../../actions/tripActions";
 import isEmpty from "../../../../../validation/is-empty";
-
-const styles = theme => ({
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit * 5
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3,
-    marginLeft: theme.spacing.unit * 2
-  },
-  chip: {
-    marginTop: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2
-  }
-});
 
 export class AddPOI extends Component {
   state = {
@@ -166,7 +145,7 @@ export class AddPOI extends Component {
         })
       : null;
     return (
-      <MidGridLayout>
+      <>
         <Typography variant="subtitle2">Add POI</Typography>
         <form onSubmit={this.onSubmit}>
           <FormControl margin="normal" fullWidth>
@@ -253,7 +232,7 @@ export class AddPOI extends Component {
             </Button>
           </Grid>
         </form>
-      </MidGridLayout>
+      </>
     );
   }
 }
@@ -270,4 +249,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { addPOI, clearErrors, getTripById }
-)(withStyles(styles)(AddPOI));
+)(AddPOI);

@@ -1,23 +1,21 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { registerUser } from "../../actions/authActions";
 import { Link } from "react-router-dom";
+import classNames from "classnames";
+
+import { registerUser } from "../../actions/authActions";
 
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import Typography from "@material-ui/core/Typography";
-
-import classNames from "classnames";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import FormHelperText from "@material-ui/core/FormHelperText";
-
-import PaperHoc from "../hoc/PaperHoc";
 
 class Register extends Component {
   state = {
@@ -181,4 +179,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { registerUser }
-)(PaperHoc(Register));
+)(Register);

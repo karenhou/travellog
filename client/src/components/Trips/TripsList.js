@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getTrips } from "../../actions/tripActions";
-import TripItems from "./TripItems";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
-import GridLayout from "../layout/GridLayout";
+
+import { getTrips } from "../../actions/tripActions";
+import TripItems from "./TripItems";
 
 class TripsList extends Component {
   componentDidMount() {
@@ -28,10 +27,10 @@ class TripsList extends Component {
     }
 
     return (
-      <GridLayout>
+      <>
         <Typography variant="h2">Popular Trips</Typography>
         {tripItems}
-      </GridLayout>
+      </>
     );
   }
 }

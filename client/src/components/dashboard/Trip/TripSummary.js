@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -13,21 +12,7 @@ import Icon from "@material-ui/core/Icon";
 
 import { getTrips, getTripById } from "../../../actions/tripActions";
 import isEmpty from "../../../validation/is-empty";
-import MidGridLayout from "../../layout/MidGridLayout";
 import TripPanel from "./TripPanel";
-
-const styles = theme => ({
-  btn: {
-    marginTop: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2
-  },
-  funcBtn: {
-    marginTop: theme.spacing.unit * 3
-  },
-  fab: {
-    marginLeft: theme.spacing.unit * 2
-  }
-});
 
 class TripSummary extends Component {
   onBack = () => {
@@ -47,7 +32,7 @@ class TripSummary extends Component {
     const { country } = this.props.trip.trip;
 
     return (
-      <MidGridLayout>
+      <>
         <Typography variant="h4" gutterBottom>
           {!isEmpty(country) ? country[0].name : null}
           <Tooltip title="edit Trip info">
@@ -72,13 +57,13 @@ class TripSummary extends Component {
           <Button
             component={Link}
             to="/dashboard"
-            className={classes.funcBtn}
+            className={classes.btn}
             variant="outlined"
             color="secondary">
             Dashboard
           </Button>
         </Grid>
-      </MidGridLayout>
+      </>
     );
   }
 }
@@ -94,4 +79,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getTrips, getTripById }
-)(withStyles(styles)(TripSummary));
+)(TripSummary);

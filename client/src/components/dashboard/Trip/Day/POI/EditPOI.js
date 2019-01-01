@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import validator from "validator";
 import Geosuggest from "react-geosuggest";
 
-import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
@@ -17,7 +16,6 @@ import Icon from "@material-ui/core/Icon";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 
-import MidGridLayout from "../../../../layout/MidGridLayout";
 import {
   addPOI,
   clearErrors,
@@ -25,25 +23,6 @@ import {
   updatePOI
 } from "../../../../../actions/tripActions";
 import isEmpty from "../../../../../validation/is-empty";
-
-const styles = theme => ({
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit * 5
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3,
-    marginLeft: theme.spacing.unit * 2
-  },
-  chip: {
-    marginTop: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2
-  }
-});
 
 export class editPOI extends Component {
   state = {
@@ -174,18 +153,19 @@ export class editPOI extends Component {
     photoContent = this.state.photoLinks
       ? this.state.photoLinks.map((photo, index) => {
           return (
-            <Chip
-              key={index}
-              label={photo}
-              className={classes.chip}
-              onDelete={() => this.handleDelete(index)}
-              color="secondary"
-            />
+            <div key={index}>
+              <Chip
+                label={photo}
+                className={classes.chip}
+                onDelete={() => this.handleDelete(index)}
+                color="secondary"
+              />
+            </div>
           );
         })
       : null;
     return (
-      <MidGridLayout>
+      <>
         <Typography variant="h4">Edit POI</Typography>
         <form onSubmit={this.onSubmit}>
           <FormControl margin="normal" fullWidth>
@@ -248,6 +228,7 @@ export class editPOI extends Component {
                   </InputAdornment>
                 )
               }}
+              className={classes.textBottom}
             />
             {photoContent}
           </FormControl>
@@ -272,7 +253,7 @@ export class editPOI extends Component {
             </Button>
           </Grid>
         </form>
-      </MidGridLayout>
+      </>
     );
   }
 }
@@ -286,4 +267,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { addPOI, clearErrors, getTripById, updatePOI }
-)(withStyles(styles)(editPOI));
+)(editPOI);
